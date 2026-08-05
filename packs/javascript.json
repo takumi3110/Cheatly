@@ -1,0 +1,28 @@
+{
+  "id": "javascript",
+  "version": 1,
+  "label": "JavaScript",
+  "desc": "JavaScript のコードスニペット",
+  "commands": [
+    {
+      "id": "javascript-clone",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列をディープコピーする",
+      "code": "const copy = structuredClone(arr);",
+      "note": "JSON.parse(JSON.stringify()) と違い Date や Map もコピー可能",
+      "tag": "コード",
+      "kw": "copy コピー deep clone 配列 複製 ディープ"
+    },
+    {
+      "id": "javascript-sleep",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "指定ミリ秒待つ（sleep）",
+      "code": "await new Promise(r => setTimeout(r, 1000));",
+      "note": "async 関数内で使用。テストやリトライ処理の待機に",
+      "tag": "コード",
+      "kw": "sleep 待つ wait delay タイマー 遅延"
+    }
+  ]
+}

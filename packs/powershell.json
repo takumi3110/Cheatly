@@ -1,0 +1,49 @@
+{
+  "id": "powershell",
+  "version": 1,
+  "label": "PowerShell",
+  "desc": "Windows PowerShell のコマンド",
+  "commands": [
+    {
+      "id": "powershell-copy-item",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイルをコピーする",
+      "code": "Copy-Item src.txt -Destination dst\\",
+      "note": "-Recurse でフォルダごと。エイリアス cp / copy も使用可",
+      "tag": "ファイル操作",
+      "kw": "copy コピー powershell copy-item 複製",
+      "b": {
+        "cmd": "Copy-Item",
+        "flags": [
+          { "opt": "-Recurse", "label": "フォルダごとコピー" },
+          { "opt": "-Force", "label": "上書きを強制" }
+        ],
+        "args": [
+          { "name": "コピー元", "ph": "src.txt" },
+          { "name": "コピー先", "prefix": "-Destination ", "ph": "dst\\" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-stop-process",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "プロセスを名前で終了する",
+      "code": "Stop-Process -Name \"chrome\" -Force",
+      "note": "Get-Process で一覧確認してから実行すると安全",
+      "tag": "プロセス",
+      "kw": "kill 終了 stop process プロセス 強制終了",
+      "b": {
+        "cmd": "Stop-Process",
+        "flags": [
+          { "opt": "-Force", "label": "強制終了" },
+          { "opt": "-WhatIf", "label": "実行せず確認のみ" }
+        ],
+        "args": [
+          { "name": "プロセス名", "prefix": "-Name ", "ph": "\"chrome\"" }
+        ]
+      }
+    }
+  ]
+}

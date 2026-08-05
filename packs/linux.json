@@ -1,0 +1,992 @@
+{
+  "id": "linux",
+  "version": 1,
+  "label": "Linux",
+  "desc": "Linux の基本コマンド",
+  "commands": [
+    {
+      "id": "linux-ls",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイル・ディレクトリを一覧表示する",
+      "code": "ls -la",
+      "note": "-h と併用するとサイズが読みやすい。-t で更新日時順に並ぶ",
+      "tag": "ファイル操作",
+      "kw": "list 一覧 ls ファイル ディレクトリ 表示",
+      "b": {
+        "cmd": "ls",
+        "flags": [
+          { "opt": "-l", "label": "詳細（権限・サイズ）を表示" },
+          { "opt": "-a", "label": "隠しファイルも表示" },
+          { "opt": "-h", "label": "サイズを読みやすい単位で" },
+          { "opt": "-t", "label": "更新日時順に並べる" },
+          { "opt": "-r", "label": "逆順に並べる" },
+          { "opt": "-S", "label": "サイズ順に並べる" }
+        ],
+        "args": [{ "name": "パス", "ph": "." }]
+      }
+    },
+    {
+      "id": "linux-cd",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "カレントディレクトリを移動する",
+      "code": "cd [ディレクトリ]",
+      "note": "cd - で直前のディレクトリに戻る。cd だけでホームへ",
+      "tag": "ファイル操作",
+      "kw": "cd 移動 ディレクトリ change directory カレント",
+      "b": {
+        "cmd": "cd",
+        "flags": [],
+        "args": [{ "name": "ディレクトリ", "ph": "~/path" }]
+      }
+    },
+    {
+      "id": "linux-mkdir",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ディレクトリを作成する",
+      "code": "mkdir -p [ディレクトリ]",
+      "note": "-p を付けると途中の親ディレクトリもまとめて作成",
+      "tag": "ファイル操作",
+      "kw": "mkdir 作成 ディレクトリ フォルダ make",
+      "b": {
+        "cmd": "mkdir",
+        "flags": [
+          { "opt": "-p", "label": "親ディレクトリも作成" },
+          { "opt": "-v", "label": "作成したものを表示" }
+        ],
+        "args": [{ "name": "ディレクトリ", "ph": "a/b/c" }]
+      }
+    },
+    {
+      "id": "linux-rm",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイル・ディレクトリを削除する",
+      "code": "rm -rf [対象]",
+      "note": "-rf は取り返しがつかないので対象をよく確認してから実行",
+      "tag": "ファイル操作",
+      "kw": "rm 削除 remove ファイル ディレクトリ 消す",
+      "b": {
+        "cmd": "rm",
+        "flags": [
+          { "opt": "-r", "label": "ディレクトリごと再帰的に削除" },
+          { "opt": "-f", "label": "確認せず強制削除" },
+          { "opt": "-i", "label": "削除前に確認" },
+          { "opt": "-v", "label": "削除内容を表示" }
+        ],
+        "args": [{ "name": "対象", "ph": "path" }]
+      }
+    },
+    {
+      "id": "linux-mv",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルを移動・リネームする",
+      "code": "mv [移動元] [移動先]",
+      "note": "同じディレクトリ内で名前を変えるとリネームになる",
+      "tag": "ファイル操作",
+      "kw": "mv 移動 rename リネーム 名前 変更 move",
+      "b": {
+        "cmd": "mv",
+        "flags": [
+          { "opt": "-i", "label": "上書き前に確認" },
+          { "opt": "-f", "label": "確認せず強制上書き" },
+          { "opt": "-n", "label": "既存ファイルを上書きしない" },
+          { "opt": "-v", "label": "経過を表示" }
+        ],
+        "args": [
+          { "name": "移動元", "ph": "src" },
+          { "name": "移動先", "ph": "dst" }
+        ]
+      }
+    },
+    {
+      "id": "linux-cp",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルを別の場所にコピーする",
+      "code": "cp [コピー元] [コピー先]",
+      "note": "-r でディレクトリごとコピー、-p で権限・タイムスタンプを保持",
+      "tag": "ファイル操作",
+      "kw": "copy コピー duplicate 複製 cp file",
+      "b": {
+        "cmd": "cp",
+        "flags": [
+          { "opt": "-r", "label": "ディレクトリごとコピー" },
+          { "opt": "-p", "label": "権限・タイムスタンプを保持" },
+          { "opt": "-v", "label": "経過を表示" },
+          { "opt": "-i", "label": "上書き前に確認" }
+        ],
+        "args": [
+          { "name": "コピー元", "ph": "src/" },
+          { "name": "コピー先", "ph": "dst/" }
+        ]
+      }
+    },
+    {
+      "id": "linux-touch",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "空ファイルを作成・更新日時を変える",
+      "code": "touch [ファイル]",
+      "note": "既存ファイルなら更新日時だけ現在時刻に変わる",
+      "tag": "ファイル操作",
+      "kw": "touch 作成 空ファイル タイムスタンプ 更新",
+      "b": {
+        "cmd": "touch",
+        "flags": [
+          { "opt": "-a", "label": "アクセス時刻のみ更新" },
+          { "opt": "-m", "label": "更新時刻のみ更新" },
+          { "opt": "-c", "label": "ファイルを作成しない" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "linux-ln",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "シンボリックリンクを作成する",
+      "code": "ln -s [リンク先] [リンク名]",
+      "note": "-s を外すとハードリンクになる。リンク先は絶対パス推奨",
+      "tag": "ファイル操作",
+      "kw": "ln link リンク シンボリック symlink ショートカット",
+      "b": {
+        "cmd": "ln",
+        "flags": [
+          { "opt": "-s", "label": "シンボリックリンクを作成" },
+          { "opt": "-f", "label": "既存を上書き" },
+          { "opt": "-v", "label": "経過を表示" }
+        ],
+        "args": [
+          { "name": "リンク先", "ph": "/path/to/target" },
+          { "name": "リンク名", "ph": "link" }
+        ]
+      }
+    },
+    {
+      "id": "linux-cat",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルの中身を表示する",
+      "code": "cat [ファイル]",
+      "note": "複数ファイルを連結して表示できる。大きいファイルは less を推奨",
+      "tag": "テキスト処理",
+      "kw": "cat 表示 中身 連結 出力 ファイル",
+      "b": {
+        "cmd": "cat",
+        "flags": [
+          { "opt": "-n", "label": "行番号を表示" },
+          { "opt": "-b", "label": "空行以外に行番号" },
+          { "opt": "-A", "label": "制御文字も可視化" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "linux-less",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルをスクロールしながら閲覧する",
+      "code": "less [ファイル]",
+      "note": "/ で検索、q で終了。+F で tail -f のように追記を追える",
+      "tag": "テキスト処理",
+      "kw": "less 閲覧 ページャ スクロール 表示 ログ",
+      "b": {
+        "cmd": "less",
+        "flags": [
+          { "opt": "-N", "label": "行番号を表示" },
+          { "opt": "-S", "label": "行を折り返さない" },
+          { "opt": "+F", "label": "追記をリアルタイム追従" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "app.log" }]
+      }
+    },
+    {
+      "id": "linux-head",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルの先頭を表示する",
+      "code": "head -n 20 [ファイル]",
+      "note": "-c を使うとバイト数で先頭を取り出せる",
+      "tag": "テキスト処理",
+      "kw": "head 先頭 冒頭 表示 行数 ファイル",
+      "b": {
+        "cmd": "head",
+        "flags": [
+          { "opt": "-n", "label": "行数を指定" },
+          { "opt": "-c", "label": "バイト数を指定" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "linux-tail",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルの末尾を表示・追従する",
+      "code": "tail -f [ファイル]",
+      "note": "-F ならログローテーション後も追従を継続する",
+      "tag": "テキスト処理",
+      "kw": "tail 末尾 追従 ログ リアルタイム follow",
+      "b": {
+        "cmd": "tail",
+        "flags": [
+          { "opt": "-f", "label": "追記をリアルタイム表示" },
+          { "opt": "-F", "label": "ローテーションも追従" },
+          { "opt": "-n", "label": "末尾の行数を指定" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "app.log" }]
+      }
+    },
+    {
+      "id": "linux-grep",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイル内の文字列を検索する",
+      "code": "grep -rn \"pattern\" ./",
+      "note": "-r で再帰検索、-n で行番号表示、-i で大文字小文字を無視",
+      "tag": "検索",
+      "kw": "search 検索 find grep 文字列 探す",
+      "b": {
+        "cmd": "grep",
+        "flags": [
+          { "opt": "-r", "label": "再帰的に検索" },
+          { "opt": "-n", "label": "行番号を表示" },
+          { "opt": "-i", "label": "大文字小文字を無視" },
+          { "opt": "-w", "label": "単語単位で一致" },
+          { "opt": "-l", "label": "ファイル名のみ表示" }
+        ],
+        "args": [
+          { "name": "パターン", "ph": "\"pattern\"" },
+          { "name": "対象パス", "ph": "./" }
+        ]
+      }
+    },
+    {
+      "id": "linux-find",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "条件を指定してファイルを探す",
+      "code": "find . -name \"*.log\"",
+      "note": "-exec や -delete で見つけたファイルへ操作もできる",
+      "tag": "検索",
+      "kw": "find 検索 探す ファイル 名前 条件",
+      "b": {
+        "cmd": "find",
+        "flags": [
+          { "opt": "-name", "label": "名前パターンで検索" },
+          { "opt": "-type", "label": "種類で絞る（f/d）" },
+          { "opt": "-mtime", "label": "更新日で絞る" },
+          { "opt": "-delete", "label": "見つけたら削除" }
+        ],
+        "args": [
+          { "name": "検索パス", "ph": "." },
+          { "name": "条件", "ph": "-name \"*.log\"" }
+        ]
+      }
+    },
+    {
+      "id": "linux-wc",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "行数・単語数・文字数を数える",
+      "code": "wc -l [ファイル]",
+      "note": "パイプで受け取ると出力の行数カウントに便利",
+      "tag": "テキスト処理",
+      "kw": "wc カウント 行数 単語数 文字数 数える",
+      "b": {
+        "cmd": "wc",
+        "flags": [
+          { "opt": "-l", "label": "行数を数える" },
+          { "opt": "-w", "label": "単語数を数える" },
+          { "opt": "-c", "label": "バイト数を数える" },
+          { "opt": "-m", "label": "文字数を数える" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "linux-sort",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "行を並べ替える",
+      "code": "sort [ファイル]",
+      "note": "-u で重複を除きつつソート。uniq と組み合わせると集計に便利",
+      "tag": "テキスト処理",
+      "kw": "sort 並べ替え ソート 整列 順番",
+      "b": {
+        "cmd": "sort",
+        "flags": [
+          { "opt": "-n", "label": "数値として並べる" },
+          { "opt": "-r", "label": "逆順に並べる" },
+          { "opt": "-u", "label": "重複行を除く" },
+          { "opt": "-k", "label": "並べ替えるキー列を指定" },
+          { "opt": "-f", "label": "大文字小文字を無視" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "linux-uniq",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "連続する重複行をまとめる",
+      "code": "sort [ファイル] | uniq -c",
+      "note": "uniq は連続した重複しか見ないので先に sort するのが定石",
+      "tag": "テキスト処理",
+      "kw": "uniq 重複 集計 カウント 一意 ユニーク",
+      "b": {
+        "cmd": "uniq",
+        "flags": [
+          { "opt": "-c", "label": "各行の出現回数を付与" },
+          { "opt": "-d", "label": "重複行のみ表示" },
+          { "opt": "-u", "label": "一意な行のみ表示" },
+          { "opt": "-i", "label": "大文字小文字を無視" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "linux-chmod",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルの権限を変更する",
+      "code": "chmod 755 [対象]",
+      "note": "数値は所有者/グループ/その他の rwx。u+x のような記号指定も可",
+      "tag": "権限",
+      "kw": "chmod 権限 パーミッション 実行 permission モード",
+      "b": {
+        "cmd": "chmod",
+        "flags": [
+          { "opt": "-R", "label": "ディレクトリ内も再帰的に適用" },
+          { "opt": "-v", "label": "変更内容を表示" }
+        ],
+        "args": [
+          { "name": "権限", "ph": "755" },
+          { "name": "対象", "ph": "script.sh" }
+        ]
+      }
+    },
+    {
+      "id": "linux-chown",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルの所有者を変更する",
+      "code": "chown user:group [対象]",
+      "note": "多くの場合 sudo が必要。-R でディレクトリ配下もまとめて変更",
+      "tag": "権限",
+      "kw": "chown 所有者 オーナー グループ owner 変更",
+      "b": {
+        "cmd": "chown",
+        "flags": [
+          { "opt": "-R", "label": "ディレクトリ内も再帰的に適用" },
+          { "opt": "-v", "label": "変更内容を表示" }
+        ],
+        "args": [
+          { "name": "所有者", "ph": "user:group" },
+          { "name": "対象", "ph": "file" }
+        ]
+      }
+    },
+    {
+      "id": "linux-ps",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "実行中のプロセスを一覧表示する",
+      "code": "ps aux",
+      "note": "grep と組み合わせて特定プロセスを探すことが多い",
+      "tag": "プロセス",
+      "kw": "ps プロセス 一覧 process 実行中 確認",
+      "b": {
+        "cmd": "ps",
+        "flags": [
+          { "opt": "a", "label": "全ユーザーのプロセス" },
+          { "opt": "u", "label": "所有者やCPUなど詳細表示" },
+          { "opt": "x", "label": "端末を持たないプロセスも含む" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "linux-kill",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "プロセスを終了させる",
+      "code": "kill -9 [PID]",
+      "note": "-9 は強制終了。まずは -15（通常終了）を試すのが安全",
+      "tag": "プロセス",
+      "kw": "kill 終了 プロセス 停止 シグナル PID",
+      "b": {
+        "cmd": "kill",
+        "flags": [
+          { "opt": "-15", "label": "通常終了（SIGTERM）" },
+          { "opt": "-9", "label": "強制終了（SIGKILL）" },
+          { "opt": "-l", "label": "シグナル一覧を表示" }
+        ],
+        "args": [{ "name": "PID", "ph": "1234" }]
+      }
+    },
+    {
+      "id": "linux-top",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "CPU・メモリ使用状況を監視する",
+      "code": "top",
+      "note": "見やすさ重視なら htop も便利。q で終了",
+      "tag": "プロセス",
+      "kw": "top 監視 CPU メモリ 負荷 モニタ",
+      "b": {
+        "cmd": "top",
+        "flags": [
+          { "opt": "-o", "label": "並び替えるキーを指定" },
+          { "opt": "-d", "label": "更新間隔（秒）を指定" },
+          { "opt": "-u", "label": "特定ユーザーで絞る" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "linux-df",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ディスクの空き容量を確認する",
+      "code": "df -h",
+      "note": "-h で GB/MB 表示。-i で inode の使用状況を確認できる",
+      "tag": "ディスク",
+      "kw": "df ディスク 容量 空き 使用量 ストレージ",
+      "b": {
+        "cmd": "df",
+        "flags": [
+          { "opt": "-h", "label": "読みやすい単位で表示" },
+          { "opt": "-T", "label": "ファイルシステム種別を表示" },
+          { "opt": "-i", "label": "inode 使用状況を表示" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "linux-du",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ディレクトリの使用容量を調べる",
+      "code": "du -sh [対象]",
+      "note": "-sh で対象全体の合計だけを読みやすく表示",
+      "tag": "ディスク",
+      "kw": "du 容量 使用量 サイズ ディレクトリ 調べる",
+      "b": {
+        "cmd": "du",
+        "flags": [
+          { "opt": "-s", "label": "合計のみ表示" },
+          { "opt": "-h", "label": "読みやすい単位で表示" },
+          { "opt": "-a", "label": "ファイルごとに表示" }
+        ],
+        "args": [{ "name": "対象", "ph": "." }]
+      }
+    },
+    {
+      "id": "linux-lsof",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ポートを使用中のプロセスを調べる",
+      "code": "lsof -i :8080",
+      "note": "netstat -tlnp でも可。kill [PID] で該当プロセスを停止",
+      "tag": "ネットワーク",
+      "kw": "port ポート process プロセス lsof network 使用中",
+      "b": {
+        "cmd": "lsof",
+        "flags": [
+          { "opt": "-i", "label": "ネットワーク接続を対象" },
+          { "opt": "-P", "label": "ポート番号を数値表示" },
+          { "opt": "-n", "label": "ホスト名を解決しない" }
+        ],
+        "args": [{ "name": "ポート", "ph": ":8080" }]
+      }
+    },
+    {
+      "id": "linux-tar",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルをアーカイブ・圧縮する",
+      "code": "tar -czf archive.tar.gz [対象]",
+      "note": "展開は -xzf。-tzf で中身を一覧できる",
+      "tag": "アーカイブ",
+      "kw": "tar アーカイブ 圧縮 展開 gzip まとめる",
+      "b": {
+        "cmd": "tar",
+        "flags": [
+          { "opt": "-c", "label": "アーカイブを作成" },
+          { "opt": "-x", "label": "アーカイブを展開" },
+          { "opt": "-z", "label": "gzip で圧縮" },
+          { "opt": "-f", "label": "ファイル名を指定" },
+          { "opt": "-v", "label": "経過を表示" },
+          { "opt": "-t", "label": "中身を一覧表示" }
+        ],
+        "args": [
+          { "name": "アーカイブ名", "ph": "archive.tar.gz" },
+          { "name": "対象", "ph": "dir/" }
+        ]
+      }
+    },
+    {
+      "id": "linux-curl",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "URL からデータを取得する",
+      "code": "curl -O [URL]",
+      "note": "-L でリダイレクトを追従。-I でヘッダのみ確認できる",
+      "tag": "ネットワーク",
+      "kw": "curl ダウンロード 取得 http api リクエスト",
+      "b": {
+        "cmd": "curl",
+        "flags": [
+          { "opt": "-O", "label": "URL のファイル名で保存" },
+          { "opt": "-o", "label": "保存先を指定" },
+          { "opt": "-L", "label": "リダイレクトを追従" },
+          { "opt": "-s", "label": "進捗を隠す" },
+          { "opt": "-I", "label": "レスポンスヘッダのみ取得" }
+        ],
+        "args": [{ "name": "URL", "ph": "https://example.com/file" }]
+      }
+    },
+    {
+      "id": "linux-ssh",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "リモートホストに接続する",
+      "code": "ssh user@host",
+      "note": "-i で鍵を指定、-p で標準以外のポートを指定",
+      "tag": "ネットワーク",
+      "kw": "ssh 接続 リモート サーバー ログイン remote",
+      "b": {
+        "cmd": "ssh",
+        "flags": [
+          { "opt": "-p", "label": "ポート番号を指定" },
+          { "opt": "-i", "label": "秘密鍵を指定" },
+          { "opt": "-L", "label": "ローカルポート転送" }
+        ],
+        "args": [{ "name": "接続先", "ph": "user@host" }]
+      }
+    },
+    {
+      "id": "linux-scp",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "リモートとファイルを転送する",
+      "code": "scp [コピー元] user@host:[コピー先]",
+      "note": "-r でディレクトリごと転送。-P（大文字）でポート指定",
+      "tag": "ネットワーク",
+      "kw": "scp 転送 コピー リモート ファイル 送信",
+      "b": {
+        "cmd": "scp",
+        "flags": [
+          { "opt": "-r", "label": "ディレクトリごと転送" },
+          { "opt": "-P", "label": "ポート番号を指定" },
+          { "opt": "-i", "label": "秘密鍵を指定" }
+        ],
+        "args": [
+          { "name": "コピー元", "ph": "./file" },
+          { "name": "コピー先", "ph": "user@host:/path" }
+        ]
+      }
+    },
+    {
+      "id": "linux-pwd",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "現在のディレクトリのパスを表示する",
+      "code": "pwd",
+      "note": "-P でシンボリックリンクを解決した実体パスを表示",
+      "tag": "ファイル操作",
+      "kw": "pwd カレント ディレクトリ パス 現在地 表示",
+      "b": {
+        "cmd": "pwd",
+        "flags": [{ "opt": "-P", "label": "実体パスを表示" }],
+        "args": []
+      }
+    },
+    {
+      "id": "linux-echo",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "文字列や変数を出力する",
+      "code": "echo \"text\"",
+      "note": "-e で \\n などのエスケープを有効化。変数は \"$VAR\" で展開",
+      "tag": "テキスト処理",
+      "kw": "echo 出力 表示 文字列 変数 print",
+      "b": {
+        "cmd": "echo",
+        "flags": [
+          { "opt": "-n", "label": "末尾に改行を付けない" },
+          { "opt": "-e", "label": "エスケープを解釈" }
+        ],
+        "args": [{ "name": "文字列", "ph": "\"hello\"" }]
+      }
+    },
+    {
+      "id": "linux-sudo",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "管理者権限でコマンドを実行する",
+      "code": "sudo [コマンド]",
+      "note": "-i でルートのログインシェル。使用は必要最小限に",
+      "tag": "システム",
+      "kw": "sudo 管理者 root 権限 実行 昇格",
+      "b": {
+        "cmd": "sudo",
+        "flags": [
+          { "opt": "-i", "label": "ルートのシェルを起動" },
+          { "opt": "-u", "label": "指定ユーザーで実行" },
+          { "opt": "-s", "label": "シェルを起動" }
+        ],
+        "args": [{ "name": "コマンド", "ph": "apt update" }]
+      }
+    },
+    {
+      "id": "linux-man",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "コマンドのマニュアルを表示する",
+      "code": "man [コマンド]",
+      "note": "q で終了、/ で検索。man -k でキーワード検索できる",
+      "tag": "システム",
+      "kw": "man マニュアル ヘルプ 使い方 説明 manual",
+      "b": {
+        "cmd": "man",
+        "flags": [
+          { "opt": "-k", "label": "キーワードで検索" },
+          { "opt": "-f", "label": "概要のみ表示" }
+        ],
+        "args": [{ "name": "コマンド", "ph": "ls" }]
+      }
+    },
+    {
+      "id": "linux-which",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "コマンドの実体パスを調べる",
+      "code": "which [コマンド]",
+      "note": "type コマンドならエイリアスや関数も判別できる",
+      "tag": "システム",
+      "kw": "which パス 場所 コマンド 実体 探す",
+      "b": {
+        "cmd": "which",
+        "flags": [{ "opt": "-a", "label": "見つかる全てを表示" }],
+        "args": [{ "name": "コマンド", "ph": "python" }]
+      }
+    },
+    {
+      "id": "linux-history",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "コマンド履歴を表示する",
+      "code": "history",
+      "note": "!番号 で再実行、Ctrl+R でインクリメンタル検索",
+      "tag": "システム",
+      "kw": "history 履歴 コマンド 過去 再実行",
+      "b": {
+        "cmd": "history",
+        "flags": [{ "opt": "-c", "label": "履歴を消去" }],
+        "args": []
+      }
+    },
+    {
+      "id": "linux-sed",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "文字列を置換・加工する",
+      "code": "sed 's/old/new/g' [ファイル]",
+      "note": "-i で直接書き換え。事前にバックアップを取ると安全",
+      "tag": "テキスト処理",
+      "kw": "sed 置換 編集 テキスト ストリーム 加工",
+      "b": {
+        "cmd": "sed",
+        "flags": [
+          { "opt": "-i", "label": "ファイルを直接書き換え" },
+          { "opt": "-n", "label": "自動出力を抑制" },
+          { "opt": "-E", "label": "拡張正規表現を使う" }
+        ],
+        "args": [
+          { "name": "スクリプト", "ph": "'s/old/new/g'" },
+          { "name": "ファイル", "ph": "file.txt" }
+        ]
+      }
+    },
+    {
+      "id": "linux-awk",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "列を抽出・集計する",
+      "code": "awk '{print $1}' [ファイル]",
+      "note": "-F で区切り文字を指定（CSVなら -F,）",
+      "tag": "テキスト処理",
+      "kw": "awk 列 抽出 集計 テキスト フィールド",
+      "b": {
+        "cmd": "awk",
+        "flags": [{ "opt": "-F", "label": "区切り文字を指定" }],
+        "args": [
+          { "name": "スクリプト", "ph": "'{print $1}'" },
+          { "name": "ファイル", "ph": "file.txt" }
+        ]
+      }
+    },
+    {
+      "id": "linux-cut",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "行から特定の列を切り出す",
+      "code": "cut -d, -f1 [ファイル]",
+      "note": "-d で区切り文字、-f で取り出す列番号を指定",
+      "tag": "テキスト処理",
+      "kw": "cut 列 抽出 切り出し フィールド csv",
+      "b": {
+        "cmd": "cut",
+        "flags": [
+          { "opt": "-d", "label": "区切り文字を指定" },
+          { "opt": "-f", "label": "取り出す列を指定" },
+          { "opt": "-c", "label": "文字位置で切り出す" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.csv" }]
+      }
+    },
+    {
+      "id": "linux-tr",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "文字を置換・削除する",
+      "code": "tr 'a-z' 'A-Z'",
+      "note": "パイプで受け取って使う。-d で指定文字を削除",
+      "tag": "テキスト処理",
+      "kw": "tr 変換 置換 削除 文字 大文字",
+      "b": {
+        "cmd": "tr",
+        "flags": [
+          { "opt": "-d", "label": "指定文字を削除" },
+          { "opt": "-s", "label": "連続を1つに圧縮" }
+        ],
+        "args": [
+          { "name": "変換元", "ph": "'a-z'" },
+          { "name": "変換先", "ph": "'A-Z'" }
+        ]
+      }
+    },
+    {
+      "id": "linux-xargs",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "標準入力を引数に変換して実行する",
+      "code": "... | xargs [コマンド]",
+      "note": "-I {} でプレースホルダ指定、-n で1回あたりの個数",
+      "tag": "テキスト処理",
+      "kw": "xargs 引数 パイプ 一括 実行 変換",
+      "b": {
+        "cmd": "xargs",
+        "flags": [
+          { "opt": "-I", "label": "置換文字列を指定" },
+          { "opt": "-n", "label": "1回の引数数を指定" },
+          { "opt": "-0", "label": "ヌル区切りで受け取る" }
+        ],
+        "args": [{ "name": "コマンド", "ph": "rm" }]
+      }
+    },
+    {
+      "id": "linux-tee",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "出力を画面とファイルに同時に書く",
+      "code": "... | tee [ファイル]",
+      "note": "-a で追記。sudo と組み合わせて権限付きファイルへ書ける",
+      "tag": "テキスト処理",
+      "kw": "tee 出力 分岐 ファイル 保存 同時",
+      "b": {
+        "cmd": "tee",
+        "flags": [{ "opt": "-a", "label": "ファイルに追記" }],
+        "args": [{ "name": "ファイル", "ph": "out.log" }]
+      }
+    },
+    {
+      "id": "linux-diff",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "2つのファイルの差分を表示する",
+      "code": "diff [ファイル1] [ファイル2]",
+      "note": "-u で統一形式（パッチ向け）。ディレクトリ比較は -r",
+      "tag": "検索",
+      "kw": "diff 差分 比較 違い ファイル compare",
+      "b": {
+        "cmd": "diff",
+        "flags": [
+          { "opt": "-u", "label": "統一形式で表示" },
+          { "opt": "-r", "label": "ディレクトリを再帰比較" },
+          { "opt": "-i", "label": "大文字小文字を無視" },
+          { "opt": "-w", "label": "空白の違いを無視" }
+        ],
+        "args": [
+          { "name": "ファイル1", "ph": "a.txt" },
+          { "name": "ファイル2", "ph": "b.txt" }
+        ]
+      }
+    },
+    {
+      "id": "linux-wget",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ファイルをダウンロードする",
+      "code": "wget [URL]",
+      "note": "-c で中断したダウンロードを再開、-r で再帰取得",
+      "tag": "ネットワーク",
+      "kw": "wget ダウンロード 取得 url ファイル 保存",
+      "b": {
+        "cmd": "wget",
+        "flags": [
+          { "opt": "-O", "label": "保存名を指定" },
+          { "opt": "-c", "label": "再開ダウンロード" },
+          { "opt": "-r", "label": "再帰的に取得" },
+          { "opt": "-q", "label": "進捗を隠す" }
+        ],
+        "args": [{ "name": "URL", "ph": "https://example.com/file" }]
+      }
+    },
+    {
+      "id": "linux-rsync",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "差分だけ効率よく同期・転送する",
+      "code": "rsync -av [転送元] [転送先]",
+      "note": "--delete で転送先の余分を削除。末尾スラッシュの有無に注意",
+      "tag": "ネットワーク",
+      "kw": "rsync 同期 転送 コピー バックアップ 差分",
+      "b": {
+        "cmd": "rsync",
+        "flags": [
+          { "opt": "-a", "label": "属性を保持して転送" },
+          { "opt": "-v", "label": "経過を表示" },
+          { "opt": "-z", "label": "圧縮して転送" },
+          { "opt": "--delete", "label": "転送先の余分を削除" },
+          { "opt": "-n", "label": "実行せず確認（ドライラン）" }
+        ],
+        "args": [
+          { "name": "転送元", "ph": "src/" },
+          { "name": "転送先", "ph": "user@host:dst/" }
+        ]
+      }
+    },
+    {
+      "id": "linux-ping",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "ホストへの疎通を確認する",
+      "code": "ping -c 4 [ホスト]",
+      "note": "-c で回数を指定しないと止まらないので注意",
+      "tag": "ネットワーク",
+      "kw": "ping 疎通 通信 確認 ネットワーク 到達",
+      "b": {
+        "cmd": "ping",
+        "flags": [
+          { "opt": "-c", "label": "送信回数を指定" },
+          { "opt": "-i", "label": "送信間隔を指定" },
+          { "opt": "-t", "label": "TTL を指定" }
+        ],
+        "args": [{ "name": "ホスト", "ph": "example.com" }]
+      }
+    },
+    {
+      "id": "linux-ip",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "IPアドレスやルートを確認する",
+      "code": "ip addr",
+      "note": "ifconfig の後継。ip route でルーティング表を表示",
+      "tag": "ネットワーク",
+      "kw": "ip アドレス ネットワーク インターフェース ルート ifconfig",
+      "b": {
+        "cmd": "ip",
+        "flags": [
+          { "opt": "addr", "label": "アドレスを表示" },
+          { "opt": "route", "label": "ルーティング表を表示" },
+          { "opt": "link", "label": "インターフェースを表示" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "linux-free",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "メモリの使用状況を確認する",
+      "code": "free -h",
+      "note": "-h で読みやすい単位。available が実質の空きメモリ",
+      "tag": "システム",
+      "kw": "free メモリ 使用量 空き ram 確認",
+      "b": {
+        "cmd": "free",
+        "flags": [
+          { "opt": "-h", "label": "読みやすい単位で表示" },
+          { "opt": "-m", "label": "MB単位で表示" },
+          { "opt": "-s", "label": "間隔を指定して繰り返し" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "linux-uname",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "OSやカーネルの情報を表示する",
+      "code": "uname -a",
+      "note": "-r でカーネルバージョン、-m でアーキテクチャ",
+      "tag": "システム",
+      "kw": "uname os カーネル バージョン システム 情報",
+      "b": {
+        "cmd": "uname",
+        "flags": [
+          { "opt": "-a", "label": "すべての情報を表示" },
+          { "opt": "-r", "label": "カーネルバージョン" },
+          { "opt": "-m", "label": "アーキテクチャ" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "linux-date",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "日付・時刻を表示・整形する",
+      "code": "date +\"%Y-%m-%d\"",
+      "note": "+書式 で好きな形式に。-d で相対日時も計算できる",
+      "tag": "システム",
+      "kw": "date 日付 時刻 時間 フォーマット 現在",
+      "b": {
+        "cmd": "date",
+        "flags": [
+          { "opt": "-u", "label": "UTC で表示" },
+          { "opt": "-d", "label": "指定日時を表示" }
+        ],
+        "args": [{ "name": "書式", "ph": "+\"%Y-%m-%d\"" }]
+      }
+    },
+    {
+      "id": "linux-systemctl",
+      "env": "Linux",
+      "cat": "Linux",
+      "title": "サービスを起動・停止・確認する",
+      "code": "systemctl status [サービス]",
+      "note": "start/stop/restart/enable を切り替えて使う。多くは sudo が必要",
+      "tag": "システム",
+      "kw": "systemctl サービス 起動 停止 デーモン systemd",
+      "b": {
+        "cmd": "systemctl",
+        "flags": [
+          { "opt": "status", "label": "状態を確認" },
+          { "opt": "start", "label": "起動" },
+          { "opt": "stop", "label": "停止" },
+          { "opt": "restart", "label": "再起動" },
+          { "opt": "enable", "label": "自動起動を有効化" }
+        ],
+        "args": [{ "name": "サービス", "ph": "nginx" }]
+      }
+    }
+  ]
+}

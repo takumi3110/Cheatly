@@ -1,0 +1,28 @@
+{
+  "id": "vscode",
+  "version": 1,
+  "label": "VS Code",
+  "desc": "VS Code のショートカット",
+  "commands": [
+    {
+      "id": "vscode-command-palette",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "コマンドパレットを開く",
+      "code": "Ctrl + Shift + P",
+      "note": "Ctrl+P はファイル名検索。> を消すとファイルジャンプになる",
+      "tag": "ショートカット",
+      "kw": "palette パレット command ショートカット 開く"
+    },
+    {
+      "id": "vscode-multi-cursor",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "選択箇所と同じ単語を複数選択する",
+      "code": "Ctrl + D",
+      "note": "Ctrl+Shift+L で一致箇所をすべて同時選択できる",
+      "tag": "編集",
+      "kw": "マルチカーソル multi cursor 選択 同じ単語 一括編集"
+    }
+  ]
+}

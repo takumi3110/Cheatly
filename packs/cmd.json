@@ -1,0 +1,28 @@
+{
+  "id": "cmd",
+  "version": 1,
+  "label": "cmd",
+  "desc": "Windows コマンドプロンプト",
+  "commands": [
+    {
+      "id": "cmd-ipconfig",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "IP設定を確認する",
+      "code": "ipconfig /all",
+      "note": "/release → /renew でDHCPアドレスを再取得",
+      "tag": "ネットワーク",
+      "kw": "ip ネットワーク network ipconfig アドレス 確認",
+      "b": {
+        "cmd": "ipconfig",
+        "flags": [
+          { "opt": "/all", "label": "詳細をすべて表示" },
+          { "opt": "/release", "label": "IPアドレスを解放" },
+          { "opt": "/renew", "label": "IPアドレスを再取得" },
+          { "opt": "/flushdns", "label": "DNSキャッシュを消去" }
+        ],
+        "args": []
+      }
+    }
+  ]
+}

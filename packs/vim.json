@@ -1,0 +1,51 @@
+{
+  "id": "vim",
+  "version": 1,
+  "label": "Vim",
+  "desc": "Vim の操作",
+  "commands": [
+    {
+      "id": "vim-yank",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "行をコピーして貼り付ける",
+      "code": "yy → p",
+      "note": "5yy で5行コピー。dd は切り取り（カット）として使える",
+      "tag": "編集",
+      "kw": "copy コピー yank paste 貼り付け ヤンク 行"
+    },
+    {
+      "id": "vim-substitute",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "文字列を一括置換する",
+      "code": ":%s/old/new/g",
+      "note": "末尾に c を付けると1件ずつ確認しながら置換できる",
+      "tag": "検索",
+      "kw": "replace 置換 substitute 一括 検索 sed",
+      "b": {
+        "cmd": ":%s",
+        "sep": "/",
+        "flags": [
+          { "opt": "g", "label": "行内すべて置換" },
+          { "opt": "c", "label": "1件ずつ確認" },
+          { "opt": "i", "label": "大文字小文字を無視" }
+        ],
+        "args": [
+          { "name": "置換前", "ph": "old" },
+          { "name": "置換後", "ph": "new" }
+        ]
+      }
+    },
+    {
+      "id": "vim-quit",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "保存せずに強制終了する",
+      "code": ":q!",
+      "note": "保存して終了は :wq または ZZ。全バッファ終了は :qa!",
+      "tag": "編集",
+      "kw": "quit 終了 exit 保存 抜ける vim 閉じる"
+    }
+  ]
+}

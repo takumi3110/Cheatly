@@ -1,0 +1,49 @@
+{
+  "id": "docker",
+  "version": 1,
+  "label": "Docker",
+  "desc": "Docker のコンテナ操作",
+  "commands": [
+    {
+      "id": "docker-exec",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナ内でシェルを起動する",
+      "code": "docker exec -it [container] /bin/bash",
+      "note": "bash が無い軽量イメージでは /bin/sh を使う",
+      "tag": "コンテナ",
+      "kw": "exec shell シェル 入る コンテナ bash 接続",
+      "b": {
+        "cmd": "docker exec",
+        "flags": [
+          { "opt": "-i", "label": "標準入力を開いたまま" },
+          { "opt": "-t", "label": "疑似TTYを割り当て" },
+          { "opt": "-d", "label": "バックグラウンド実行" }
+        ],
+        "args": [
+          { "name": "コンテナ", "ph": "[container]" },
+          { "name": "実行コマンド", "ph": "/bin/bash" }
+        ]
+      }
+    },
+    {
+      "id": "docker-prune",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "未使用リソースを一括削除する",
+      "code": "docker system prune -a",
+      "note": "-a は未使用イメージも削除。--volumes でボリュームも対象に",
+      "tag": "コンテナ",
+      "kw": "prune 削除 掃除 クリーンアップ ディスク 容量",
+      "b": {
+        "cmd": "docker system prune",
+        "flags": [
+          { "opt": "-a", "label": "未使用イメージも削除" },
+          { "opt": "--volumes", "label": "ボリュームも削除" },
+          { "opt": "-f", "label": "確認をスキップ" }
+        ],
+        "args": []
+      }
+    }
+  ]
+}

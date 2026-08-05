@@ -1,0 +1,28 @@
+{
+  "id": "python",
+  "version": 1,
+  "label": "Python",
+  "desc": "Python のコードスニペット",
+  "commands": [
+    {
+      "id": "python-dedupe",
+      "env": "Python",
+      "cat": "Python",
+      "title": "リストから重複を除去する",
+      "code": "unique = list(dict.fromkeys(items))",
+      "note": "set(items) より順序が保持される点が便利（Python 3.7+）",
+      "tag": "コード",
+      "kw": "重複 unique duplicate リスト 除去 distinct"
+    },
+    {
+      "id": "python-venv",
+      "env": "Python",
+      "cat": "Python",
+      "title": "仮想環境を作成して有効化する",
+      "code": "python -m venv .venv && source .venv/bin/activate",
+      "note": "Windowsは .venv\\Scripts\\activate。deactivate で解除",
+      "tag": "環境構築",
+      "kw": "venv 仮想環境 virtualenv activate 環境"
+    }
+  ]
+}

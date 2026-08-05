@@ -1,0 +1,66 @@
+{
+  "id": "git",
+  "version": 1,
+  "label": "Git",
+  "desc": "Git のバージョン管理",
+  "commands": [
+    {
+      "id": "git-reset",
+      "env": "Git",
+      "cat": "Git",
+      "title": "直前のコミットを取り消す（変更は保持）",
+      "code": "git reset --soft HEAD~1",
+      "note": "--hard は変更ごと破棄されるので注意。push済みなら revert を推奨",
+      "tag": "バージョン管理",
+      "kw": "undo 取り消し reset commit コミット 戻す やり直し",
+      "b": {
+        "cmd": "git reset",
+        "flags": [
+          { "opt": "--soft", "label": "変更・ステージを保持" },
+          { "opt": "--mixed", "label": "変更のみ保持（既定）" },
+          { "opt": "--hard", "label": "変更を完全に破棄" }
+        ],
+        "args": [{ "name": "対象", "ph": "HEAD~1" }]
+      }
+    },
+    {
+      "id": "git-stash",
+      "env": "Git",
+      "cat": "Git",
+      "title": "作業を一時退避する",
+      "code": "git stash",
+      "note": "git stash pop で復元。stash list で退避一覧を確認",
+      "tag": "バージョン管理",
+      "kw": "stash 退避 一時 保存 ブランチ切替 避難",
+      "b": {
+        "cmd": "git stash",
+        "flags": [
+          { "opt": "push", "label": "退避する（既定）" },
+          { "opt": "pop", "label": "復元して削除" },
+          { "opt": "list", "label": "退避一覧を表示" },
+          { "opt": "-u", "label": "未追跡ファイルも含む" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "git-diff",
+      "env": "Git",
+      "cat": "Git",
+      "title": "変更したファイルの差分を見る",
+      "code": "git diff HEAD",
+      "note": "--staged でステージ済みの差分。ファイル指定も可能",
+      "tag": "検索",
+      "kw": "diff 差分 変更 確認 比較",
+      "b": {
+        "cmd": "git diff",
+        "flags": [
+          { "opt": "--staged", "label": "ステージ済みの差分" },
+          { "opt": "--stat", "label": "統計サマリのみ" },
+          { "opt": "--name-only", "label": "ファイル名のみ" }
+        ],
+        "args": [{ "name": "対象", "ph": "HEAD" }]
+      }
+    }
+  ]
+}

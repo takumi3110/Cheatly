@@ -1,0 +1,128 @@
+:root {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans',
+    'Noto Sans JP', sans-serif;
+  color: #cccccc;
+  background-color: #1e1e1e;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #1e1e1e;
+}
+
+a {
+  color: #4fc1ff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #75d3ff;
+  text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 5px;
+  border: 2px solid #1e1e1e;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+input::placeholder {
+  color: #6a6a6a;
+}
+
+/* 見出しラベル（オプションを選択 / 完成コード など） */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #7a7a7a;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* サイドバーの項目 */
+.side-btn:hover {
+  background: #2f2f31 !important;
+}
+
+/* 枠線のみのアイコン／小ボタン */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid #3e3e42;
+  border-radius: 5px;
+  color: #9a9a9a;
+  cursor: pointer;
+  padding: 0;
+  flex: none;
+  font-family: inherit;
+}
+
+.icon-btn:not(:disabled):hover {
+  color: #e8e8e8;
+  border-color: #5a5a5a;
+}
+
+/* パック取得画面のオフライン／未設定の注意書き */
+.pack-notice {
+  padding: 9px 12px;
+  margin-bottom: 14px;
+  background: #2d2d30;
+  border: 1px solid #3a3a3a;
+  border-radius: 7px;
+  font-size: 11.5px;
+  color: #b5b5b5;
+  line-height: 1.5;
+}
+
+.accent-btn:not(:disabled):hover {
+  filter: brightness(1.08);
+}
+
+.tag-btn:hover {
+  border-color: #5a5a5a !important;
+}
+
+.card:hover {
+  border-color: #4fc1ff !important;
+}
+
+.copy-btn:hover {
+  background: #37373d !important;
+  color: #ffffff !important;
+}
+
+.fmt-btn:hover {
+  border-color: #4fc1ff !important;
+  background: #313135 !important;
+}
+
+.flag-row:hover {
+  border-color: #5a5a5a !important;
+}
+
+.field-input:focus {
+  border-color: #4fc1ff !important;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 0 1px #4fc1ff;
+}

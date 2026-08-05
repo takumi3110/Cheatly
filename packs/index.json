@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "packs": [
+    {
+      "id": "cmd",
+      "label": "cmd",
+      "cat": "cmd",
+      "count": 1,
+      "desc": "Windows コマンドプロンプト"
+    },
+    {
+      "id": "docker",
+      "label": "Docker",
+      "cat": "Docker",
+      "count": 2,
+      "desc": "Docker のコンテナ操作"
+    },
+    {
+      "id": "git",
+      "label": "Git",
+      "cat": "Git",
+      "count": 3,
+      "desc": "Git のバージョン管理"
+    },
+    {
+      "id": "javascript",
+      "label": "JavaScript",
+      "cat": "JavaScript",
+      "count": 2,
+      "desc": "JavaScript のコードスニペット"
+    },
+    {
+      "id": "linux",
+      "label": "Linux",
+      "cat": "Linux",
+      "count": 50,
+      "desc": "Linux の基本コマンド"
+    },
+    {
+      "id": "powershell",
+      "label": "PowerShell",
+      "cat": "PowerShell",
+      "count": 2,
+      "desc": "Windows PowerShell のコマンド"
+    },
+    {
+      "id": "python",
+      "label": "Python",
+      "cat": "Python",
+      "count": 2,
+      "desc": "Python のコードスニペット"
+    },
+    {
+      "id": "vim",
+      "label": "Vim",
+      "cat": "Vim",
+      "count": 3,
+      "desc": "Vim の操作"
+    },
+    {
+      "id": "vscode",
+      "label": "VS Code",
+      "cat": "VS Code",
+      "count": 2,
+      "desc": "VS Code のショートカット"
+    }
+  ]
+}
