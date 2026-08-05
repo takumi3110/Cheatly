@@ -23,6 +23,494 @@
       "note": "Windowsは .venv\\Scripts\\activate。deactivate で解除",
       "tag": "環境構築",
       "kw": "venv 仮想環境 virtualenv activate 環境"
+    },
+    {
+      "id": "python-pip-install",
+      "env": "Python",
+      "cat": "Python",
+      "title": "パッケージをインストールする",
+      "code": "pip install -r requirements.txt",
+      "note": "-r requirements.txt でまとめてインストールできる",
+      "tag": "環境構築",
+      "kw": "pip install インストール パッケージ",
+      "b": {
+        "cmd": "pip install",
+        "flags": [
+          { "opt": "-U", "label": "既存パッケージをアップグレード" },
+          { "opt": "-r requirements.txt", "label": "ファイルからまとめて指定" }
+        ],
+        "args": [{ "name": "パッケージ名", "ph": "requests" }]
+      }
+    },
+    {
+      "id": "python-pip-freeze",
+      "env": "Python",
+      "cat": "Python",
+      "title": "インストール済みパッケージ一覧を書き出す",
+      "code": "pip freeze > requirements.txt",
+      "note": "環境を再現する時に requirements.txt から復元できる",
+      "tag": "環境構築",
+      "kw": "pip freeze requirements 出力 一覧"
+    },
+    {
+      "id": "python-list-comprehension",
+      "env": "Python",
+      "cat": "Python",
+      "title": "リスト内包表記で新しいリストを作る",
+      "code": "squares = [x**2 for x in range(10) if x % 2 == 0]",
+      "note": "for文より簡潔で高速。if を後ろに置くとフィルタになる",
+      "tag": "コード",
+      "kw": "list comprehension 内包表記 リスト生成"
+    },
+    {
+      "id": "python-dict-comprehension",
+      "env": "Python",
+      "cat": "Python",
+      "title": "辞書内包表記で新しい辞書を作る",
+      "code": "d = {k: v for k, v in items.items() if v is not None}",
+      "note": "既存の辞書をフィルタ・変換して新しい辞書を作る時に使う",
+      "tag": "コード",
+      "kw": "dict comprehension 辞書内包表記 変換"
+    },
+    {
+      "id": "python-enumerate",
+      "env": "Python",
+      "cat": "Python",
+      "title": "リストの要素とインデックスを同時に取得する",
+      "code": "for i, value in enumerate(items):\n    print(i, value)",
+      "note": "start=1 を指定すると1から数えることもできる",
+      "tag": "コード",
+      "kw": "enumerate インデックス 番号 ループ"
+    },
+    {
+      "id": "python-zip",
+      "env": "Python",
+      "cat": "Python",
+      "title": "複数のリストを同時にループする",
+      "code": "for a, b in zip(list1, list2):\n    print(a, b)",
+      "note": "長さが異なる場合は短い方に合わせて打ち切られる",
+      "tag": "コード",
+      "kw": "zip 複数リスト 同時 ループ"
+    },
+    {
+      "id": "python-fstring",
+      "env": "Python",
+      "cat": "Python",
+      "title": "f文字列で変数を埋め込む",
+      "code": "print(f\"{name} is {age} years old\")",
+      "note": "{value:.2f} のように書式指定も可能（小数点2桁など）",
+      "tag": "コード",
+      "kw": "f-string フォーマット 文字列 埋め込み"
+    },
+    {
+      "id": "python-read-file",
+      "env": "Python",
+      "cat": "Python",
+      "title": "ファイルを読み込む",
+      "code": "with open(\"file.txt\", encoding=\"utf-8\") as f:\n    text = f.read()",
+      "note": "with を使うと自動的にファイルがクローズされる",
+      "tag": "ファイル操作",
+      "kw": "open read ファイル読み込み with"
+    },
+    {
+      "id": "python-write-file",
+      "env": "Python",
+      "cat": "Python",
+      "title": "ファイルに書き込む",
+      "code": "with open(\"file.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"Hello\")",
+      "note": "\"a\" モードにすると追記になる",
+      "tag": "ファイル操作",
+      "kw": "open write ファイル書き込み"
+    },
+    {
+      "id": "python-json-load",
+      "env": "Python",
+      "cat": "Python",
+      "title": "JSONファイルを読み込む",
+      "code": "import json\nwith open(\"data.json\") as f:\n    data = json.load(f)",
+      "note": "文字列からパースするだけなら json.loads() を使う",
+      "tag": "ファイル操作",
+      "kw": "json load 読み込み パース"
+    },
+    {
+      "id": "python-json-dump",
+      "env": "Python",
+      "cat": "Python",
+      "title": "オブジェクトをJSONファイルに書き出す",
+      "code": "import json\nwith open(\"data.json\", \"w\") as f:\n    json.dump(data, f, ensure_ascii=False, indent=2)",
+      "note": "ensure_ascii=False で日本語がエスケープされずそのまま出力される",
+      "tag": "ファイル操作",
+      "kw": "json dump 書き出し 保存"
+    },
+    {
+      "id": "python-try-except",
+      "env": "Python",
+      "cat": "Python",
+      "title": "例外処理を書く",
+      "code": "try:\n    risky()\nexcept ValueError as e:\n    print(f\"error: {e}\")",
+      "note": "except: だけで書くと全ての例外を握りつぶしてしまうので避ける",
+      "tag": "コード",
+      "kw": "try except 例外処理 エラー"
+    },
+    {
+      "id": "python-lambda",
+      "env": "Python",
+      "cat": "Python",
+      "title": "無名関数（lambda）を定義する",
+      "code": "square = lambda x: x ** 2",
+      "note": "sort の key や filter/map の引数など、その場限りの処理に使う",
+      "tag": "コード",
+      "kw": "lambda 無名関数 ラムダ"
+    },
+    {
+      "id": "python-sort-key",
+      "env": "Python",
+      "cat": "Python",
+      "title": "リストを特定のキーでソートする",
+      "code": "sorted(items, key=lambda x: x[\"age\"], reverse=True)",
+      "note": "reverse=True で降順。元のリストを変えないなら sorted、変えるなら .sort()",
+      "tag": "コード",
+      "kw": "sort ソート 並び替え key"
+    },
+    {
+      "id": "python-map-filter",
+      "env": "Python",
+      "cat": "Python",
+      "title": "リストの各要素に処理・絞り込みを行う",
+      "code": "result = list(filter(lambda x: x > 0, map(lambda x: x - 1, items)))",
+      "note": "リスト内包表記の方が可読性が高いことも多い",
+      "tag": "コード",
+      "kw": "map filter 変換 絞り込み"
+    },
+    {
+      "id": "python-args-kwargs",
+      "env": "Python",
+      "cat": "Python",
+      "title": "可変長引数を受け取る関数を定義する",
+      "code": "def func(*args, **kwargs):\n    print(args, kwargs)",
+      "note": "*args は位置引数、**kwargs はキーワード引数をタプル・辞書で受ける",
+      "tag": "コード",
+      "kw": "args kwargs 可変長引数 関数"
+    },
+    {
+      "id": "python-decorator",
+      "env": "Python",
+      "cat": "Python",
+      "title": "デコレータで関数の前後に処理を挟む",
+      "code": "def timer(func):\n    def wrapper(*a, **kw):\n        start = time.time()\n        result = func(*a, **kw)\n        print(time.time() - start)\n        return result\n    return wrapper",
+      "note": "@timer のように関数の上に付けて使う",
+      "tag": "コード",
+      "kw": "decorator デコレータ ラップ"
+    },
+    {
+      "id": "python-class",
+      "env": "Python",
+      "cat": "Python",
+      "title": "クラスを定義する",
+      "code": "class User:\n    def __init__(self, name):\n        self.name = name",
+      "note": "__init__ がコンストラクタ。self は必ず第一引数に書く",
+      "tag": "コード",
+      "kw": "class クラス 定義 init"
+    },
+    {
+      "id": "python-dataclass",
+      "env": "Python",
+      "cat": "Python",
+      "title": "dataclassでシンプルにクラスを定義する",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass User:\n    name: str\n    age: int",
+      "note": "__init__ や __repr__ が自動生成され記述量が減る",
+      "tag": "コード",
+      "kw": "dataclass データクラス 定義"
+    },
+    {
+      "id": "python-main-guard",
+      "env": "Python",
+      "cat": "Python",
+      "title": "スクリプトの実行エントリポイントを定義する",
+      "code": "if __name__ == \"__main__\":\n    main()",
+      "note": "モジュールとしてimportされた時に実行されないようにするための定型句",
+      "tag": "コード",
+      "kw": "main name 実行 エントリポイント"
+    },
+    {
+      "id": "python-requests-get",
+      "env": "Python",
+      "cat": "Python",
+      "title": "HTTPリクエストを送信する",
+      "code": "import requests\nres = requests.get(url, timeout=5)\ndata = res.json()",
+      "note": "requests は標準ライブラリではないので pip install requests が必要",
+      "tag": "ネットワーク",
+      "kw": "requests get http api リクエスト"
+    },
+    {
+      "id": "python-argparse",
+      "env": "Python",
+      "cat": "Python",
+      "title": "コマンドライン引数を扱う",
+      "code": "import argparse\np = argparse.ArgumentParser()\np.add_argument(\"--name\")\nargs = p.parse_args()",
+      "note": "--help を自動生成してくれるので手作りのパース処理より安全",
+      "tag": "コード",
+      "kw": "argparse コマンドライン引数 cli"
+    },
+    {
+      "id": "python-datetime-now",
+      "env": "Python",
+      "cat": "Python",
+      "title": "現在日時を取得・フォーマットする",
+      "code": "from datetime import datetime\ndatetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")",
+      "note": "タイムゾーンを扱う場合は zoneinfo と組み合わせる",
+      "tag": "コード",
+      "kw": "datetime now 日時 フォーマット"
+    },
+    {
+      "id": "python-pathlib",
+      "env": "Python",
+      "cat": "Python",
+      "title": "pathlibでファイルパスを扱う",
+      "code": "from pathlib import Path\nfor f in Path(\".\").glob(\"*.py\"):\n    print(f)",
+      "note": "os.path より直感的で、文字列連結せず / 演算子でパスを結合できる",
+      "tag": "ファイル操作",
+      "kw": "pathlib path パス ファイル操作"
+    },
+    {
+      "id": "python-collections-counter",
+      "env": "Python",
+      "cat": "Python",
+      "title": "要素の出現回数を数える",
+      "code": "from collections import Counter\nCounter(items).most_common(3)",
+      "note": "most_common(N) で出現回数上位N件を取得できる",
+      "tag": "コード",
+      "kw": "counter 集計 カウント 出現回数"
+    },
+    {
+      "id": "python-collections-defaultdict",
+      "env": "Python",
+      "cat": "Python",
+      "title": "存在しないキーにデフォルト値を持つ辞書を使う",
+      "code": "from collections import defaultdict\nd = defaultdict(list)\nd[\"key\"].append(1)",
+      "note": "キーの存在チェックなしで直接 append などが行える",
+      "tag": "コード",
+      "kw": "defaultdict 辞書 デフォルト値"
+    },
+    {
+      "id": "python-venv-freeze-check",
+      "env": "Python",
+      "cat": "Python",
+      "title": "インストール済みパッケージを一覧表示する",
+      "code": "pip list",
+      "note": "pip list --outdated で更新可能なパッケージも確認できる",
+      "tag": "環境構築",
+      "kw": "pip list パッケージ 一覧"
+    },
+    {
+      "id": "python-format-string",
+      "env": "Python",
+      "cat": "Python",
+      "title": "数値を桁区切り・小数点でフォーマットする",
+      "code": "f\"{1234567:,}\"",
+      "note": "f\"{value:.2f}\" のように小数桁数の指定も併用できる",
+      "tag": "コード",
+      "kw": "format 数値 フォーマット 桁区切り"
+    },
+    {
+      "id": "python-slicing",
+      "env": "Python",
+      "cat": "Python",
+      "title": "リスト・文字列をスライスする",
+      "code": "items[::-1]  # 逆順\nitems[1:5]   # 部分取得",
+      "note": "[start:stop:step] の形式。step=-1で逆順になる",
+      "tag": "コード",
+      "kw": "slice スライス 逆順 部分取得"
+    },
+    {
+      "id": "python-unpacking",
+      "env": "Python",
+      "cat": "Python",
+      "title": "変数のアンパック代入を行う",
+      "code": "first, *rest = [1, 2, 3, 4]",
+      "note": "*rest で残りの要素をリストとしてまとめて受け取れる",
+      "tag": "コード",
+      "kw": "unpacking アンパック 分割代入"
+    },
+    {
+      "id": "python-walrus",
+      "env": "Python",
+      "cat": "Python",
+      "title": "代入式（セイウチ演算子）を使う",
+      "code": "if (n := len(items)) > 10:\n    print(f\"{n} items\")",
+      "note": "条件式の中で計算結果を変数に代入しつつ再利用できる（Python 3.8+）",
+      "tag": "コード",
+      "kw": "walrus セイウチ演算子 代入式"
+    },
+    {
+      "id": "python-generator",
+      "env": "Python",
+      "cat": "Python",
+      "title": "ジェネレータで遅延評価するイテレータを作る",
+      "code": "def counter(n):\n    for i in range(n):\n        yield i",
+      "note": "全要素を一度にメモリに載せないので大量データの処理に向く",
+      "tag": "コード",
+      "kw": "generator ジェネレータ yield 遅延評価"
+    },
+    {
+      "id": "python-context-manager",
+      "env": "Python",
+      "cat": "Python",
+      "title": "独自のコンテキストマネージャを作る",
+      "code": "from contextlib import contextmanager\n\n@contextmanager\ndef timer():\n    start = time.time()\n    yield\n    print(time.time() - start)",
+      "note": "with timer(): のように使うと計測やリソース管理がシンプルに書ける",
+      "tag": "コード",
+      "kw": "context manager with contextlib"
+    },
+    {
+      "id": "python-typing",
+      "env": "Python",
+      "cat": "Python",
+      "title": "型ヒントを付ける",
+      "code": "def add(a: int, b: int) -> int:\n    return a + b",
+      "note": "実行時には強制されないが、IDE補完や静的解析(mypy)に役立つ",
+      "tag": "コード",
+      "kw": "typing 型ヒント type hint"
+    },
+    {
+      "id": "python-string-strip",
+      "env": "Python",
+      "cat": "Python",
+      "title": "文字列の前後の空白・改行を除去する",
+      "code": "text.strip()",
+      "note": "lstrip/rstrip で片側だけ、引数を渡すと指定文字を除去できる",
+      "tag": "コード",
+      "kw": "strip 空白除去 トリム"
+    },
+    {
+      "id": "python-string-split-join",
+      "env": "Python",
+      "cat": "Python",
+      "title": "文字列を分割・結合する",
+      "code": "parts = \"a,b,c\".split(\",\")\njoined = \"-\".join(parts)",
+      "note": "split() は引数なしだと空白で分割され連続空白もまとめて処理される",
+      "tag": "コード",
+      "kw": "split join 分割 結合 文字列"
+    },
+    {
+      "id": "python-regex-match",
+      "env": "Python",
+      "cat": "Python",
+      "title": "正規表現でパターンマッチングする",
+      "code": "import re\nmatch = re.search(r\"\\d+\", text)\nif match:\n    print(match.group())",
+      "note": "全ての一致箇所が欲しい場合は re.findall を使う",
+      "tag": "検索",
+      "kw": "regex re 正規表現 マッチング"
+    },
+    {
+      "id": "python-os-environ",
+      "env": "Python",
+      "cat": "Python",
+      "title": "環境変数を取得する",
+      "code": "import os\napi_key = os.environ.get(\"API_KEY\", \"default\")",
+      "note": ".get() を使うと未設定でもKeyErrorにならずデフォルト値を返せる",
+      "tag": "環境構築",
+      "kw": "os environ 環境変数 取得"
+    },
+    {
+      "id": "python-subprocess",
+      "env": "Python",
+      "cat": "Python",
+      "title": "外部コマンドを実行する",
+      "code": "import subprocess\nresult = subprocess.run([\"ls\", \"-la\"], capture_output=True, text=True)\nprint(result.stdout)",
+      "note": "shell=True は文字列コマンドを渡せるがインジェクションに注意",
+      "tag": "コード",
+      "kw": "subprocess 外部コマンド 実行"
+    },
+    {
+      "id": "python-logging",
+      "env": "Python",
+      "cat": "Python",
+      "title": "ログを出力する",
+      "code": "import logging\nlogging.basicConfig(level=logging.INFO)\nlogging.info(\"started\")",
+      "note": "print よりレベル管理・出力先設定ができ本番運用に向く",
+      "tag": "コード",
+      "kw": "logging ログ 出力"
+    },
+    {
+      "id": "python-pytest-basic",
+      "env": "Python",
+      "cat": "Python",
+      "title": "pytestでテストを書く",
+      "code": "def test_add():\n    assert add(1, 2) == 3",
+      "note": "test_ で始まる関数が自動的にテストとして検出される",
+      "tag": "コード",
+      "kw": "pytest テスト assert"
+    },
+    {
+      "id": "python-venv-deactivate",
+      "env": "Python",
+      "cat": "Python",
+      "title": "仮想環境を無効化する",
+      "code": "deactivate",
+      "note": "venvを抜けてシステムのPython環境に戻る",
+      "tag": "環境構築",
+      "kw": "deactivate venv 無効化 終了"
+    },
+    {
+      "id": "python-import-alias",
+      "env": "Python",
+      "cat": "Python",
+      "title": "モジュールに別名を付けてインポートする",
+      "code": "import numpy as np\nimport pandas as pd",
+      "note": "慣習的なエイリアス（np, pd等）を使うとコードが読みやすくなる",
+      "tag": "コード",
+      "kw": "import as エイリアス モジュール"
+    },
+    {
+      "id": "python-ternary",
+      "env": "Python",
+      "cat": "Python",
+      "title": "三項演算子（条件式）を書く",
+      "code": "status = \"active\" if is_active else \"inactive\"",
+      "note": "if/else を1行で書ける。三重にネストすると読みにくくなるので注意",
+      "tag": "コード",
+      "kw": "ternary 三項演算子 条件式"
+    },
+    {
+      "id": "python-multiple-assignment",
+      "env": "Python",
+      "cat": "Python",
+      "title": "複数の変数に同時に値を代入する",
+      "code": "a, b = b, a",
+      "note": "一時変数なしで値のスワップができる",
+      "tag": "コード",
+      "kw": "swap 交換 複数代入"
+    },
+    {
+      "id": "python-glob",
+      "env": "Python",
+      "cat": "Python",
+      "title": "パターンに一致するファイルを検索する",
+      "code": "import glob\nfiles = glob.glob(\"**/*.py\", recursive=True)",
+      "note": "recursive=True と ** を組み合わせるとサブフォルダも再帰的に検索する",
+      "tag": "検索",
+      "kw": "glob 検索 ファイル パターン"
+    },
+    {
+      "id": "python-set-operations",
+      "env": "Python",
+      "cat": "Python",
+      "title": "集合演算で共通・差分を求める",
+      "code": "a & b   # 積集合\na | b   # 和集合\na - b   # 差集合",
+      "note": "set() 同士の演算子で高速に共通要素・差分が求まる",
+      "tag": "コード",
+      "kw": "set 集合 積集合 和集合 差集合"
+    },
+    {
+      "id": "python-venv-activate-win",
+      "env": "Python",
+      "cat": "Python",
+      "title": "Windowsで仮想環境を有効化する",
+      "code": ".venv\\Scripts\\activate",
+      "note": "PowerShellの実行ポリシーでブロックされる場合は Set-ExecutionPolicy を確認",
+      "tag": "環境構築",
+      "kw": "venv windows activate 仮想環境 有効化"
     }
   ]
 }

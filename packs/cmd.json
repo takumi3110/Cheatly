@@ -23,6 +23,773 @@
         ],
         "args": []
       }
+    },
+    {
+      "id": "cmd-dir",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイル・ディレクトリを一覧表示する",
+      "code": "dir /a",
+      "note": "/s でサブフォルダも再帰的に表示。/o:d で更新日時順",
+      "tag": "ファイル操作",
+      "kw": "dir 一覧 list ファイル ディレクトリ 表示",
+      "b": {
+        "cmd": "dir",
+        "flags": [
+          { "opt": "/a", "label": "隠しファイルも表示" },
+          { "opt": "/s", "label": "サブフォルダも表示" },
+          { "opt": "/o:d", "label": "更新日時順に並べる" },
+          { "opt": "/b", "label": "ファイル名のみ表示" }
+        ],
+        "args": [{ "name": "パス", "ph": "." }]
+      }
+    },
+    {
+      "id": "cmd-cd",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "カレントディレクトリを移動する",
+      "code": "cd /d D:\\path",
+      "note": "/d を付けるとドライブをまたいで移動できる",
+      "tag": "ファイル操作",
+      "kw": "cd 移動 ディレクトリ change directory カレント",
+      "b": {
+        "cmd": "cd",
+        "flags": [{ "opt": "/d", "label": "ドライブも切り替える" }],
+        "args": [{ "name": "パス", "ph": "D:\\path" }]
+      }
+    },
+    {
+      "id": "cmd-mkdir",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ディレクトリを作成する",
+      "code": "mkdir a\\b\\c",
+      "note": "存在しない親フォルダもまとめて作成される",
+      "tag": "ファイル操作",
+      "kw": "mkdir md 作成 ディレクトリ フォルダ",
+      "b": {
+        "cmd": "mkdir",
+        "flags": [],
+        "args": [{ "name": "ディレクトリ", "ph": "a\\b\\c" }]
+      }
+    },
+    {
+      "id": "cmd-rmdir",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ディレクトリを中身ごと削除する",
+      "code": "rmdir /s /q folder",
+      "note": "/q で確認プロンプトを省略。取り消せないので対象をよく確認",
+      "tag": "ファイル操作",
+      "kw": "rmdir rd 削除 ディレクトリ フォルダ 中身ごと",
+      "b": {
+        "cmd": "rmdir",
+        "flags": [
+          { "opt": "/s", "label": "サブフォルダも削除" },
+          { "opt": "/q", "label": "確認なしで実行" }
+        ],
+        "args": [{ "name": "ディレクトリ", "ph": "folder" }]
+      }
+    },
+    {
+      "id": "cmd-del",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイルを削除する",
+      "code": "del /f /q file.txt",
+      "note": "/f で読み取り専用も強制削除。ワイルドカード * も使用可",
+      "tag": "ファイル操作",
+      "kw": "del erase 削除 ファイル remove",
+      "b": {
+        "cmd": "del",
+        "flags": [
+          { "opt": "/f", "label": "読み取り専用も削除" },
+          { "opt": "/q", "label": "確認なしで実行" },
+          { "opt": "/s", "label": "サブフォルダも対象" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "cmd-copy",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイルをコピーする",
+      "code": "copy src.txt dst.txt",
+      "note": "フォルダごとコピーしたい場合は xcopy か robocopy を使う",
+      "tag": "ファイル操作",
+      "kw": "copy コピー ファイル 複製",
+      "b": {
+        "cmd": "copy",
+        "flags": [{ "opt": "/y", "label": "上書き確認をスキップ" }],
+        "args": [
+          { "name": "コピー元", "ph": "src.txt" },
+          { "name": "コピー先", "ph": "dst.txt" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-xcopy",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "フォルダを丸ごとコピーする",
+      "code": "xcopy src dst /e /i /h",
+      "note": "大量ファイルの移行は robocopy の方が高機能で安定",
+      "tag": "ファイル操作",
+      "kw": "xcopy コピー フォルダ ディレクトリ 再帰",
+      "b": {
+        "cmd": "xcopy",
+        "flags": [
+          { "opt": "/e", "label": "空フォルダも含めて再帰コピー" },
+          { "opt": "/i", "label": "コピー先をフォルダとして扱う" },
+          { "opt": "/h", "label": "隠し・システムファイルも対象" }
+        ],
+        "args": [
+          { "name": "コピー元", "ph": "src" },
+          { "name": "コピー先", "ph": "dst" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-robocopy",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "フォルダを高機能にミラーコピーする",
+      "code": "robocopy src dst /mir",
+      "note": "/mir はコピー先に無いファイルを削除する点に注意（完全同期）",
+      "tag": "ファイル操作",
+      "kw": "robocopy 同期 ミラー バックアップ コピー",
+      "b": {
+        "cmd": "robocopy",
+        "flags": [
+          { "opt": "/mir", "label": "完全ミラー（削除も反映）" },
+          { "opt": "/e", "label": "空フォルダも含めてコピー" },
+          { "opt": "/z", "label": "再開可能モードでコピー" }
+        ],
+        "args": [
+          { "name": "コピー元", "ph": "src" },
+          { "name": "コピー先", "ph": "dst" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-move",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイル・フォルダを移動する",
+      "code": "move src.txt dst\\",
+      "note": "同一ドライブ内では実体は移動されず高速。名前変更にも使える",
+      "tag": "ファイル操作",
+      "kw": "move 移動 rename ファイル フォルダ",
+      "b": {
+        "cmd": "move",
+        "flags": [{ "opt": "/y", "label": "上書き確認をスキップ" }],
+        "args": [
+          { "name": "移動元", "ph": "src.txt" },
+          { "name": "移動先", "ph": "dst\\" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-ren",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイル・フォルダの名前を変更する",
+      "code": "ren old.txt new.txt",
+      "note": "同じフォルダ内でのみ有効。移動を伴う変更は move を使う",
+      "tag": "ファイル操作",
+      "kw": "ren rename 名前変更 リネーム",
+      "b": {
+        "cmd": "ren",
+        "flags": [],
+        "args": [
+          { "name": "変更前", "ph": "old.txt" },
+          { "name": "変更後", "ph": "new.txt" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-type",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイルの中身を表示する",
+      "code": "type file.txt",
+      "note": "複数指定すると連結表示（結合コピー代わりにも使える）",
+      "tag": "ファイル操作",
+      "kw": "type cat 表示 中身 ファイル",
+      "b": {
+        "cmd": "type",
+        "flags": [],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "cmd-cls",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "画面をクリアする",
+      "code": "cls",
+      "note": "スクロールバッファは消えないので、上にスクロールすれば履歴は見える",
+      "tag": "その他",
+      "kw": "cls clear 画面 クリア 消す"
+    },
+    {
+      "id": "cmd-echo",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "文字列を表示する・エコーを切り替える",
+      "code": "echo Hello World",
+      "note": "echo off でバッチ内のコマンドエコーを非表示にできる",
+      "tag": "その他",
+      "kw": "echo print 表示 出力 バッチ",
+      "b": {
+        "cmd": "echo",
+        "flags": [
+          { "opt": "off", "label": "コマンドエコーを無効化" },
+          { "opt": "on", "label": "コマンドエコーを有効化" }
+        ],
+        "args": [{ "name": "テキスト", "ph": "Hello World" }]
+      }
+    },
+    {
+      "id": "cmd-set",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "環境変数を設定・確認する",
+      "code": "set NAME=value",
+      "note": "引数なしの set で現在の全環境変数を一覧表示",
+      "tag": "環境構築",
+      "kw": "set env 環境変数 variable 設定",
+      "b": {
+        "cmd": "set",
+        "flags": [],
+        "args": [{ "name": "変数=値", "ph": "NAME=value" }]
+      }
+    },
+    {
+      "id": "cmd-setx",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "環境変数を永続的に設定する",
+      "code": "setx NAME value",
+      "note": "set と違い、新しいウィンドウを開いても値が保持される",
+      "tag": "環境構築",
+      "kw": "setx env 環境変数 永続 保存",
+      "b": {
+        "cmd": "setx",
+        "flags": [{ "opt": "/m", "label": "システム全体に設定" }],
+        "args": [
+          { "name": "変数名", "ph": "NAME" },
+          { "name": "値", "ph": "value" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-path",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "PATH環境変数を確認する",
+      "code": "path",
+      "note": "変更は setx PATH \"%PATH%;C:\\new\\path\" のように行う",
+      "tag": "環境構築",
+      "kw": "path パス 環境変数 確認"
+    },
+    {
+      "id": "cmd-tasklist",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "実行中のプロセス一覧を表示する",
+      "code": "tasklist",
+      "note": "/fi でフィルタ可能。例: tasklist /fi \"imagename eq chrome.exe\"",
+      "tag": "プロセス",
+      "kw": "tasklist ps プロセス 一覧 確認",
+      "b": {
+        "cmd": "tasklist",
+        "flags": [{ "opt": "/v", "label": "詳細情報も表示" }],
+        "args": [
+          {
+            "name": "フィルタ",
+            "prefix": "/fi ",
+            "ph": "\"imagename eq chrome.exe\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "cmd-taskkill",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "プロセスを名前・PIDで終了する",
+      "code": "taskkill /im chrome.exe /f",
+      "note": "/pid でプロセスID指定も可能。/f は強制終了",
+      "tag": "プロセス",
+      "kw": "taskkill kill 終了 プロセス 強制終了",
+      "b": {
+        "cmd": "taskkill",
+        "flags": [{ "opt": "/f", "label": "強制終了" }],
+        "args": [{ "name": "プロセス名", "prefix": "/im ", "ph": "chrome.exe" }]
+      }
+    },
+    {
+      "id": "cmd-netstat",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ネットワーク接続とポート使用状況を確認する",
+      "code": "netstat -ano",
+      "note": "-o でPIDが出るので、taskkill /pid でそのままプロセスを終了できる",
+      "tag": "ネットワーク",
+      "kw": "netstat ポート 接続 確認 network プロセス",
+      "b": {
+        "cmd": "netstat",
+        "flags": [
+          { "opt": "-a", "label": "全ての接続を表示" },
+          { "opt": "-n", "label": "アドレスを数値表示" },
+          { "opt": "-o", "label": "PIDを表示" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "cmd-ping",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ホストへの疎通を確認する",
+      "code": "ping -t example.com",
+      "note": "-t で継続的にping。Ctrl+C で停止",
+      "tag": "ネットワーク",
+      "kw": "ping 疎通 確認 network 通信",
+      "b": {
+        "cmd": "ping",
+        "flags": [{ "opt": "-t", "label": "継続的にping" }],
+        "args": [{ "name": "ホスト", "ph": "example.com" }]
+      }
+    },
+    {
+      "id": "cmd-tracert",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "宛先までの経路を調べる",
+      "code": "tracert example.com",
+      "note": "どのホップで遅延・失敗しているかの切り分けに使う",
+      "tag": "ネットワーク",
+      "kw": "tracert traceroute 経路 確認 ネットワーク",
+      "b": {
+        "cmd": "tracert",
+        "flags": [{ "opt": "-d", "label": "名前解決をスキップ（高速）" }],
+        "args": [{ "name": "ホスト", "ph": "example.com" }]
+      }
+    },
+    {
+      "id": "cmd-nslookup",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ドメインのDNS情報を調べる",
+      "code": "nslookup example.com",
+      "note": "引数なしで対話モードに入り、複数クエリを続けて実行できる",
+      "tag": "ネットワーク",
+      "kw": "nslookup dns 名前解決 ドメイン ip",
+      "b": {
+        "cmd": "nslookup",
+        "flags": [],
+        "args": [{ "name": "ドメイン", "ph": "example.com" }]
+      }
+    },
+    {
+      "id": "cmd-flushdns",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "DNSキャッシュをクリアする",
+      "code": "ipconfig /flushdns",
+      "note": "DNS変更後にサイトへ繋がらない時に試すと反映されやすい",
+      "tag": "ネットワーク",
+      "kw": "dns キャッシュ flush クリア 更新"
+    },
+    {
+      "id": "cmd-renew",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "IPアドレスを再取得する",
+      "code": "ipconfig /release && ipconfig /renew",
+      "note": "DHCPで新しいアドレスを取り直したい時に使う",
+      "tag": "ネットワーク",
+      "kw": "ip dhcp release renew 再取得"
+    },
+    {
+      "id": "cmd-systeminfo",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "システム情報の詳細を表示する",
+      "code": "systeminfo",
+      "note": "OSバージョン・メモリ・適用パッチなどを一括確認できる",
+      "tag": "その他",
+      "kw": "systeminfo システム情報 os 確認 スペック"
+    },
+    {
+      "id": "cmd-sfc",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "システムファイルの破損をチェック・修復する",
+      "code": "sfc /scannow",
+      "note": "管理者権限で実行が必須。完了後は再起動を推奨",
+      "tag": "その他",
+      "kw": "sfc scannow 破損 修復 システムファイル",
+      "b": {
+        "cmd": "sfc",
+        "flags": [{ "opt": "/scannow", "label": "即座にスキャン・修復" }],
+        "args": []
+      }
+    },
+    {
+      "id": "cmd-chkdsk",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ディスクのエラーをチェック・修復する",
+      "code": "chkdsk C: /f",
+      "note": "システムドライブは次回起動時にスキャンが予約される",
+      "tag": "その他",
+      "kw": "chkdsk ディスク エラー チェック 修復",
+      "b": {
+        "cmd": "chkdsk",
+        "flags": [
+          { "opt": "/f", "label": "エラーを自動修復" },
+          { "opt": "/r", "label": "不良セクタも検出・復旧" }
+        ],
+        "args": [{ "name": "ドライブ", "ph": "C:" }]
+      }
+    },
+    {
+      "id": "cmd-diskpart",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ディスクパーティション管理ツールを開く",
+      "code": "diskpart",
+      "note": "list disk → select disk N → clean のように対話的に操作する",
+      "tag": "その他",
+      "kw": "diskpart パーティション ディスク 管理"
+    },
+    {
+      "id": "cmd-format",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ドライブをフォーマットする",
+      "code": "format D: /fs:NTFS /q",
+      "note": "対象ドライブのデータは全て消去される。取り違えに注意",
+      "tag": "その他",
+      "kw": "format フォーマット 初期化 ドライブ",
+      "b": {
+        "cmd": "format",
+        "flags": [
+          { "opt": "/fs:NTFS", "label": "ファイルシステムをNTFSに" },
+          { "opt": "/q", "label": "クイックフォーマット" }
+        ],
+        "args": [{ "name": "ドライブ", "ph": "D:" }]
+      }
+    },
+    {
+      "id": "cmd-restart",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "即座に再起動する",
+      "code": "shutdown /r /t 0",
+      "note": "/t で待機秒数を指定できる（0だと即時）",
+      "tag": "その他",
+      "kw": "restart 再起動 shutdown reboot",
+      "b": {
+        "cmd": "shutdown",
+        "flags": [{ "opt": "/r", "label": "再起動" }],
+        "args": [{ "name": "待機秒数", "prefix": "/t ", "ph": "0" }]
+      }
+    },
+    {
+      "id": "cmd-shutdown",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "即座にシャットダウンする",
+      "code": "shutdown /s /t 0",
+      "note": "/a でキャンセル可能（待機時間中のみ）",
+      "tag": "その他",
+      "kw": "shutdown 電源 終了 off",
+      "b": {
+        "cmd": "shutdown",
+        "flags": [
+          { "opt": "/s", "label": "シャットダウン" },
+          { "opt": "/a", "label": "予約をキャンセル" }
+        ],
+        "args": [{ "name": "待機秒数", "prefix": "/t ", "ph": "0" }]
+      }
+    },
+    {
+      "id": "cmd-schtasks",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "タスクスケジューラにタスクを登録する",
+      "code": "schtasks /create /tn \"MyTask\" /tr notepad.exe /sc daily /st 09:00",
+      "note": "/sc で頻度（daily/hourly/onlogonなど）を指定",
+      "tag": "その他",
+      "kw": "schtasks タスク スケジュール 定期実行 予約",
+      "b": {
+        "cmd": "schtasks /create",
+        "flags": [],
+        "args": [
+          { "name": "タスク名", "prefix": "/tn ", "ph": "\"MyTask\"" },
+          { "name": "実行内容", "prefix": "/tr ", "ph": "notepad.exe" },
+          { "name": "頻度", "prefix": "/sc ", "ph": "daily" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-reg-query",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "レジストリの値を確認する",
+      "code": "reg query \"HKCU\\Software\\Example\"",
+      "note": "reg add / reg delete で値の追加・削除も可能。操作は慎重に",
+      "tag": "その他",
+      "kw": "reg registry レジストリ query 確認",
+      "b": {
+        "cmd": "reg query",
+        "flags": [],
+        "args": [{ "name": "キー", "ph": "\"HKCU\\Software\\Example\"" }]
+      }
+    },
+    {
+      "id": "cmd-whoami",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "現在ログイン中のユーザーを確認する",
+      "code": "whoami",
+      "note": "/all で所属グループや権限も含めて詳細表示",
+      "tag": "その他",
+      "kw": "whoami ユーザー 確認 現在 誰"
+    },
+    {
+      "id": "cmd-net-user",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ローカルユーザーを一覧・作成する",
+      "code": "net user",
+      "note": "net user 名前 パスワード /add で新規ユーザー作成（要管理者権限）",
+      "tag": "その他",
+      "kw": "net user ユーザー 一覧 作成 管理",
+      "b": {
+        "cmd": "net user",
+        "flags": [{ "opt": "/add", "label": "新規ユーザーを追加" }],
+        "args": [
+          { "name": "ユーザー名", "ph": "username" },
+          { "name": "パスワード", "ph": "password" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-net-use",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ネットワークドライブを割り当てる",
+      "code": "net use Z: \\\\server\\share",
+      "note": "/persistent:yes で再起動後も維持。net use Z: /delete で解除",
+      "tag": "ネットワーク",
+      "kw": "net use ネットワークドライブ 共有 マウント",
+      "b": {
+        "cmd": "net use",
+        "flags": [{ "opt": "/persistent:yes", "label": "再起動後も維持する" }],
+        "args": [
+          { "name": "ドライブ文字", "ph": "Z:" },
+          { "name": "共有パス", "ph": "\\\\server\\share" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-wifi-pass",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "接続済みWi-Fiのパスワードを表示する",
+      "code": "netsh wlan show profile name=\"MyWiFi\" key=clear",
+      "note": "Key Content の行にパスワードが平文で表示される",
+      "tag": "ネットワーク",
+      "kw": "wifi wi-fi パスワード 確認 netsh wlan",
+      "b": {
+        "cmd": "netsh wlan show profile",
+        "flags": [{ "opt": "key=clear", "label": "パスワードを平文表示" }],
+        "args": [{ "name": "SSID", "prefix": "name=", "ph": "\"MyWiFi\"" }]
+      }
+    },
+    {
+      "id": "cmd-attrib",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイルの属性を変更する",
+      "code": "attrib +h file.txt",
+      "note": "+h で非表示化、-h で解除。+r で読み取り専用",
+      "tag": "ファイル操作",
+      "kw": "attrib 属性 隠しファイル 読み取り専用",
+      "b": {
+        "cmd": "attrib",
+        "flags": [
+          { "opt": "+h", "label": "非表示にする" },
+          { "opt": "-h", "label": "非表示を解除" },
+          { "opt": "+r", "label": "読み取り専用にする" }
+        ],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "cmd-findstr",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイル内の文字列を検索する",
+      "code": "findstr /s /i \"TODO\" *.txt",
+      "note": "/i で大文字小文字を無視、/s でサブフォルダも対象",
+      "tag": "検索",
+      "kw": "findstr find grep 検索 文字列 テキスト",
+      "b": {
+        "cmd": "findstr",
+        "flags": [
+          { "opt": "/s", "label": "サブフォルダも検索" },
+          { "opt": "/i", "label": "大文字小文字を無視" },
+          { "opt": "/n", "label": "行番号を表示" }
+        ],
+        "args": [
+          { "name": "検索文字列", "ph": "\"TODO\"" },
+          { "name": "対象", "ph": "*.txt" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-fc",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "2つのファイルを比較する",
+      "code": "fc file1.txt file2.txt",
+      "note": "/b でバイナリ比較。差分行だけが出力される",
+      "tag": "検索",
+      "kw": "fc diff 比較 ファイル 差分",
+      "b": {
+        "cmd": "fc",
+        "flags": [{ "opt": "/b", "label": "バイナリとして比較" }],
+        "args": [
+          { "name": "ファイル1", "ph": "file1.txt" },
+          { "name": "ファイル2", "ph": "file2.txt" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-tree",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ディレクトリ構造をツリー表示する",
+      "code": "tree /f",
+      "note": "/f を付けるとファイル名まで表示される",
+      "tag": "ファイル操作",
+      "kw": "tree ツリー 構造 ディレクトリ 表示",
+      "b": {
+        "cmd": "tree",
+        "flags": [{ "opt": "/f", "label": "ファイル名も表示" }],
+        "args": []
+      }
+    },
+    {
+      "id": "cmd-icacls",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイル・フォルダのアクセス権を確認・変更する",
+      "code": "icacls file.txt /grant User:F",
+      "note": "権限は R(読取)/W(書込)/F(フル制御) などで指定",
+      "tag": "その他",
+      "kw": "icacls 権限 アクセス許可 permission",
+      "b": {
+        "cmd": "icacls",
+        "flags": [],
+        "args": [
+          { "name": "対象", "ph": "file.txt" },
+          { "name": "ユーザー:権限", "prefix": "/grant ", "ph": "User:F" }
+        ]
+      }
+    },
+    {
+      "id": "cmd-assoc",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "ファイル拡張子の関連付けを確認する",
+      "code": "assoc .txt",
+      "note": "ftype と組み合わせて拡張子に開くアプリを紐付けられる",
+      "tag": "その他",
+      "kw": "assoc 拡張子 関連付け ファイルタイプ",
+      "b": {
+        "cmd": "assoc",
+        "flags": [],
+        "args": [{ "name": "拡張子", "ph": ".txt" }]
+      }
+    },
+    {
+      "id": "cmd-start",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "アプリやファイルを起動する",
+      "code": "start notepad.exe",
+      "note": "start . でカレントフォルダをエクスプローラーで開ける",
+      "tag": "その他",
+      "kw": "start 起動 実行 開く アプリ",
+      "b": {
+        "cmd": "start",
+        "flags": [],
+        "args": [{ "name": "対象", "ph": "notepad.exe" }]
+      }
+    },
+    {
+      "id": "cmd-exit",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "コマンドプロンプトを閉じる",
+      "code": "exit",
+      "note": "バッチファイル内では /b で終了コードのみ返して呼び出し元に戻る",
+      "tag": "その他",
+      "kw": "exit 終了 閉じる quit"
+    },
+    {
+      "id": "cmd-cmdkey",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "保存済みの認証情報を管理する",
+      "code": "cmdkey /list",
+      "note": "/delete:対象 で不要になった認証情報を削除できる",
+      "tag": "その他",
+      "kw": "cmdkey 認証情報 credential パスワード 管理",
+      "b": {
+        "cmd": "cmdkey",
+        "flags": [{ "opt": "/list", "label": "保存済み一覧を表示" }],
+        "args": []
+      }
+    },
+    {
+      "id": "cmd-powercfg",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "バッテリー使用状況レポートを作成する",
+      "code": "powercfg /batteryreport",
+      "note": "実行フォルダにHTMLレポートが出力され、劣化状況が確認できる",
+      "tag": "その他",
+      "kw": "powercfg バッテリー 電源 レポート"
+    },
+    {
+      "id": "cmd-driverquery",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "インストール済みドライバーを一覧表示する",
+      "code": "driverquery",
+      "note": "/v で詳細情報、/fo csv で表計算ソフト向けに出力",
+      "tag": "その他",
+      "kw": "driverquery ドライバー 一覧 確認"
+    },
+    {
+      "id": "cmd-gpupdate",
+      "env": "cmd",
+      "cat": "cmd",
+      "title": "グループポリシーを即座に適用する",
+      "code": "gpupdate /force",
+      "note": "ドメイン環境でポリシー変更を待たずに反映させたい時に使う",
+      "tag": "その他",
+      "kw": "gpupdate グループポリシー 適用 更新"
     }
   ]
 }

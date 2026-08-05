@@ -93,10 +93,16 @@ function App() {
     };
   }, [noResult, catalog]);
 
-  // カタログを取れていない間は、これまでどおりダウンロードボタンを出す
-  const hasUninstalledPacks =
-    catalog === null ||
-    catalog.some((p) => !BUILTIN_CATS.includes(p.cat) && !installed[p.id]);
+  /**
+   * 取れるコードセットが残っているか。
+   * カテゴリを絞っているならそのカテゴリだけを見る（＝取得済みなら誘導しない）。
+   * カタログ未取得の間は出さない（結局取れるものが無かったとき、ボタンがちらつくため）。
+   */
+  const canDownloadPacks = (
+    activeCat
+      ? (catalog ?? []).filter((p) => p.cat === activeCat)
+      : (catalog ?? [])
+  ).some((p) => !BUILTIN_CATS.includes(p.cat) && !installed[p.id]);
 
   const updateInstalled = (next: InstalledPacks) => {
     setInstalled(next);
@@ -321,7 +327,7 @@ function App() {
                 「{searchTerm}」に一致するコマンドが見つかりません
               </div>
               <div style={{ fontSize: 11.5, color: "#5f5f5f", marginTop: 6 }}>
-                {hasUninstalledPacks
+                {canDownloadPacks
                   ? "別のキーワードを試すか、コードセットのダウンロードか Web 検索を試してみてください"
                   : "別のキーワードを試すか、Web で検索してみてください"}
               </div>
@@ -335,7 +341,7 @@ function App() {
               >
                 <button
                   className="accent-btn"
-                  onClick={() => openWebSearch(searchTerm)}
+                  onClick={() => openWebSearch(searchTerm, activeCat)}
                   style={{
                     padding: "7px 15px",
                     background: ACCENT,
@@ -350,7 +356,7 @@ function App() {
                 >
                   ⌕ Web で検索
                 </button>
-                {hasUninstalledPacks && (
+                {canDownloadPacks && (
                   <button
                     className="icon-btn"
                     onClick={() => setPacksOpen(true)}

@@ -44,6 +44,716 @@
         ],
         "args": []
       }
+    },
+    {
+      "id": "docker-ps",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "実行中のコンテナを一覧表示する",
+      "code": "docker ps -a",
+      "note": "-a を付けないと稼働中のコンテナしか表示されない",
+      "tag": "コンテナ",
+      "kw": "ps 一覧 コンテナ 確認 list",
+      "b": {
+        "cmd": "docker ps",
+        "flags": [
+          { "opt": "-a", "label": "停止中も含めて表示" },
+          { "opt": "-q", "label": "コンテナIDのみ表示" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "docker-run",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナを起動する",
+      "code": "docker run -d -p 8080:80 --name web nginx",
+      "note": "-d でバックグラウンド実行。-p でホストとコンテナのポートを紐付け",
+      "tag": "コンテナ",
+      "kw": "run 起動 実行 コンテナ 作成",
+      "b": {
+        "cmd": "docker run",
+        "flags": [
+          { "opt": "-d", "label": "バックグラウンドで実行" },
+          { "opt": "--rm", "label": "終了時に自動削除" }
+        ],
+        "args": [
+          { "name": "ポート", "prefix": "-p ", "ph": "8080:80" },
+          { "name": "名前", "prefix": "--name ", "ph": "web" },
+          { "name": "イメージ", "ph": "nginx" }
+        ]
+      }
+    },
+    {
+      "id": "docker-stop",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナを停止する",
+      "code": "docker stop [container]",
+      "note": "強制終了したい場合は docker kill を使う",
+      "tag": "コンテナ",
+      "kw": "stop 停止 コンテナ",
+      "b": {
+        "cmd": "docker stop",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-rm",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナを削除する",
+      "code": "docker rm -f [container]",
+      "note": "-f で稼働中でも強制的に停止・削除する",
+      "tag": "コンテナ",
+      "kw": "rm 削除 コンテナ remove",
+      "b": {
+        "cmd": "docker rm",
+        "flags": [{ "opt": "-f", "label": "稼働中でも強制削除" }],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-rmi",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "イメージを削除する",
+      "code": "docker rmi [image]",
+      "note": "使用中のコンテナがあると失敗する。-f で強制削除",
+      "tag": "コンテナ",
+      "kw": "rmi 削除 イメージ remove image",
+      "b": {
+        "cmd": "docker rmi",
+        "flags": [{ "opt": "-f", "label": "強制削除" }],
+        "args": [{ "name": "イメージ", "ph": "[image]" }]
+      }
+    },
+    {
+      "id": "docker-images",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "取得済みのイメージを一覧表示する",
+      "code": "docker images",
+      "note": "-a で中間イメージも含めて表示",
+      "tag": "コンテナ",
+      "kw": "images イメージ 一覧 確認"
+    },
+    {
+      "id": "docker-build",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "Dockerfileからイメージをビルドする",
+      "code": "docker build -t myapp:latest .",
+      "note": "--no-cache でキャッシュを使わずクリーンビルド",
+      "tag": "コンテナ",
+      "kw": "build ビルド 構築 dockerfile イメージ作成",
+      "b": {
+        "cmd": "docker build",
+        "flags": [{ "opt": "--no-cache", "label": "キャッシュを使わない" }],
+        "args": [
+          { "name": "タグ名", "prefix": "-t ", "ph": "myapp:latest" },
+          { "name": "コンテキスト", "ph": "." }
+        ]
+      }
+    },
+    {
+      "id": "docker-logs",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナのログを表示する",
+      "code": "docker logs -f [container]",
+      "note": "-f でリアルタイム追跡。--tail 100 で直近のみ表示",
+      "tag": "コンテナ",
+      "kw": "logs ログ 確認 出力 デバッグ",
+      "b": {
+        "cmd": "docker logs",
+        "flags": [{ "opt": "-f", "label": "リアルタイムで追跡" }],
+        "args": [
+          { "name": "コンテナ", "ph": "[container]" },
+          { "name": "表示件数", "prefix": "--tail ", "ph": "100" }
+        ]
+      }
+    },
+    {
+      "id": "docker-inspect",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナ・イメージの詳細情報を確認する",
+      "code": "docker inspect [container]",
+      "note": "IPアドレスやマウント情報などJSON形式で全て確認できる",
+      "tag": "コンテナ",
+      "kw": "inspect 詳細 確認 情報",
+      "b": {
+        "cmd": "docker inspect",
+        "flags": [],
+        "args": [{ "name": "対象", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-cp",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナとホスト間でファイルをコピーする",
+      "code": "docker cp [container]:/path/file.txt ./file.txt",
+      "note": "ホスト→コンテナは docker cp ./file.txt [container]:/path/",
+      "tag": "コンテナ",
+      "kw": "cp コピー ファイル 転送",
+      "b": {
+        "cmd": "docker cp",
+        "flags": [],
+        "args": [
+          { "name": "コピー元", "ph": "[container]:/path/file.txt" },
+          { "name": "コピー先", "ph": "./file.txt" }
+        ]
+      }
+    },
+    {
+      "id": "docker-compose-up",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "docker-compose でサービスを起動する",
+      "code": "docker compose up -d",
+      "note": "-d でバックグラウンド起動。--build で再ビルドしてから起動",
+      "tag": "コンテナ",
+      "kw": "compose up 起動 複数コンテナ",
+      "b": {
+        "cmd": "docker compose up",
+        "flags": [
+          { "opt": "-d", "label": "バックグラウンドで起動" },
+          { "opt": "--build", "label": "起動前に再ビルド" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "docker-compose-down",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "docker-compose でサービスを停止・削除する",
+      "code": "docker compose down",
+      "note": "--volumes を付けるとボリュームごと削除されるので注意",
+      "tag": "コンテナ",
+      "kw": "compose down 停止 削除",
+      "b": {
+        "cmd": "docker compose down",
+        "flags": [{ "opt": "--volumes", "label": "ボリュームも削除" }],
+        "args": []
+      }
+    },
+    {
+      "id": "docker-compose-logs",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "docker-compose のログをまとめて確認する",
+      "code": "docker compose logs -f",
+      "note": "サービス名を指定すると特定サービスのログだけ絞れる",
+      "tag": "コンテナ",
+      "kw": "compose logs ログ 確認",
+      "b": {
+        "cmd": "docker compose logs",
+        "flags": [{ "opt": "-f", "label": "リアルタイムで追跡" }],
+        "args": [{ "name": "サービス名", "ph": "web" }]
+      }
+    },
+    {
+      "id": "docker-network-ls",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "ネットワーク一覧を表示する",
+      "code": "docker network ls",
+      "note": "docker network inspect [name] で詳細を確認できる",
+      "tag": "ネットワーク",
+      "kw": "network ネットワーク 一覧 確認"
+    },
+    {
+      "id": "docker-network-create",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "カスタムネットワークを作成する",
+      "code": "docker network create mynet",
+      "note": "同じネットワークに属するコンテナ同士は名前で名前解決できる",
+      "tag": "ネットワーク",
+      "kw": "network 作成 ネットワーク create",
+      "b": {
+        "cmd": "docker network create",
+        "flags": [],
+        "args": [{ "name": "ネットワーク名", "ph": "mynet" }]
+      }
+    },
+    {
+      "id": "docker-volume-ls",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "ボリューム一覧を表示する",
+      "code": "docker volume ls",
+      "note": "docker volume prune で未使用ボリュームをまとめて削除できる",
+      "tag": "コンテナ",
+      "kw": "volume ボリューム 一覧 確認"
+    },
+    {
+      "id": "docker-volume-create",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "名前付きボリュームを作成する",
+      "code": "docker volume create mydata",
+      "note": "コンテナを削除してもデータを永続化したい時に使う",
+      "tag": "コンテナ",
+      "kw": "volume 作成 ボリューム データ永続化",
+      "b": {
+        "cmd": "docker volume create",
+        "flags": [],
+        "args": [{ "name": "ボリューム名", "ph": "mydata" }]
+      }
+    },
+    {
+      "id": "docker-pull",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "レジストリからイメージを取得する",
+      "code": "docker pull nginx:latest",
+      "note": "タグを省略すると latest が使われる",
+      "tag": "コンテナ",
+      "kw": "pull 取得 ダウンロード イメージ",
+      "b": {
+        "cmd": "docker pull",
+        "flags": [],
+        "args": [{ "name": "イメージ:タグ", "ph": "nginx:latest" }]
+      }
+    },
+    {
+      "id": "docker-push",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "イメージをレジストリへ送信する",
+      "code": "docker push myrepo/myapp:latest",
+      "note": "事前に docker login と docker tag が必要",
+      "tag": "コンテナ",
+      "kw": "push 送信 公開 イメージ アップロード",
+      "b": {
+        "cmd": "docker push",
+        "flags": [],
+        "args": [{ "name": "イメージ:タグ", "ph": "myrepo/myapp:latest" }]
+      }
+    },
+    {
+      "id": "docker-tag",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "イメージにタグを付ける",
+      "code": "docker tag myapp myrepo/myapp:latest",
+      "note": "push する前にレジストリ用の名前を付ける必要がある",
+      "tag": "コンテナ",
+      "kw": "tag タグ付け イメージ 名前変更",
+      "b": {
+        "cmd": "docker tag",
+        "flags": [],
+        "args": [
+          { "name": "元イメージ", "ph": "myapp" },
+          { "name": "新しいタグ", "ph": "myrepo/myapp:latest" }
+        ]
+      }
+    },
+    {
+      "id": "docker-login",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "レジストリにログインする",
+      "code": "docker login",
+      "note": "Docker Hub 以外は docker login レジストリURL のように指定",
+      "tag": "コンテナ",
+      "kw": "login ログイン 認証 レジストリ"
+    },
+    {
+      "id": "docker-restart",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナを再起動する",
+      "code": "docker restart [container]",
+      "note": "設定変更を反映させたい時などに使う",
+      "tag": "コンテナ",
+      "kw": "restart 再起動 コンテナ",
+      "b": {
+        "cmd": "docker restart",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-start",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "停止中のコンテナを起動する",
+      "code": "docker start [container]",
+      "note": "初回起動は docker run、2回目以降は docker start でよい",
+      "tag": "コンテナ",
+      "kw": "start 起動 コンテナ 再開",
+      "b": {
+        "cmd": "docker start",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-pause",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナを一時停止する",
+      "code": "docker pause [container]",
+      "note": "docker unpause で再開。プロセスをそのまま凍結する",
+      "tag": "コンテナ",
+      "kw": "pause 一時停止 凍結 コンテナ",
+      "b": {
+        "cmd": "docker pause",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-stats",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナのリソース使用状況をリアルタイム表示する",
+      "code": "docker stats",
+      "note": "CPU・メモリ・ネットワークI/Oをまとめて確認できる",
+      "tag": "コンテナ",
+      "kw": "stats リソース 監視 cpu メモリ"
+    },
+    {
+      "id": "docker-top",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナ内のプロセス一覧を表示する",
+      "code": "docker top [container]",
+      "note": "コンテナに入らずに中のプロセスを確認できる",
+      "tag": "コンテナ",
+      "kw": "top プロセス 一覧 確認",
+      "b": {
+        "cmd": "docker top",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-rename",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナ名を変更する",
+      "code": "docker rename old_name new_name",
+      "note": "実行中のコンテナでも名前変更できる",
+      "tag": "コンテナ",
+      "kw": "rename 名前変更 コンテナ",
+      "b": {
+        "cmd": "docker rename",
+        "flags": [],
+        "args": [
+          { "name": "現在の名前", "ph": "old_name" },
+          { "name": "新しい名前", "ph": "new_name" }
+        ]
+      }
+    },
+    {
+      "id": "docker-commit",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナの現在の状態からイメージを作成する",
+      "code": "docker commit [container] myimage:v1",
+      "note": "一時的な検証には便利だが、通常はDockerfileで管理するのが推奨",
+      "tag": "コンテナ",
+      "kw": "commit イメージ化 スナップショット 保存",
+      "b": {
+        "cmd": "docker commit",
+        "flags": [],
+        "args": [
+          { "name": "コンテナ", "ph": "[container]" },
+          { "name": "新イメージ名", "ph": "myimage:v1" }
+        ]
+      }
+    },
+    {
+      "id": "docker-diff",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナのファイル変更差分を確認する",
+      "code": "docker diff [container]",
+      "note": "起動時のイメージからどのファイルが変わったか一覧表示される",
+      "tag": "検索",
+      "kw": "diff 差分 変更 確認",
+      "b": {
+        "cmd": "docker diff",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-history",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "イメージのレイヤー履歴を確認する",
+      "code": "docker history myimage",
+      "note": "どのDockerfile命令がイメージサイズを増やしたか把握できる",
+      "tag": "検索",
+      "kw": "history 履歴 レイヤー イメージサイズ",
+      "b": {
+        "cmd": "docker history",
+        "flags": [],
+        "args": [{ "name": "イメージ", "ph": "myimage" }]
+      }
+    },
+    {
+      "id": "docker-port",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナが公開しているポートを確認する",
+      "code": "docker port [container]",
+      "note": "ホスト側にマッピングされているポート番号が分かる",
+      "tag": "ネットワーク",
+      "kw": "port ポート 確認 公開",
+      "b": {
+        "cmd": "docker port",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-save",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "イメージをtarファイルに書き出す",
+      "code": "docker save -o myimage.tar myimage",
+      "note": "オフライン環境への配布や、レジストリを経由しない共有に使う",
+      "tag": "コンテナ",
+      "kw": "save 書き出し エクスポート tar バックアップ",
+      "b": {
+        "cmd": "docker save",
+        "flags": [],
+        "args": [
+          { "name": "出力先", "prefix": "-o ", "ph": "myimage.tar" },
+          { "name": "イメージ", "ph": "myimage" }
+        ]
+      }
+    },
+    {
+      "id": "docker-load",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "tarファイルからイメージを読み込む",
+      "code": "docker load -i myimage.tar",
+      "note": "docker save で書き出したtarを別環境に取り込む時に使う",
+      "tag": "コンテナ",
+      "kw": "load 読み込み インポート tar",
+      "b": {
+        "cmd": "docker load",
+        "flags": [],
+        "args": [
+          { "name": "入力ファイル", "prefix": "-i ", "ph": "myimage.tar" }
+        ]
+      }
+    },
+    {
+      "id": "docker-events",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "Dockerデーモンのイベントをリアルタイム監視する",
+      "code": "docker events",
+      "note": "コンテナの起動・停止・削除などのイベントを逐次表示",
+      "tag": "コンテナ",
+      "kw": "events イベント 監視 リアルタイム"
+    },
+    {
+      "id": "docker-info",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "Docker環境全体の情報を確認する",
+      "code": "docker info",
+      "note": "ストレージドライバーやコンテナ数などの全体状況が分かる",
+      "tag": "その他",
+      "kw": "info 環境 確認 バージョン"
+    },
+    {
+      "id": "docker-version",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "Dockerのバージョンを確認する",
+      "code": "docker version",
+      "note": "クライアントとサーバー双方のバージョンが表示される",
+      "tag": "その他",
+      "kw": "version バージョン 確認"
+    },
+    {
+      "id": "docker-search",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "Docker Hub上のイメージを検索する",
+      "code": "docker search nginx",
+      "note": "公式イメージには OFFICIAL の欄に[OK]が付く",
+      "tag": "検索",
+      "kw": "search 検索 イメージ hub",
+      "b": {
+        "cmd": "docker search",
+        "flags": [],
+        "args": [{ "name": "キーワード", "ph": "nginx" }]
+      }
+    },
+    {
+      "id": "docker-attach",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "実行中コンテナの標準入出力にアタッチする",
+      "code": "docker attach [container]",
+      "note": "抜ける際は Ctrl+P → Ctrl+Q（切断のみ、停止しない）",
+      "tag": "コンテナ",
+      "kw": "attach 接続 標準出力 ログ",
+      "b": {
+        "cmd": "docker attach",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-kill",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "コンテナを即座に強制終了する",
+      "code": "docker kill [container]",
+      "note": "SIGKILLを送信。stop と違い正常終了処理を待たない",
+      "tag": "コンテナ",
+      "kw": "kill 強制終了 停止",
+      "b": {
+        "cmd": "docker kill",
+        "flags": [],
+        "args": [{ "name": "コンテナ", "ph": "[container]" }]
+      }
+    },
+    {
+      "id": "docker-compose-ps",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "docker-compose のサービス状態を確認する",
+      "code": "docker compose ps",
+      "note": "compose.yml で定義した各サービスの状態を一覧表示",
+      "tag": "コンテナ",
+      "kw": "compose ps 状態 一覧 確認"
+    },
+    {
+      "id": "docker-compose-build",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "docker-compose でイメージをビルドする",
+      "code": "docker compose build --no-cache",
+      "note": "Dockerfile やコンテキストを変更した後に使う",
+      "tag": "コンテナ",
+      "kw": "compose build ビルド 再構築",
+      "b": {
+        "cmd": "docker compose build",
+        "flags": [{ "opt": "--no-cache", "label": "キャッシュを使わない" }],
+        "args": []
+      }
+    },
+    {
+      "id": "docker-compose-exec",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "docker-compose のサービス内でコマンドを実行する",
+      "code": "docker compose exec web bash",
+      "note": "サービス名で対象を指定できるのでコンテナIDを調べる手間が省ける",
+      "tag": "コンテナ",
+      "kw": "compose exec シェル 接続 コマンド",
+      "b": {
+        "cmd": "docker compose exec",
+        "flags": [],
+        "args": [
+          { "name": "サービス名", "ph": "web" },
+          { "name": "実行コマンド", "ph": "bash" }
+        ]
+      }
+    },
+    {
+      "id": "docker-compose-restart",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "docker-compose のサービスを再起動する",
+      "code": "docker compose restart web",
+      "note": "サービス名を省略すると全サービスが対象になる",
+      "tag": "コンテナ",
+      "kw": "compose restart 再起動",
+      "b": {
+        "cmd": "docker compose restart",
+        "flags": [],
+        "args": [{ "name": "サービス名", "ph": "web" }]
+      }
+    },
+    {
+      "id": "docker-container-prune",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "停止中のコンテナをまとめて削除する",
+      "code": "docker container prune",
+      "note": "稼働中のコンテナには影響しない",
+      "tag": "コンテナ",
+      "kw": "container prune 削除 停止中 クリーンアップ"
+    },
+    {
+      "id": "docker-image-prune",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "未使用イメージをまとめて削除する",
+      "code": "docker image prune -a",
+      "note": "-a を付けないと dangling（タグ無し）イメージのみ対象",
+      "tag": "コンテナ",
+      "kw": "image prune 削除 未使用 クリーンアップ",
+      "b": {
+        "cmd": "docker image prune",
+        "flags": [{ "opt": "-a", "label": "未使用イメージを全て削除" }],
+        "args": []
+      }
+    },
+    {
+      "id": "docker-volume-prune",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "未使用ボリュームをまとめて削除する",
+      "code": "docker volume prune",
+      "note": "どのコンテナからも参照されていないボリュームだけ削除される",
+      "tag": "コンテナ",
+      "kw": "volume prune 削除 未使用 クリーンアップ"
+    },
+    {
+      "id": "docker-env-run",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "環境変数を指定してコンテナを起動する",
+      "code": "docker run -e NODE_ENV=production myapp",
+      "note": "--env-file .env でファイルからまとめて読み込むことも可能",
+      "tag": "コンテナ",
+      "kw": "env 環境変数 run 起動 設定",
+      "b": {
+        "cmd": "docker run",
+        "flags": [],
+        "args": [
+          { "name": "環境変数", "prefix": "-e ", "ph": "NODE_ENV=production" },
+          { "name": "イメージ", "ph": "myapp" }
+        ]
+      }
+    },
+    {
+      "id": "docker-volume-mount",
+      "env": "Docker",
+      "cat": "Docker",
+      "title": "ホストのディレクトリをマウントして起動する",
+      "code": "docker run -v $(pwd):/app myapp",
+      "note": "ホストとコンテナでファイルを同期しながら開発する時に使う",
+      "tag": "コンテナ",
+      "kw": "volume マウント 同期 開発 バインド",
+      "b": {
+        "cmd": "docker run",
+        "flags": [],
+        "args": [
+          { "name": "マウント", "prefix": "-v ", "ph": "$(pwd):/app" },
+          { "name": "イメージ", "ph": "myapp" }
+        ]
+      }
     }
   ]
 }
