@@ -12,6 +12,7 @@ import {
   type InstalledPacks,
   type PackMeta,
 } from "./lib/packs";
+import { onTrayOpen, expandWindow } from "./lib/trayWindow";
 import { openWebSearch } from "./lib/websearch";
 import { ACCENT, GRID_COLS } from "./theme";
 import type { Command } from "./types";
@@ -43,6 +44,7 @@ function App() {
   const [packsOpen, setPacksOpen] = useState(false);
   const [installed, setInstalled] = useState<InstalledPacks>({});
   const [catalog, setCatalog] = useState<PackMeta[] | null>(null);
+  const [compact, setCompact] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const copyTimer = useRef<number | undefined>(undefined);
 
@@ -61,6 +63,19 @@ function App() {
       window.clearTimeout(copyTimer.current);
     };
   }, []);
+
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    onTrayOpen(() => setCompact(true)).then((fn) => {
+      unlisten = fn;
+    });
+    return () => unlisten?.();
+  }, []);
+
+  const handleExpand = () => {
+    setCompact(false);
+    expandWindow();
+  };
 
   const allCommands = useMemo(() => mergeCommands(installed), [installed]);
 
@@ -125,16 +140,20 @@ function App() {
         background: "#1e1e1e",
       }}
     >
-      <Sidebar
-        commands={allCommands}
-        open={sidebarOpen}
-        onToggleOpen={() => setSidebarOpen((v) => !v)}
-        expanded={expanded}
-        onToggleGroup={(key) => setExpanded((s) => ({ ...s, [key]: !s[key] }))}
-        activeCat={activeCat}
-        onSelectCat={setActiveCat}
-        onOpenPacks={() => setPacksOpen(true)}
-      />
+      {!compact && (
+        <Sidebar
+          commands={allCommands}
+          open={sidebarOpen}
+          onToggleOpen={() => setSidebarOpen((v) => !v)}
+          expanded={expanded}
+          onToggleGroup={(key) =>
+            setExpanded((s) => ({ ...s, [key]: !s[key] }))
+          }
+          activeCat={activeCat}
+          onSelectCat={setActiveCat}
+          onOpenPacks={() => setPacksOpen(true)}
+        />
+      )}
 
       <main
         style={{
@@ -147,11 +166,30 @@ function App() {
         <header
           style={{
             flex: "none",
-            padding: "20px 28px 14px",
+            padding: compact ? "12px 14px 10px" : "20px 28px 14px",
             borderBottom: "1px solid #333333",
             background: "#1e1e1e",
           }}
         >
+          {compact && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginBottom: 8,
+              }}
+            >
+              <button
+                className="icon-btn"
+                onClick={handleExpand}
+                title="通常サイズに展開"
+                style={{ padding: "4px 10px", fontSize: 11.5, borderRadius: 6 }}
+              >
+                ⤢ 展開
+              </button>
+            </div>
+          )}
+
           <div style={{ position: "relative", maxWidth: 860 }}>
             <span
               style={{
@@ -206,44 +244,52 @@ function App() {
             </span>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginTop: 12,
-              flexWrap: "wrap",
-            }}
-          >
-            <span style={{ fontSize: 11, color: "#7a7a7a", marginRight: 2 }}>
-              タグ:
-            </span>
-            {TAGS.map((tag) => {
-              const active = activeTag === tag;
-              return (
-                <button
-                  key={tag}
-                  className="tag-btn"
-                  onClick={() => setActiveTag(active ? null : tag)}
-                  style={{
-                    padding: "4px 11px",
-                    background: active ? ACCENT : "transparent",
-                    border: `1px solid ${active ? ACCENT : "#3e3e42"}`,
-                    borderRadius: 99,
-                    color: active ? "#1e1e1e" : "#9a9a9a",
-                    fontSize: 11.5,
-                    cursor: "pointer",
-                    fontFamily: "'JetBrains Mono', monospace",
-                  }}
-                >
-                  #{tag}
-                </button>
-              );
-            })}
-          </div>
+          {!compact && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginTop: 12,
+                flexWrap: "wrap",
+              }}
+            >
+              <span style={{ fontSize: 11, color: "#7a7a7a", marginRight: 2 }}>
+                タグ:
+              </span>
+              {TAGS.map((tag) => {
+                const active = activeTag === tag;
+                return (
+                  <button
+                    key={tag}
+                    className="tag-btn"
+                    onClick={() => setActiveTag(active ? null : tag)}
+                    style={{
+                      padding: "4px 11px",
+                      background: active ? ACCENT : "transparent",
+                      border: `1px solid ${active ? ACCENT : "#3e3e42"}`,
+                      borderRadius: 99,
+                      color: active ? "#1e1e1e" : "#9a9a9a",
+                      fontSize: 11.5,
+                      cursor: "pointer",
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  >
+                    #{tag}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </header>
 
-        <div style={{ flex: 1, overflowY: "auto", padding: "18px 28px 40px" }}>
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: compact ? "10px 14px 20px" : "18px 28px 40px",
+          }}
+        >
           <div
             style={{
               display: "flex",
