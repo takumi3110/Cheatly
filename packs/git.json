@@ -61,6 +61,754 @@
         ],
         "args": [{ "name": "対象", "ph": "HEAD" }]
       }
+    },
+    {
+      "id": "git-status",
+      "env": "Git",
+      "cat": "Git",
+      "title": "作業ツリーの状態を確認する",
+      "code": "git status -sb",
+      "note": "-s で簡潔表示、-b でブランチ情報も併せて表示",
+      "tag": "バージョン管理",
+      "kw": "status 状態 確認 変更ファイル",
+      "b": {
+        "cmd": "git status",
+        "flags": [
+          { "opt": "-s", "label": "簡潔に表示" },
+          { "opt": "-b", "label": "ブランチ情報も表示" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "git-add",
+      "env": "Git",
+      "cat": "Git",
+      "title": "変更をステージに追加する",
+      "code": "git add .",
+      "note": "-p で変更をハンクごとに選んでステージできる",
+      "tag": "バージョン管理",
+      "kw": "add ステージ 追加 変更",
+      "b": {
+        "cmd": "git add",
+        "flags": [
+          { "opt": "-p", "label": "対話的にハンク単位で選ぶ" },
+          { "opt": "-A", "label": "削除も含め全変更を対象" }
+        ],
+        "args": [{ "name": "対象", "ph": "." }]
+      }
+    },
+    {
+      "id": "git-commit",
+      "env": "Git",
+      "cat": "Git",
+      "title": "変更をコミットする",
+      "code": "git commit -m \"message\"",
+      "note": "-a でステージ済みでない変更（追跡済みのみ）も含めてコミット",
+      "tag": "バージョン管理",
+      "kw": "commit コミット 記録 保存",
+      "b": {
+        "cmd": "git commit",
+        "flags": [
+          { "opt": "-a", "label": "追跡済みの変更も含める" },
+          { "opt": "--amend", "label": "直前のコミットを修正" }
+        ],
+        "args": [{ "name": "メッセージ", "prefix": "-m ", "ph": "\"message\"" }]
+      }
+    },
+    {
+      "id": "git-push",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リモートリポジトリに変更を送る",
+      "code": "git push origin main",
+      "note": "--force-with-lease は force より安全にリモートを上書きできる",
+      "tag": "バージョン管理",
+      "kw": "push 送信 アップロード リモート",
+      "b": {
+        "cmd": "git push",
+        "flags": [
+          { "opt": "-u", "label": "上流ブランチとして設定" },
+          { "opt": "--force-with-lease", "label": "安全に強制push" }
+        ],
+        "args": [
+          { "name": "リモート", "ph": "origin" },
+          { "name": "ブランチ", "ph": "main" }
+        ]
+      }
+    },
+    {
+      "id": "git-pull",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リモートの変更を取得して統合する",
+      "code": "git pull origin main",
+      "note": "--rebase でマージコミットを作らずに履歴を直線に保てる",
+      "tag": "バージョン管理",
+      "kw": "pull 取得 更新 リモート",
+      "b": {
+        "cmd": "git pull",
+        "flags": [{ "opt": "--rebase", "label": "マージせずリベースする" }],
+        "args": [
+          { "name": "リモート", "ph": "origin" },
+          { "name": "ブランチ", "ph": "main" }
+        ]
+      }
+    },
+    {
+      "id": "git-fetch",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リモートの変更を取得のみ行う",
+      "code": "git fetch --all --prune",
+      "note": "作業ツリーには反映されない。取り込むには merge か rebase が必要",
+      "tag": "バージョン管理",
+      "kw": "fetch 取得 リモート 確認",
+      "b": {
+        "cmd": "git fetch",
+        "flags": [
+          { "opt": "--all", "label": "全リモートを対象" },
+          { "opt": "--prune", "label": "削除済みブランチを反映" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "git-branch",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ブランチを一覧・作成する",
+      "code": "git branch feature/new",
+      "note": "-d で削除、-D で未マージでも強制削除",
+      "tag": "バージョン管理",
+      "kw": "branch ブランチ 一覧 作成",
+      "b": {
+        "cmd": "git branch",
+        "flags": [
+          { "opt": "-a", "label": "リモートも含めて表示" },
+          { "opt": "-d", "label": "マージ済みブランチを削除" }
+        ],
+        "args": [{ "name": "ブランチ名", "ph": "feature/new" }]
+      }
+    },
+    {
+      "id": "git-checkout",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ブランチを切り替える",
+      "code": "git checkout -b feature/new",
+      "note": "-b で新規作成と同時に切替。既存に切替るなら -b は不要",
+      "tag": "バージョン管理",
+      "kw": "checkout 切替 ブランチ switch",
+      "b": {
+        "cmd": "git checkout",
+        "flags": [{ "opt": "-b", "label": "新規作成して切り替え" }],
+        "args": [{ "name": "ブランチ名", "ph": "feature/new" }]
+      }
+    },
+    {
+      "id": "git-switch",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ブランチを切り替える（新コマンド）",
+      "code": "git switch -c feature/new",
+      "note": "checkout の切替機能だけを分離した新しいコマンド",
+      "tag": "バージョン管理",
+      "kw": "switch 切替 ブランチ checkout",
+      "b": {
+        "cmd": "git switch",
+        "flags": [{ "opt": "-c", "label": "新規作成して切り替え" }],
+        "args": [{ "name": "ブランチ名", "ph": "feature/new" }]
+      }
+    },
+    {
+      "id": "git-merge",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ブランチをマージする",
+      "code": "git merge feature/new",
+      "note": "--no-ff でFast-forwardせずマージコミットを必ず残す",
+      "tag": "バージョン管理",
+      "kw": "merge マージ 統合 結合",
+      "b": {
+        "cmd": "git merge",
+        "flags": [{ "opt": "--no-ff", "label": "マージコミットを必ず作成" }],
+        "args": [{ "name": "ブランチ名", "ph": "feature/new" }]
+      }
+    },
+    {
+      "id": "git-rebase",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ブランチをリベースする",
+      "code": "git rebase main",
+      "note": "-i で対話的リベース（コミットの整理・統合ができる）",
+      "tag": "バージョン管理",
+      "kw": "rebase リベース 履歴整理 統合",
+      "b": {
+        "cmd": "git rebase",
+        "flags": [
+          { "opt": "-i", "label": "対話的に編集" },
+          { "opt": "--abort", "label": "リベースを中止" }
+        ],
+        "args": [{ "name": "対象ブランチ", "ph": "main" }]
+      }
+    },
+    {
+      "id": "git-log",
+      "env": "Git",
+      "cat": "Git",
+      "title": "コミット履歴を確認する",
+      "code": "git log --oneline --graph --all",
+      "note": "--oneline で1行表示、--graph でブランチの分岐を可視化",
+      "tag": "検索",
+      "kw": "log 履歴 コミット 確認 グラフ",
+      "b": {
+        "cmd": "git log",
+        "flags": [
+          { "opt": "--oneline", "label": "1行で簡潔に表示" },
+          { "opt": "--graph", "label": "分岐をグラフ表示" },
+          { "opt": "--all", "label": "全ブランチを対象" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "git-clone",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リモートリポジトリを複製する",
+      "code": "git clone https://github.com/user/repo.git",
+      "note": "--depth 1 で最新コミットのみ取得し高速化できる",
+      "tag": "バージョン管理",
+      "kw": "clone 複製 ダウンロード リポジトリ",
+      "b": {
+        "cmd": "git clone",
+        "flags": [{ "opt": "--depth 1", "label": "履歴を最新のみに絞る" }],
+        "args": [{ "name": "URL", "ph": "https://github.com/user/repo.git" }]
+      }
+    },
+    {
+      "id": "git-remote",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リモートリポジトリを確認・追加する",
+      "code": "git remote -v",
+      "note": "git remote add origin URL でリモートを追加できる",
+      "tag": "バージョン管理",
+      "kw": "remote リモート 確認 URL",
+      "b": {
+        "cmd": "git remote",
+        "flags": [{ "opt": "-v", "label": "URLも表示" }],
+        "args": []
+      }
+    },
+    {
+      "id": "git-tag",
+      "env": "Git",
+      "cat": "Git",
+      "title": "タグを作成する",
+      "code": "git tag -a v1.0.0 -m \"release\"",
+      "note": "git push --tags でタグをリモートに反映",
+      "tag": "バージョン管理",
+      "kw": "tag タグ リリース バージョン",
+      "b": {
+        "cmd": "git tag",
+        "flags": [{ "opt": "-a", "label": "注釈付きタグを作成" }],
+        "args": [
+          { "name": "タグ名", "ph": "v1.0.0" },
+          { "name": "メッセージ", "prefix": "-m ", "ph": "\"release\"" }
+        ]
+      }
+    },
+    {
+      "id": "git-revert",
+      "env": "Git",
+      "cat": "Git",
+      "title": "特定のコミットを打ち消す新しいコミットを作る",
+      "code": "git revert [commit]",
+      "note": "履歴を消さずに取り消せるので、push済みの変更を戻す時に安全",
+      "tag": "バージョン管理",
+      "kw": "revert 取り消し 打ち消し 安全 戻す",
+      "b": {
+        "cmd": "git revert",
+        "flags": [
+          { "opt": "--no-commit", "label": "コミットせず変更のみ適用" }
+        ],
+        "args": [{ "name": "コミット", "ph": "[commit]" }]
+      }
+    },
+    {
+      "id": "git-cherry-pick",
+      "env": "Git",
+      "cat": "Git",
+      "title": "特定のコミットだけ別ブランチに取り込む",
+      "code": "git cherry-pick [commit]",
+      "note": "コンフリクトが起きたら解消後 git cherry-pick --continue",
+      "tag": "バージョン管理",
+      "kw": "cherry-pick 取り込み コミット 適用",
+      "b": {
+        "cmd": "git cherry-pick",
+        "flags": [{ "opt": "--continue", "label": "コンフリクト解消後に続行" }],
+        "args": [{ "name": "コミット", "ph": "[commit]" }]
+      }
+    },
+    {
+      "id": "git-blame",
+      "env": "Git",
+      "cat": "Git",
+      "title": "行ごとの変更者・コミットを確認する",
+      "code": "git blame file.txt",
+      "note": "-L 10,20 で行範囲を絞って確認できる",
+      "tag": "検索",
+      "kw": "blame 変更者 履歴 誰が いつ",
+      "b": {
+        "cmd": "git blame",
+        "flags": [],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "git-log-search",
+      "env": "Git",
+      "cat": "Git",
+      "title": "コミットメッセージから履歴を検索する",
+      "code": "git log --grep=\"fix\"",
+      "note": "-S\"文字列\" で変更内容（差分）から検索することもできる",
+      "tag": "検索",
+      "kw": "log grep 検索 コミットメッセージ",
+      "b": {
+        "cmd": "git log",
+        "flags": [],
+        "args": [{ "name": "検索文字列", "prefix": "--grep=", "ph": "\"fix\"" }]
+      }
+    },
+    {
+      "id": "git-clean",
+      "env": "Git",
+      "cat": "Git",
+      "title": "未追跡ファイルを削除する",
+      "code": "git clean -fd",
+      "note": "-n で削除対象を確認してから -f で実行すると安全",
+      "tag": "ファイル操作",
+      "kw": "clean 削除 未追跡ファイル クリーンアップ",
+      "b": {
+        "cmd": "git clean",
+        "flags": [
+          { "opt": "-f", "label": "実際に削除する" },
+          { "opt": "-d", "label": "ディレクトリも対象" },
+          { "opt": "-n", "label": "削除せず確認のみ" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "git-restore",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ファイルの変更を取り消す",
+      "code": "git restore file.txt",
+      "note": "--staged を付けるとステージのみ取り消し（ワークツリーは維持）",
+      "tag": "バージョン管理",
+      "kw": "restore 取り消し 元に戻す checkout",
+      "b": {
+        "cmd": "git restore",
+        "flags": [{ "opt": "--staged", "label": "ステージのみ取り消す" }],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "git-rm",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ファイルを追跡から外して削除する",
+      "code": "git rm --cached file.txt",
+      "note": "--cached でファイル自体は残しつつ管理対象から外せる",
+      "tag": "ファイル操作",
+      "kw": "rm 削除 追跡解除 remove",
+      "b": {
+        "cmd": "git rm",
+        "flags": [{ "opt": "--cached", "label": "ファイルは残し追跡のみ解除" }],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "git-mv",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ファイルを移動・リネームする",
+      "code": "git mv old.txt new.txt",
+      "note": "mv + add を1コマンドで行う。履歴もリネームとして追跡される",
+      "tag": "ファイル操作",
+      "kw": "mv 移動 リネーム 名前変更",
+      "b": {
+        "cmd": "git mv",
+        "flags": [],
+        "args": [
+          { "name": "変更前", "ph": "old.txt" },
+          { "name": "変更後", "ph": "new.txt" }
+        ]
+      }
+    },
+    {
+      "id": "git-show",
+      "env": "Git",
+      "cat": "Git",
+      "title": "特定コミットの内容を表示する",
+      "code": "git show [commit]",
+      "note": "引数省略で直近のコミットを表示",
+      "tag": "検索",
+      "kw": "show 確認 コミット 内容",
+      "b": {
+        "cmd": "git show",
+        "flags": [],
+        "args": [{ "name": "コミット", "ph": "[commit]" }]
+      }
+    },
+    {
+      "id": "git-diff-branch",
+      "env": "Git",
+      "cat": "Git",
+      "title": "2つのブランチの差分を確認する",
+      "code": "git diff main..feature",
+      "note": "三点(...)にすると分岐点からの差分になる",
+      "tag": "検索",
+      "kw": "diff ブランチ 比較 差分",
+      "b": {
+        "cmd": "git diff",
+        "flags": [],
+        "args": [{ "name": "ブランチ1..ブランチ2", "ph": "main..feature" }]
+      }
+    },
+    {
+      "id": "git-config",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ユーザー名・メールアドレスを設定する",
+      "code": "git config --global user.name \"Your Name\"",
+      "note": "--global を外すとリポジトリ単位の設定になる",
+      "tag": "環境構築",
+      "kw": "config 設定 ユーザー名 メール",
+      "b": {
+        "cmd": "git config",
+        "flags": [{ "opt": "--global", "label": "全リポジトリ共通の設定" }],
+        "args": [
+          { "name": "キー", "ph": "user.name" },
+          { "name": "値", "ph": "\"Your Name\"" }
+        ]
+      }
+    },
+    {
+      "id": "git-init",
+      "env": "Git",
+      "cat": "Git",
+      "title": "新しいリポジトリを作成する",
+      "code": "git init",
+      "note": "既存フォルダをGit管理下に置く時にも使う",
+      "tag": "バージョン管理",
+      "kw": "init 初期化 新規作成 リポジトリ"
+    },
+    {
+      "id": "git-reflog",
+      "env": "Git",
+      "cat": "Git",
+      "title": "HEADの移動履歴から失った変更を復元する",
+      "code": "git reflog",
+      "note": "reset --hard などで消えたように見えるコミットも大抵ここから復元できる",
+      "tag": "バージョン管理",
+      "kw": "reflog 復元 履歴 消えた 復旧"
+    },
+    {
+      "id": "git-rebase-onto",
+      "env": "Git",
+      "cat": "Git",
+      "title": "対話的リベースでコミットを整理する",
+      "code": "git rebase -i HEAD~3",
+      "note": "pick/squash/dropなどを行に書いて履歴を整理できる",
+      "tag": "バージョン管理",
+      "kw": "rebase interactive 整理 squash まとめる",
+      "b": {
+        "cmd": "git rebase",
+        "flags": [{ "opt": "-i", "label": "対話的に編集" }],
+        "args": [{ "name": "対象", "ph": "HEAD~3" }]
+      }
+    },
+    {
+      "id": "git-worktree",
+      "env": "Git",
+      "cat": "Git",
+      "title": "別ディレクトリに追加の作業ツリーを作る",
+      "code": "git worktree add ../hotfix hotfix",
+      "note": "ブランチ切り替えせずに複数の作業を並行して進められる",
+      "tag": "バージョン管理",
+      "kw": "worktree 並行作業 複数ブランチ",
+      "b": {
+        "cmd": "git worktree add",
+        "flags": [],
+        "args": [
+          { "name": "パス", "ph": "../hotfix" },
+          { "name": "ブランチ", "ph": "hotfix" }
+        ]
+      }
+    },
+    {
+      "id": "git-submodule",
+      "env": "Git",
+      "cat": "Git",
+      "title": "サブモジュールを追加・更新する",
+      "code": "git submodule update --init --recursive",
+      "note": "clone直後にサブモジュールの中身を取得するために実行する",
+      "tag": "バージョン管理",
+      "kw": "submodule サブモジュール 更新 初期化",
+      "b": {
+        "cmd": "git submodule update",
+        "flags": [
+          { "opt": "--init", "label": "未初期化のものを初期化" },
+          { "opt": "--recursive", "label": "入れ子も再帰的に更新" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "git-bisect",
+      "env": "Git",
+      "cat": "Git",
+      "title": "バグを混入したコミットを二分探索で特定する",
+      "code": "git bisect start",
+      "note": "good/bad を繰り返し指定すると原因コミットに絞り込める",
+      "tag": "検索",
+      "kw": "bisect 二分探索 バグ特定 原因調査",
+      "b": {
+        "cmd": "git bisect",
+        "flags": [
+          { "opt": "good", "label": "現在地は正常だったと記録" },
+          { "opt": "bad", "label": "現在地は不具合ありと記録" }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "git-diff-staged",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ステージ済みの差分だけを見る",
+      "code": "git diff --staged",
+      "note": "コミット前に add した内容だけを確認したい時に使う",
+      "tag": "検索",
+      "kw": "diff staged ステージ 差分 確認"
+    },
+    {
+      "id": "git-stash-apply",
+      "env": "Git",
+      "cat": "Git",
+      "title": "退避した変更を削除せず適用する",
+      "code": "git stash apply stash@{0}",
+      "note": "pop と違いstashリストに残るので何度でも適用できる",
+      "tag": "バージョン管理",
+      "kw": "stash apply 適用 復元",
+      "b": {
+        "cmd": "git stash apply",
+        "flags": [],
+        "args": [{ "name": "対象", "ph": "stash@{0}" }]
+      }
+    },
+    {
+      "id": "git-stash-drop",
+      "env": "Git",
+      "cat": "Git",
+      "title": "不要になった退避を削除する",
+      "code": "git stash drop stash@{0}",
+      "note": "git stash clear で全ての退避をまとめて削除できる",
+      "tag": "バージョン管理",
+      "kw": "stash drop 削除 破棄",
+      "b": {
+        "cmd": "git stash drop",
+        "flags": [],
+        "args": [{ "name": "対象", "ph": "stash@{0}" }]
+      }
+    },
+    {
+      "id": "git-branch-delete",
+      "env": "Git",
+      "cat": "Git",
+      "title": "不要になったブランチを削除する",
+      "code": "git branch -d feature/old",
+      "note": "未マージのブランチを消したい時は -D で強制削除",
+      "tag": "バージョン管理",
+      "kw": "branch delete 削除 ブランチ",
+      "b": {
+        "cmd": "git branch",
+        "flags": [
+          { "opt": "-d", "label": "マージ済みのみ削除" },
+          { "opt": "-D", "label": "未マージでも強制削除" }
+        ],
+        "args": [{ "name": "ブランチ名", "ph": "feature/old" }]
+      }
+    },
+    {
+      "id": "git-branch-rename",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ブランチ名を変更する",
+      "code": "git branch -m old-name new-name",
+      "note": "リモートには反映されないので別途 push -u が必要",
+      "tag": "バージョン管理",
+      "kw": "branch rename 名前変更 リネーム",
+      "b": {
+        "cmd": "git branch",
+        "flags": [{ "opt": "-m", "label": "ブランチ名を変更" }],
+        "args": [
+          { "name": "変更前", "ph": "old-name" },
+          { "name": "変更後", "ph": "new-name" }
+        ]
+      }
+    },
+    {
+      "id": "git-push-delete",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リモートブランチを削除する",
+      "code": "git push origin --delete feature/old",
+      "note": "ローカルブランチは別途 git branch -d で削除する",
+      "tag": "バージョン管理",
+      "kw": "push delete リモート ブランチ削除",
+      "b": {
+        "cmd": "git push",
+        "flags": [{ "opt": "--delete", "label": "リモートブランチを削除" }],
+        "args": [
+          { "name": "リモート", "ph": "origin" },
+          { "name": "ブランチ名", "ph": "feature/old" }
+        ]
+      }
+    },
+    {
+      "id": "git-fetch-pr",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リモートのPRブランチをローカルに取得する",
+      "code": "git fetch origin pull/123/head:pr-123",
+      "note": "GitHub上のPRをローカルで動作確認したい時に使える",
+      "tag": "バージョン管理",
+      "kw": "fetch pr プルリクエスト 取得",
+      "b": {
+        "cmd": "git fetch",
+        "flags": [],
+        "args": [
+          { "name": "リモート", "ph": "origin" },
+          { "name": "参照:ローカル名", "ph": "pull/123/head:pr-123" }
+        ]
+      }
+    },
+    {
+      "id": "git-ignore-check",
+      "env": "Git",
+      "cat": "Git",
+      "title": "ファイルが.gitignoreで無視される理由を調べる",
+      "code": "git check-ignore -v file.txt",
+      "note": "どの.gitignoreの何行目でマッチしているか表示される",
+      "tag": "検索",
+      "kw": "gitignore 無視 確認 原因",
+      "b": {
+        "cmd": "git check-ignore",
+        "flags": [{ "opt": "-v", "label": "マッチしたルールも表示" }],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "git-log-file",
+      "env": "Git",
+      "cat": "Git",
+      "title": "特定ファイルの変更履歴を確認する",
+      "code": "git log --follow file.txt",
+      "note": "--follow でリネーム前の履歴も追跡できる",
+      "tag": "検索",
+      "kw": "log ファイル 履歴 追跡",
+      "b": {
+        "cmd": "git log",
+        "flags": [{ "opt": "--follow", "label": "リネーム前も追跡" }],
+        "args": [{ "name": "ファイル", "ph": "file.txt" }]
+      }
+    },
+    {
+      "id": "git-diff-word",
+      "env": "Git",
+      "cat": "Git",
+      "title": "単語単位で差分を見やすく表示する",
+      "code": "git diff --word-diff",
+      "note": "文章ファイルの差分を確認する時に行単位より読みやすい",
+      "tag": "検索",
+      "kw": "diff word-diff 単語 差分 見やすい"
+    },
+    {
+      "id": "git-archive",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リポジトリを.gitフォルダなしで書き出す",
+      "code": "git archive --format=zip HEAD -o repo.zip",
+      "note": "配布用に履歴を含まないソース一式が欲しい時に使う",
+      "tag": "ファイル操作",
+      "kw": "archive 書き出し zip エクスポート",
+      "b": {
+        "cmd": "git archive",
+        "flags": [{ "opt": "--format=zip", "label": "zip形式で出力" }],
+        "args": [
+          { "name": "対象", "ph": "HEAD" },
+          { "name": "出力先", "prefix": "-o ", "ph": "repo.zip" }
+        ]
+      }
+    },
+    {
+      "id": "git-format-patch",
+      "env": "Git",
+      "cat": "Git",
+      "title": "コミットをパッチファイルとして出力する",
+      "code": "git format-patch -1 HEAD",
+      "note": "-3 のように数を指定すると直近N件のコミットを出力できる",
+      "tag": "バージョン管理",
+      "kw": "format-patch パッチ 出力 作成",
+      "b": {
+        "cmd": "git format-patch",
+        "flags": [],
+        "args": [{ "name": "件数", "prefix": "-", "ph": "1" }]
+      }
+    },
+    {
+      "id": "git-describe",
+      "env": "Git",
+      "cat": "Git",
+      "title": "直近のタグからの位置を確認する",
+      "code": "git describe --tags",
+      "note": "v1.0.0-5-gabcdef のように直近タグからのコミット数が分かる",
+      "tag": "検索",
+      "kw": "describe タグ バージョン確認"
+    },
+    {
+      "id": "git-alias",
+      "env": "Git",
+      "cat": "Git",
+      "title": "よく使うコマンドにエイリアスを設定する",
+      "code": "git config --global alias.co checkout",
+      "note": "git co で git checkout が実行できるようになる",
+      "tag": "環境構築",
+      "kw": "alias エイリアス 短縮 設定",
+      "b": {
+        "cmd": "git config --global alias",
+        "flags": [],
+        "args": [
+          { "name": "エイリアス名", "ph": "co" },
+          { "name": "元コマンド", "ph": "checkout" }
+        ]
+      }
+    },
+    {
+      "id": "git-gc",
+      "env": "Git",
+      "cat": "Git",
+      "title": "リポジトリを最適化・圧縮する",
+      "code": "git gc --aggressive",
+      "note": "不要オブジェクトの削除やパック圧縮でリポジトリを軽量化する",
+      "tag": "その他",
+      "kw": "gc 最適化 圧縮 クリーンアップ"
     }
   ]
 }

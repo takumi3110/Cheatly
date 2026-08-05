@@ -44,6 +44,672 @@
           { "name": "プロセス名", "prefix": "-Name ", "ph": "\"chrome\"" }
         ]
       }
+    },
+    {
+      "id": "powershell-get-process",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "実行中のプロセス一覧を確認する",
+      "code": "Get-Process | Sort-Object CPU -Descending",
+      "note": "CPU・メモリ使用量でソートして重いプロセスを特定できる",
+      "tag": "プロセス",
+      "kw": "process プロセス 一覧 確認 get-process",
+      "b": {
+        "cmd": "Get-Process",
+        "flags": [],
+        "args": [{ "name": "プロセス名", "ph": "chrome" }]
+      }
+    },
+    {
+      "id": "powershell-get-childitem",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイル・ディレクトリを一覧表示する",
+      "code": "Get-ChildItem -Recurse",
+      "note": "エイリアス ls / dir も使える。-Filter で絞り込み可能",
+      "tag": "ファイル操作",
+      "kw": "ls dir 一覧 get-childitem ファイル",
+      "b": {
+        "cmd": "Get-ChildItem",
+        "flags": [
+          { "opt": "-Recurse", "label": "サブフォルダも対象" },
+          { "opt": "-Force", "label": "隠しファイルも表示" }
+        ],
+        "args": [{ "name": "パス", "ph": "." }]
+      }
+    },
+    {
+      "id": "powershell-remove-item",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイル・フォルダを削除する",
+      "code": "Remove-Item folder -Recurse -Force",
+      "note": "エイリアス rm / del も使える。-Recurse でフォルダごと削除",
+      "tag": "ファイル操作",
+      "kw": "remove rm del 削除 ファイル フォルダ",
+      "b": {
+        "cmd": "Remove-Item",
+        "flags": [
+          { "opt": "-Recurse", "label": "フォルダごと削除" },
+          { "opt": "-Force", "label": "確認なしで実行" }
+        ],
+        "args": [{ "name": "対象", "ph": "folder" }]
+      }
+    },
+    {
+      "id": "powershell-new-item",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイル・フォルダを新規作成する",
+      "code": "New-Item -ItemType Directory -Path folder",
+      "note": "-ItemType File でからファイルの作成もできる",
+      "tag": "ファイル操作",
+      "kw": "new-item 作成 新規 ディレクトリ ファイル",
+      "b": {
+        "cmd": "New-Item",
+        "flags": [],
+        "args": [
+          { "name": "種別", "prefix": "-ItemType ", "ph": "Directory" },
+          { "name": "パス", "prefix": "-Path ", "ph": "folder" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-move-item",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイル・フォルダを移動する",
+      "code": "Move-Item src.txt dst\\",
+      "note": "同じフォルダ内に移動すればリネームとしても機能する",
+      "tag": "ファイル操作",
+      "kw": "move mv 移動 ファイル",
+      "b": {
+        "cmd": "Move-Item",
+        "flags": [],
+        "args": [
+          { "name": "移動元", "ph": "src.txt" },
+          { "name": "移動先", "ph": "dst\\" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-rename-item",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイル・フォルダの名前を変更する",
+      "code": "Rename-Item old.txt new.txt",
+      "note": "パイプライン経由で複数ファイルの一括リネームにも応用できる",
+      "tag": "ファイル操作",
+      "kw": "rename 名前変更 リネーム",
+      "b": {
+        "cmd": "Rename-Item",
+        "flags": [],
+        "args": [
+          { "name": "変更前", "ph": "old.txt" },
+          { "name": "変更後", "ph": "new.txt" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-get-content",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイルの中身を表示する",
+      "code": "Get-Content file.txt -Tail 20",
+      "note": "-Wait を付けるとログのリアルタイム追跡（tail -f 相当）ができる",
+      "tag": "ファイル操作",
+      "kw": "cat type get-content 表示 中身",
+      "b": {
+        "cmd": "Get-Content",
+        "flags": [{ "opt": "-Wait", "label": "リアルタイムで追跡" }],
+        "args": [
+          { "name": "ファイル", "ph": "file.txt" },
+          { "name": "末尾行数", "prefix": "-Tail ", "ph": "20" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-set-content",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイルに文字列を書き込む",
+      "code": "\"Hello\" | Set-Content file.txt",
+      "note": "追記したい場合は Add-Content を使う",
+      "tag": "ファイル操作",
+      "kw": "set-content 書き込み 出力 ファイル"
+    },
+    {
+      "id": "powershell-select-string",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイル内の文字列を検索する",
+      "code": "Select-String -Path *.log -Pattern \"ERROR\"",
+      "note": "grep 相当。-Recurse と組み合わせてサブフォルダも検索できる",
+      "tag": "検索",
+      "kw": "select-string grep 検索 文字列",
+      "b": {
+        "cmd": "Select-String",
+        "flags": [],
+        "args": [
+          { "name": "対象", "prefix": "-Path ", "ph": "*.log" },
+          { "name": "検索文字列", "prefix": "-Pattern ", "ph": "\"ERROR\"" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-test-path",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイル・フォルダの存在を確認する",
+      "code": "Test-Path file.txt",
+      "note": "True/False を返すので if文の条件にそのまま使える",
+      "tag": "ファイル操作",
+      "kw": "test-path 存在確認 ファイル"
+    },
+    {
+      "id": "powershell-invoke-webrequest",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "HTTPリクエストを送信する",
+      "code": "Invoke-WebRequest -Uri https://example.com -OutFile page.html",
+      "note": "エイリアス iwr 。APIを叩くなら Invoke-RestMethod の方が便利",
+      "tag": "ネットワーク",
+      "kw": "webrequest curl wget http リクエスト",
+      "b": {
+        "cmd": "Invoke-WebRequest",
+        "flags": [],
+        "args": [
+          { "name": "URL", "prefix": "-Uri ", "ph": "https://example.com" },
+          { "name": "出力先", "prefix": "-OutFile ", "ph": "page.html" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-invoke-restmethod",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "REST APIを呼び出す",
+      "code": "Invoke-RestMethod -Uri https://api.example.com -Method Get",
+      "note": "レスポンスを自動でオブジェクトに変換してくれる",
+      "tag": "ネットワーク",
+      "kw": "restmethod api リクエスト rest 呼び出し",
+      "b": {
+        "cmd": "Invoke-RestMethod",
+        "flags": [],
+        "args": [
+          { "name": "URL", "prefix": "-Uri ", "ph": "https://api.example.com" },
+          { "name": "メソッド", "prefix": "-Method ", "ph": "Get" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-test-connection",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "疎通確認（ping）を行う",
+      "code": "Test-Connection example.com -Count 4",
+      "note": "-Quiet を付けると成否をTrue/Falseで返すだけになる",
+      "tag": "ネットワーク",
+      "kw": "ping test-connection 疎通 確認",
+      "b": {
+        "cmd": "Test-Connection",
+        "flags": [],
+        "args": [
+          { "name": "ホスト", "ph": "example.com" },
+          { "name": "回数", "prefix": "-Count ", "ph": "4" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-get-netipaddress",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "IPアドレスの割り当てを確認する",
+      "code": "Get-NetIPAddress",
+      "note": "特定のインターフェースだけ見たい時は -InterfaceAlias で絞り込む",
+      "tag": "ネットワーク",
+      "kw": "ip netipaddress ネットワーク 確認"
+    },
+    {
+      "id": "powershell-clear-dns",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "DNSキャッシュをクリアする",
+      "code": "Clear-DnsClientCache",
+      "note": "DNS変更後にサイトへ繋がらない時に試すと反映されやすい",
+      "tag": "ネットワーク",
+      "kw": "dns キャッシュ クリア 更新"
+    },
+    {
+      "id": "powershell-variable",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "変数を宣言・代入する",
+      "code": "$name = \"value\"",
+      "note": "$env:NAME で環境変数、$global: でグローバル変数を扱う",
+      "tag": "コード",
+      "kw": "variable 変数 代入 宣言"
+    },
+    {
+      "id": "powershell-foreach",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "パイプラインで各要素に処理を行う",
+      "code": "Get-ChildItem | ForEach-Object { $_.Name }",
+      "note": "$_ が現在の要素を表す。% はエイリアス",
+      "tag": "コード",
+      "kw": "foreach 繰り返し ループ パイプライン"
+    },
+    {
+      "id": "powershell-where-object",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "条件でオブジェクトを絞り込む",
+      "code": "Get-Process | Where-Object { $_.CPU -gt 100 }",
+      "note": "エイリアス ? / where 。SQL の WHERE 相当",
+      "tag": "検索",
+      "kw": "where-object 絞り込み フィルタ 条件"
+    },
+    {
+      "id": "powershell-select-object",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "特定のプロパティだけを取り出す",
+      "code": "Get-Process | Select-Object Name, CPU -First 5",
+      "note": "-First N で上位N件のみ表示",
+      "tag": "検索",
+      "kw": "select-object プロパティ 抽出 絞り込み",
+      "b": {
+        "cmd": "Select-Object",
+        "flags": [],
+        "args": [
+          { "name": "プロパティ", "ph": "Name, CPU" },
+          { "name": "件数", "prefix": "-First ", "ph": "5" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-sort-object",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "オブジェクトをソートする",
+      "code": "Get-ChildItem | Sort-Object Length -Descending",
+      "note": "-Descending を付けると降順になる",
+      "tag": "コード",
+      "kw": "sort-object ソート 並び替え"
+    },
+    {
+      "id": "powershell-measure-object",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "オブジェクトの数・合計・平均を集計する",
+      "code": "Get-ChildItem | Measure-Object Length -Sum -Average",
+      "note": "-Sum -Average -Maximum -Minimum を組み合わせて集計できる",
+      "tag": "コード",
+      "kw": "measure-object 集計 合計 平均 カウント"
+    },
+    {
+      "id": "powershell-get-service",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "Windowsサービスの状態を確認する",
+      "code": "Get-Service | Where-Object { $_.Status -eq \"Running\" }",
+      "note": "サービス名を指定すれば単体の状態も確認できる",
+      "tag": "プロセス",
+      "kw": "service サービス 状態 確認"
+    },
+    {
+      "id": "powershell-start-service",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "サービスを開始・停止する",
+      "code": "Start-Service -Name \"Spooler\"",
+      "note": "停止は Stop-Service、再起動は Restart-Service",
+      "tag": "プロセス",
+      "kw": "start-service サービス 開始 起動",
+      "b": {
+        "cmd": "Start-Service",
+        "flags": [],
+        "args": [
+          { "name": "サービス名", "prefix": "-Name ", "ph": "\"Spooler\"" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-get-eventlog",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "イベントログを確認する",
+      "code": "Get-WinEvent -LogName System -MaxEvents 20",
+      "note": "-FilterHashtable でレベルやID指定の絞り込みが可能",
+      "tag": "検索",
+      "kw": "eventlog イベントログ 確認 システム"
+    },
+    {
+      "id": "powershell-compress-archive",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "フォルダをZIP圧縮する",
+      "code": "Compress-Archive -Path folder -DestinationPath archive.zip",
+      "note": "既存のzipに追記したい場合は -Update を付ける",
+      "tag": "ファイル操作",
+      "kw": "compress-archive zip 圧縮 アーカイブ",
+      "b": {
+        "cmd": "Compress-Archive",
+        "flags": [],
+        "args": [
+          { "name": "対象", "prefix": "-Path ", "ph": "folder" },
+          {
+            "name": "出力先",
+            "prefix": "-DestinationPath ",
+            "ph": "archive.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "powershell-expand-archive",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ZIPファイルを解凍する",
+      "code": "Expand-Archive archive.zip -DestinationPath folder",
+      "note": "-Force を付けると既存フォルダを上書きして解凍できる",
+      "tag": "ファイル操作",
+      "kw": "expand-archive zip 解凍 展開",
+      "b": {
+        "cmd": "Expand-Archive",
+        "flags": [],
+        "args": [
+          { "name": "ZIPファイル", "ph": "archive.zip" },
+          { "name": "出力先", "prefix": "-DestinationPath ", "ph": "folder" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-get-help",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "コマンドの使い方を調べる",
+      "code": "Get-Help Get-Process -Examples",
+      "note": "-Full で全オプション、-Online で公式ドキュメントを開く",
+      "tag": "検索",
+      "kw": "help ヘルプ 使い方 調べる get-help"
+    },
+    {
+      "id": "powershell-get-command",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "利用可能なコマンドを検索する",
+      "code": "Get-Command *service*",
+      "note": "ワイルドカードで部分一致検索できる",
+      "tag": "検索",
+      "kw": "get-command コマンド検索 一覧"
+    },
+    {
+      "id": "powershell-get-member",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "オブジェクトのプロパティ・メソッドを調べる",
+      "code": "Get-Process | Get-Member",
+      "note": "パイプラインの出力がどんな型か分からない時に確認するのに便利",
+      "tag": "検索",
+      "kw": "get-member プロパティ メソッド 確認"
+    },
+    {
+      "id": "powershell-execution-policy",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "スクリプト実行ポリシーを変更する",
+      "code": "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser",
+      "note": ".ps1 が「実行できません」と出る時、まずこれを確認する",
+      "tag": "環境構築",
+      "kw": "execution policy 実行ポリシー ps1 スクリプト",
+      "b": {
+        "cmd": "Set-ExecutionPolicy",
+        "flags": [],
+        "args": [
+          { "name": "ポリシー", "ph": "RemoteSigned" },
+          { "name": "スコープ", "prefix": "-Scope ", "ph": "CurrentUser" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-profile",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "プロファイル（起動時設定）を編集する",
+      "code": "notepad $PROFILE",
+      "note": "エイリアスや関数を書いておくと毎回起動時に読み込まれる",
+      "tag": "環境構築",
+      "kw": "profile プロファイル 起動設定 カスタマイズ"
+    },
+    {
+      "id": "powershell-alias",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "コマンドのエイリアスを作成する",
+      "code": "Set-Alias ll Get-ChildItem",
+      "note": "profile に書けば恒久的に使えるエイリアスになる",
+      "tag": "環境構築",
+      "kw": "alias エイリアス 短縮 設定",
+      "b": {
+        "cmd": "Set-Alias",
+        "flags": [],
+        "args": [
+          { "name": "エイリアス名", "ph": "ll" },
+          { "name": "元コマンド", "ph": "Get-ChildItem" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-env-var",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "環境変数を設定・確認する",
+      "code": "$env:NODE_ENV = \"production\"",
+      "note": "そのセッション限りの設定。永続化は setx か System.Environment を使う",
+      "tag": "環境構築",
+      "kw": "env 環境変数 設定 確認"
+    },
+    {
+      "id": "powershell-start-process",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "プロセス・アプリを起動する",
+      "code": "Start-Process notepad.exe",
+      "note": "-Verb RunAs を付けると管理者権限で起動できる",
+      "tag": "プロセス",
+      "kw": "start-process 起動 実行 アプリ",
+      "b": {
+        "cmd": "Start-Process",
+        "flags": [{ "opt": "-Verb RunAs", "label": "管理者として実行" }],
+        "args": [{ "name": "実行ファイル", "ph": "notepad.exe" }]
+      }
+    },
+    {
+      "id": "powershell-restart-computer",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "コンピューターを再起動する",
+      "code": "Restart-Computer -Force",
+      "note": "リモートPCを対象にする場合は -ComputerName を指定",
+      "tag": "その他",
+      "kw": "restart-computer 再起動 pc"
+    },
+    {
+      "id": "powershell-get-computerinfo",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "PCのシステム情報を確認する",
+      "code": "Get-ComputerInfo",
+      "note": "OSバージョンやメモリ容量など詳細情報が一括取得できる",
+      "tag": "その他",
+      "kw": "computerinfo システム情報 確認 スペック"
+    },
+    {
+      "id": "powershell-convertto-json",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "オブジェクトをJSONに変換する",
+      "code": "$obj | ConvertTo-Json -Depth 5",
+      "note": "-Depth を省略すると2階層でネストが切れてしまうので注意",
+      "tag": "コード",
+      "kw": "convertto-json json 変換 出力"
+    },
+    {
+      "id": "powershell-convertfrom-json",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "JSON文字列をオブジェクトに変換する",
+      "code": "Get-Content data.json | ConvertFrom-Json",
+      "note": "APIレスポンスやconfigファイルの読み込みによく使う",
+      "tag": "コード",
+      "kw": "convertfrom-json json パース 読み込み"
+    },
+    {
+      "id": "powershell-export-csv",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "データをCSVファイルに出力する",
+      "code": "Get-Process | Export-Csv processes.csv -NoTypeInformation",
+      "note": "-NoTypeInformation を付けないと先頭に型情報の行が入ってしまう",
+      "tag": "ファイル操作",
+      "kw": "export-csv csv 出力 保存"
+    },
+    {
+      "id": "powershell-import-csv",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "CSVファイルを読み込む",
+      "code": "Import-Csv data.csv",
+      "note": "ヘッダー行が自動的にプロパティ名として扱われる",
+      "tag": "ファイル操作",
+      "kw": "import-csv csv 読み込み"
+    },
+    {
+      "id": "powershell-get-date",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "現在日時を取得・フォーマットする",
+      "code": "Get-Date -Format \"yyyy-MM-dd HH:mm:ss\"",
+      "note": "ログファイル名などに日時を埋め込む時によく使う",
+      "tag": "コード",
+      "kw": "get-date 日時 フォーマット 現在時刻",
+      "b": {
+        "cmd": "Get-Date",
+        "flags": [],
+        "args": [
+          {
+            "name": "フォーマット",
+            "prefix": "-Format ",
+            "ph": "\"yyyy-MM-dd HH:mm:ss\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "powershell-history",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "コマンド実行履歴を確認する",
+      "code": "Get-History",
+      "note": "エイリアス h。r 番号 で履歴を再実行できる",
+      "tag": "検索",
+      "kw": "history 履歴 get-history 確認"
+    },
+    {
+      "id": "powershell-current-location",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "カレントディレクトリを確認・移動する",
+      "code": "Set-Location C:\\path",
+      "note": "エイリアス cd。Get-Location で現在地を確認",
+      "tag": "ファイル操作",
+      "kw": "set-location cd 移動 ディレクトリ",
+      "b": {
+        "cmd": "Set-Location",
+        "flags": [],
+        "args": [{ "name": "パス", "ph": "C:\\path" }]
+      }
+    },
+    {
+      "id": "powershell-get-item-hash",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "ファイルのハッシュ値を確認する",
+      "code": "Get-FileHash file.zip -Algorithm SHA256",
+      "note": "ダウンロードしたファイルの整合性検証によく使う",
+      "tag": "ファイル操作",
+      "kw": "filehash ハッシュ sha256 検証",
+      "b": {
+        "cmd": "Get-FileHash",
+        "flags": [],
+        "args": [
+          { "name": "ファイル", "ph": "file.zip" },
+          { "name": "アルゴリズム", "prefix": "-Algorithm ", "ph": "SHA256" }
+        ]
+      }
+    },
+    {
+      "id": "powershell-here-string",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "複数行の文字列（ヒアストリング）を書く",
+      "code": "$text = @\"\nline1\nline2\n\"@",
+      "note": "改行を含む長いテキストやテンプレートを扱う時に使う",
+      "tag": "コード",
+      "kw": "here-string 複数行 文字列 テンプレート"
+    },
+    {
+      "id": "powershell-invoke-command",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "リモートPCでコマンドを実行する",
+      "code": "Invoke-Command -ComputerName PC01 -ScriptBlock { Get-Process }",
+      "note": "事前にリモート先で Enable-PSRemoting が必要",
+      "tag": "その他",
+      "kw": "invoke-command リモート 実行 ssh相当",
+      "b": {
+        "cmd": "Invoke-Command",
+        "flags": [],
+        "args": [
+          {
+            "name": "コンピューター名",
+            "prefix": "-ComputerName ",
+            "ph": "PC01"
+          },
+          {
+            "name": "スクリプト",
+            "prefix": "-ScriptBlock ",
+            "ph": "{ Get-Process }"
+          }
+        ]
+      }
+    },
+    {
+      "id": "powershell-out-file",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "コマンド結果をファイルに保存する",
+      "code": "Get-Process | Out-File processes.txt",
+      "note": "文字コードを指定したい時は -Encoding utf8 を付ける",
+      "tag": "ファイル操作",
+      "kw": "out-file 保存 出力 リダイレクト",
+      "b": {
+        "cmd": "Out-File",
+        "flags": [],
+        "args": [{ "name": "出力先", "ph": "processes.txt" }]
+      }
+    },
+    {
+      "id": "powershell-get-clipboard",
+      "env": "PowerShell",
+      "cat": "PowerShell",
+      "title": "クリップボードの内容を取得・設定する",
+      "code": "Get-Clipboard",
+      "note": "Set-Clipboard \"text\" でクリップボードに書き込める",
+      "tag": "コード",
+      "kw": "clipboard クリップボード コピー 取得"
     }
   ]
 }

@@ -23,6 +23,486 @@
       "note": "async 関数内で使用。テストやリトライ処理の待機に",
       "tag": "コード",
       "kw": "sleep 待つ wait delay タイマー 遅延"
+    },
+    {
+      "id": "javascript-dedupe",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列から重複を除去する",
+      "code": "const unique = [...new Set(arr)];",
+      "note": "オブジェクトの重複除去には別途 key での絞り込みが必要",
+      "tag": "コード",
+      "kw": "重複 unique duplicate 配列 除去 set"
+    },
+    {
+      "id": "javascript-flatten",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "多重配列をフラット化する",
+      "code": "const flat = arr.flat(Infinity);",
+      "note": "Infinity を指定すると深さに関係なく完全にフラット化される",
+      "tag": "コード",
+      "kw": "flat フラット化 多重配列 平坦化"
+    },
+    {
+      "id": "javascript-groupby",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列を条件でグループ化する",
+      "code": "const grouped = Object.groupBy(arr, x => x.category);",
+      "note": "対応していない環境では reduce で自前実装する必要がある",
+      "tag": "コード",
+      "kw": "group グループ化 分類 reduce"
+    },
+    {
+      "id": "javascript-optional-chain",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "存在しないプロパティに安全にアクセスする",
+      "code": "const value = obj?.a?.b ?? \"default\";",
+      "note": "?. はnull/undefinedで停止、?? はnullish時のみデフォルト値を使う",
+      "tag": "コード",
+      "kw": "optional chaining nullish 安全 デフォルト値"
+    },
+    {
+      "id": "javascript-destructure",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "オブジェクトを分割代入する",
+      "code": "const { a, b, ...rest } = obj;",
+      "note": "...rest で残りのプロパティをまとめて取得できる",
+      "tag": "コード",
+      "kw": "destructuring 分割代入 展開 rest"
+    },
+    {
+      "id": "javascript-spread-merge",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "オブジェクトをマージする",
+      "code": "const merged = { ...obj1, ...obj2 };",
+      "note": "後から書いたオブジェクトのプロパティが優先される",
+      "tag": "コード",
+      "kw": "spread マージ 結合 オブジェクト"
+    },
+    {
+      "id": "javascript-array-includes",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列に値が含まれるか判定する",
+      "code": "arr.includes(target)",
+      "note": "indexOf と違い NaN も正しく判定できる",
+      "tag": "コード",
+      "kw": "includes 含む 判定 検索 配列"
+    },
+    {
+      "id": "javascript-array-find",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "条件に一致する最初の要素を探す",
+      "code": "const item = arr.find(x => x.id === 3);",
+      "note": "見つからない場合は undefined。位置が欲しい時は findIndex",
+      "tag": "検索",
+      "kw": "find 検索 条件 最初 要素"
+    },
+    {
+      "id": "javascript-array-sort",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列を数値順にソートする",
+      "code": "arr.sort((a, b) => a - b);",
+      "note": "比較関数を省略すると文字列として辞書順ソートされるので注意",
+      "tag": "コード",
+      "kw": "sort ソート 並び替え 数値順"
+    },
+    {
+      "id": "javascript-array-shuffle",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列の要素をランダムにシャッフルする",
+      "code": "arr.sort(() => Math.random() - 0.5);",
+      "note": "厳密な一様分布が必要な場合はFisher-Yatesアルゴリズムを使う",
+      "tag": "コード",
+      "kw": "shuffle シャッフル ランダム 並び替え"
+    },
+    {
+      "id": "javascript-debounce",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "デバウンス処理を実装する",
+      "code": "const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };",
+      "note": "入力補完やリサイズイベントなど連続発火を抑えたい時に使う",
+      "tag": "コード",
+      "kw": "debounce デバウンス 連続発火 抑制"
+    },
+    {
+      "id": "javascript-throttle",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "スロットル処理を実装する",
+      "code": "const throttle = (fn, ms) => { let last = 0; return (...a) => { const now = Date.now(); if (now - last >= ms) { last = now; fn(...a); } }; };",
+      "note": "スクロールイベントなど一定間隔で間引きたい時に使う",
+      "tag": "コード",
+      "kw": "throttle スロットル 間引き 制限"
+    },
+    {
+      "id": "javascript-format-date",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "日付をローカル形式でフォーマットする",
+      "code": "new Date().toLocaleDateString(\"ja-JP\")",
+      "note": "toLocaleString で時刻も含めた表示にできる",
+      "tag": "コード",
+      "kw": "date 日付 フォーマット 表示"
+    },
+    {
+      "id": "javascript-json-parse-safe",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "JSONを安全にパースする",
+      "code": "const safeParse = (s, fallback = null) => { try { return JSON.parse(s); } catch { return fallback; } };",
+      "note": "不正なJSON文字列でも例外を投げずデフォルト値を返す",
+      "tag": "コード",
+      "kw": "json parse 安全 例外 try catch"
+    },
+    {
+      "id": "javascript-fetch-post",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "fetchでJSONをPOST送信する",
+      "code": "const res = await fetch(url, { method: \"POST\", headers: { \"Content-Type\": \"application/json\" }, body: JSON.stringify(data) });",
+      "note": "res.ok を確認してからres.json()でレスポンスを取得する",
+      "tag": "ネットワーク",
+      "kw": "fetch post 送信 api リクエスト"
+    },
+    {
+      "id": "javascript-fetch-timeout",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "fetchにタイムアウトを設定する",
+      "code": "fetch(url, { signal: AbortSignal.timeout(5000) })",
+      "note": "5秒経過すると自動的にリクエストを中断してエラーになる",
+      "tag": "ネットワーク",
+      "kw": "fetch timeout タイムアウト 中断 abort"
+    },
+    {
+      "id": "javascript-localstorage",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "localStorageにオブジェクトを保存・復元する",
+      "code": "localStorage.setItem(\"key\", JSON.stringify(obj));\nconst obj = JSON.parse(localStorage.getItem(\"key\"));",
+      "note": "文字列しか保存できないので必ずJSON化する",
+      "tag": "コード",
+      "kw": "localStorage 保存 永続化 ブラウザ"
+    },
+    {
+      "id": "javascript-promise-all",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "複数の非同期処理を並列実行する",
+      "code": "const results = await Promise.all([p1(), p2(), p3()]);",
+      "note": "1つでも失敗すると全体がrejectされる。個別に結果が欲しい時はallSettled",
+      "tag": "コード",
+      "kw": "promise all 並列 非同期"
+    },
+    {
+      "id": "javascript-promise-allsettled",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "失敗しても他の結果を待つ並列実行",
+      "code": "const results = await Promise.allSettled([p1(), p2(), p3()]);",
+      "note": "各結果に status: \"fulfilled\" | \"rejected\" が付く",
+      "tag": "コード",
+      "kw": "promise allSettled 並列 非同期 エラー許容"
+    },
+    {
+      "id": "javascript-array-chunk",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列を一定サイズごとに分割する",
+      "code": "const chunk = (arr, size) => Array.from({ length: Math.ceil(arr.length / size) }, (_, i) => arr.slice(i * size, i * size + size));",
+      "note": "ページネーションやバッチ処理での分割に使える",
+      "tag": "コード",
+      "kw": "chunk 分割 配列 バッチ"
+    },
+    {
+      "id": "javascript-template-literal",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "テンプレートリテラルで文字列を組み立てる",
+      "code": "const s = `Hello, ${name}! You are ${age} years old.`;",
+      "note": "改行もそのまま文字列に含められる",
+      "tag": "コード",
+      "kw": "template literal テンプレート文字列 埋め込み"
+    },
+    {
+      "id": "javascript-array-reduce",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列を集計してオブジェクトに変換する",
+      "code": "const total = arr.reduce((sum, x) => sum + x.price, 0);",
+      "note": "第2引数の初期値を省略すると先頭要素が初期値になる",
+      "tag": "コード",
+      "kw": "reduce 集計 合計 変換"
+    },
+    {
+      "id": "javascript-class-syntax",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "クラスを定義する",
+      "code": "class User { #id; constructor(id, name) { this.#id = id; this.name = name; } }",
+      "note": "# を付けたプロパティはプライベートフィールドになる",
+      "tag": "コード",
+      "kw": "class クラス プライベート フィールド"
+    },
+    {
+      "id": "javascript-async-iife",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "即時実行のasync関数を書く",
+      "code": "(async () => { await doSomething(); })();",
+      "note": "トップレベルでawaitが使えない環境で非同期処理をすぐ実行したい時に使う",
+      "tag": "コード",
+      "kw": "iife 即時実行 async 非同期"
+    },
+    {
+      "id": "javascript-error-custom",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "カスタムエラークラスを作る",
+      "code": "class ApiError extends Error { constructor(msg, status) { super(msg); this.name = \"ApiError\"; this.status = status; } }",
+      "note": "instanceof で種類を判別しながらエラーハンドリングできる",
+      "tag": "コード",
+      "kw": "error エラー カスタム 独自 例外"
+    },
+    {
+      "id": "javascript-array-unique-by",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "オブジェクト配列をキー基準で重複除去する",
+      "code": "const unique = [...new Map(arr.map(x => [x.id, x])).values()];",
+      "note": "Mapのキーの一意性を利用した重複除去テクニック",
+      "tag": "コード",
+      "kw": "重複除去 unique オブジェクト配列 key"
+    },
+    {
+      "id": "javascript-string-pad",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "数値を指定桁数でゼロ埋めする",
+      "code": "String(5).padStart(3, \"0\")",
+      "note": "\"005\" のようにゼロ埋めされる。右側埋めは padEnd",
+      "tag": "コード",
+      "kw": "padStart ゼロ埋め 桁揃え 文字列"
+    },
+    {
+      "id": "javascript-array-range",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "連番の配列を生成する",
+      "code": "const range = Array.from({ length: 10 }, (_, i) => i + 1);",
+      "note": "1から10までの配列を作る例。開始値をずらせば任意の範囲になる",
+      "tag": "コード",
+      "kw": "range 連番 配列生成 array from"
+    },
+    {
+      "id": "javascript-array-sum",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列の合計値を求める",
+      "code": "const total = arr.reduce((a, b) => a + b, 0);",
+      "note": "平均を求めるには total / arr.length を続けて計算する",
+      "tag": "コード",
+      "kw": "sum 合計 集計 配列"
+    },
+    {
+      "id": "javascript-object-omit",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "オブジェクトから特定のキーを除外する",
+      "code": "const { password, ...safeUser } = user;",
+      "note": "パスワードなど機密情報を除いて外部に渡す時によく使う",
+      "tag": "コード",
+      "kw": "omit 除外 プロパティ オブジェクト"
+    },
+    {
+      "id": "javascript-array-partition",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列を条件でtrue/falseに振り分ける",
+      "code": "const [pass, fail] = arr.reduce(([p, f], x) => cond(x) ? [[...p, x], f] : [p, [...f, x]], [[], []]);",
+      "note": "簡潔に書くなら filter を2回呼ぶ方法でも良い",
+      "tag": "コード",
+      "kw": "partition 振り分け 分割 条件"
+    },
+    {
+      "id": "javascript-copy-clipboard",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "文字列をクリップボードにコピーする",
+      "code": "await navigator.clipboard.writeText(text);",
+      "note": "HTTPS環境（またはlocalhost）でのみ動作する",
+      "tag": "コード",
+      "kw": "clipboard コピー クリップボード writeText"
+    },
+    {
+      "id": "javascript-event-delegation",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "イベント委譲で子要素のクリックを検知する",
+      "code": "parent.addEventListener(\"click\", (e) => { if (e.target.matches(\".btn\")) { /* ... */ } });",
+      "note": "動的に追加される要素にも1つのリスナーで対応できる",
+      "tag": "コード",
+      "kw": "event delegation イベント委譲 クリック"
+    },
+    {
+      "id": "javascript-query-string",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "URLのクエリパラメータを取得・組み立てる",
+      "code": "const params = new URLSearchParams(location.search);\nparams.get(\"id\");",
+      "note": "URLSearchParams でパラメータの追加・削除・組み立ても簡単に行える",
+      "tag": "コード",
+      "kw": "query string クエリパラメータ url"
+    },
+    {
+      "id": "javascript-array-max",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列の最大値・最小値を求める",
+      "code": "Math.max(...arr)",
+      "note": "要素数が多い場合はスプレッド構文でスタックオーバーフローに注意",
+      "tag": "コード",
+      "kw": "max min 最大値 最小値 配列"
+    },
+    {
+      "id": "javascript-regex-test",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "正規表現で文字列をバリデーションする",
+      "code": "const isEmail = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);",
+      "note": "厳密なメール検証はサーバー側でも別途行うのが望ましい",
+      "tag": "コード",
+      "kw": "regex 正規表現 バリデーション test"
+    },
+    {
+      "id": "javascript-string-replace-all",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "文字列内の全ての一致を置換する",
+      "code": "str.replaceAll(\"old\", \"new\")",
+      "note": "正規表現を使う場合は g フラグ付きで replace でも同じ結果になる",
+      "tag": "コード",
+      "kw": "replaceAll 置換 文字列 全て"
+    },
+    {
+      "id": "javascript-object-freeze",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "オブジェクトをイミュータブルにする",
+      "code": "const frozen = Object.freeze({ ...obj });",
+      "note": "浅い凍結のみ。ネストしたオブジェクトは変更可能な点に注意",
+      "tag": "コード",
+      "kw": "freeze イミュータブル 凍結 読み取り専用"
+    },
+    {
+      "id": "javascript-array-last",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列の末尾要素を取得する",
+      "code": "arr.at(-1)",
+      "note": "at() は負のインデックスで末尾から数えて取得できる",
+      "tag": "コード",
+      "kw": "at 末尾 最後 配列 取得"
+    },
+    {
+      "id": "javascript-try-finally",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "エラーの有無に関わらず後処理を実行する",
+      "code": "try { await doWork(); } finally { cleanup(); }",
+      "note": "ローディング状態の解除など、必ず実行したい処理に使う",
+      "tag": "コード",
+      "kw": "try finally 後処理 クリーンアップ"
+    },
+    {
+      "id": "javascript-console-table",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列やオブジェクトを表形式でログ出力する",
+      "code": "console.table(arr);",
+      "note": "デバッグ時に console.log より圧倒的に見やすい",
+      "tag": "コード",
+      "kw": "console table デバッグ 表示 ログ"
+    },
+    {
+      "id": "javascript-array-fill",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "指定した値で配列を初期化する",
+      "code": "const zeros = new Array(5).fill(0);",
+      "note": "オブジェクトを fill すると全要素が同じ参照を共有するので注意",
+      "tag": "コード",
+      "kw": "fill 初期化 配列 埋める"
+    },
+    {
+      "id": "javascript-number-format",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "数値を3桁区切りでフォーマットする",
+      "code": "(1234567).toLocaleString(\"ja-JP\")",
+      "note": "Intl.NumberFormat を使うと通貨表記なども柔軟に設定できる",
+      "tag": "コード",
+      "kw": "number format 数値 桁区切り 通貨"
+    },
+    {
+      "id": "javascript-array-move",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "配列内の要素を別の位置に移動する",
+      "code": "const [item] = arr.splice(from, 1);\narr.splice(to, 0, item);",
+      "note": "ドラッグ&ドロップでの並び替え処理などに使う",
+      "tag": "コード",
+      "kw": "move 移動 並び替え splice 配列"
+    },
+    {
+      "id": "javascript-weak-map",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "メモリリークしないキャッシュを作る",
+      "code": "const cache = new WeakMap();\ncache.set(obj, computedValue);",
+      "note": "キーのオブジェクトが不要になれば自動的にGCされる",
+      "tag": "コード",
+      "kw": "weakmap キャッシュ メモリリーク gc"
+    },
+    {
+      "id": "javascript-object-entries",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "オブジェクトをキーと値のペア配列に変換する",
+      "code": "Object.entries(obj).map(([key, value]) => `${key}: ${value}`)",
+      "note": "Object.fromEntries() で逆にオブジェクトへ戻せる",
+      "tag": "コード",
+      "kw": "entries オブジェクト 変換 key value"
+    },
+    {
+      "id": "javascript-string-truncate",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "長い文字列を省略記号付きで切り詰める",
+      "code": "const truncate = (s, n) => s.length > n ? s.slice(0, n) + \"…\" : s;",
+      "note": "一覧表示でタイトルなどが長すぎる時に使う",
+      "tag": "コード",
+      "kw": "truncate 省略 切り詰め 文字列"
+    },
+    {
+      "id": "javascript-retry",
+      "env": "JavaScript",
+      "cat": "JavaScript",
+      "title": "失敗した非同期処理をリトライする",
+      "code": "const retry = async (fn, n = 3) => { try { return await fn(); } catch (e) { if (n <= 1) throw e; return retry(fn, n - 1); } };",
+      "note": "指数バックオフを加えるとAPI呼び出しでより安全になる",
+      "tag": "コード",
+      "kw": "retry リトライ 再試行 非同期"
     }
   ]
 }

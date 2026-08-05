@@ -23,6 +23,486 @@
       "note": "Ctrl+Shift+L で一致箇所をすべて同時選択できる",
       "tag": "編集",
       "kw": "マルチカーソル multi cursor 選択 同じ単語 一括編集"
+    },
+    {
+      "id": "vscode-quick-open",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "ファイルをすばやく開く",
+      "code": "Ctrl + P",
+      "note": "ファイル名の一部を入力するだけで曖昧検索できる",
+      "tag": "ショートカット",
+      "kw": "quick open ファイル検索 開く 移動"
+    },
+    {
+      "id": "vscode-toggle-terminal",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "統合ターミナルを開閉する",
+      "code": "Ctrl + `",
+      "note": "Ctrl+Shift+` で新しいターミナルを追加できる",
+      "tag": "ショートカット",
+      "kw": "terminal ターミナル 開く 閉じる"
+    },
+    {
+      "id": "vscode-toggle-sidebar",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "サイドバーを表示・非表示にする",
+      "code": "Ctrl + B",
+      "note": "画面を広く使いたい時にサイドバーだけ隠せる",
+      "tag": "ショートカット",
+      "kw": "sidebar サイドバー 表示 非表示"
+    },
+    {
+      "id": "vscode-split-editor",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "エディタを分割する",
+      "code": "Ctrl + \\",
+      "note": "Ctrl+1/2/3 で分割したエディタ間をフォーカス移動できる",
+      "tag": "編集",
+      "kw": "split 分割 エディタ 画面分割"
+    },
+    {
+      "id": "vscode-move-line",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "行を上下に移動する",
+      "code": "Alt + ↑ / ↓",
+      "note": "選択した複数行もまとめて移動できる",
+      "tag": "編集",
+      "kw": "move line 行移動 並び替え"
+    },
+    {
+      "id": "vscode-copy-line",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "行を複製する",
+      "code": "Shift + Alt + ↑ / ↓",
+      "note": "カーソル行または選択範囲をそのままコピーして挿入する",
+      "tag": "編集",
+      "kw": "copy line 行複製 duplicate"
+    },
+    {
+      "id": "vscode-delete-line",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "行を削除する",
+      "code": "Ctrl + Shift + K",
+      "note": "選択せずカーソルがある行を丸ごと削除できる",
+      "tag": "編集",
+      "kw": "delete line 行削除"
+    },
+    {
+      "id": "vscode-comment-line",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "行コメントの切り替え",
+      "code": "Ctrl + /",
+      "note": "複数行選択中はまとめてコメントアウト・解除できる",
+      "tag": "編集",
+      "kw": "comment コメント アウト 切り替え"
+    },
+    {
+      "id": "vscode-block-comment",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "ブロックコメントの切り替え",
+      "code": "Shift + Alt + A",
+      "note": "選択範囲を /* */ 形式のコメントで囲む",
+      "tag": "編集",
+      "kw": "block comment ブロックコメント"
+    },
+    {
+      "id": "vscode-format-document",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "ドキュメント全体を整形する",
+      "code": "Shift + Alt + F",
+      "note": "Prettier等のフォーマッタ拡張機能を入れておくと自動整形される",
+      "tag": "編集",
+      "kw": "format フォーマット 整形 prettier"
+    },
+    {
+      "id": "vscode-rename-symbol",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "シンボルを一括リネームする",
+      "code": "F2",
+      "note": "変数・関数名を参照箇所も含めて安全に一括変更できる",
+      "tag": "編集",
+      "kw": "rename symbol リネーム 名前変更"
+    },
+    {
+      "id": "vscode-go-to-definition",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "定義元にジャンプする",
+      "code": "F12",
+      "note": "Alt+F12 でプレビューのまま定義を確認できる（ジャンプしない）",
+      "tag": "ショートカット",
+      "kw": "go to definition 定義 ジャンプ"
+    },
+    {
+      "id": "vscode-find-references",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "シンボルの参照箇所を検索する",
+      "code": "Shift + F12",
+      "note": "関数や変数がどこで使われているか一覧で確認できる",
+      "tag": "検索",
+      "kw": "find references 参照 検索"
+    },
+    {
+      "id": "vscode-go-back",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "直前のカーソル位置に戻る",
+      "code": "Alt + ←",
+      "note": "定義ジャンプ後に元の場所に戻りたい時に使う。Alt+→で進む",
+      "tag": "ショートカット",
+      "kw": "go back 戻る ナビゲーション"
+    },
+    {
+      "id": "vscode-find-in-files",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "プロジェクト全体からファイル内容を検索する",
+      "code": "Ctrl + Shift + F",
+      "note": "正規表現検索や置換もこの画面からまとめて行える",
+      "tag": "検索",
+      "kw": "find in files 検索 全体 プロジェクト"
+    },
+    {
+      "id": "vscode-replace",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "文字列を検索・置換する",
+      "code": "Ctrl + H",
+      "note": "Alt+Enter で一致箇所を全選択してから直接編集もできる",
+      "tag": "検索",
+      "kw": "replace 置換 検索"
+    },
+    {
+      "id": "vscode-go-to-line",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "指定行にジャンプする",
+      "code": "Ctrl + G",
+      "note": "Ctrl+P の後に : を入力しても同じことができる",
+      "tag": "ショートカット",
+      "kw": "go to line 行 ジャンプ 移動"
+    },
+    {
+      "id": "vscode-fold-code",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "コードブロックを折りたたむ",
+      "code": "Ctrl + Shift + [",
+      "note": "Ctrl+K Ctrl+0 で全ブロックを折りたたむこともできる",
+      "tag": "編集",
+      "kw": "fold 折りたたみ コード"
+    },
+    {
+      "id": "vscode-unfold-code",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "折りたたんだコードを展開する",
+      "code": "Ctrl + Shift + ]",
+      "note": "Ctrl+K Ctrl+J で全ブロックを一括展開できる",
+      "tag": "編集",
+      "kw": "unfold 展開 コード"
+    },
+    {
+      "id": "vscode-zen-mode",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "Zenモード（集中モード）に入る",
+      "code": "Ctrl + K Z",
+      "note": "サイドバーや通知など余分なUIを全て隠して編集に集中できる",
+      "tag": "ショートカット",
+      "kw": "zen mode 集中モード フルスクリーン"
+    },
+    {
+      "id": "vscode-open-recent",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "最近開いたフォルダ・ファイルを開く",
+      "code": "Ctrl + R",
+      "note": "プロジェクトを頻繁に切り替える人に便利",
+      "tag": "ショートカット",
+      "kw": "open recent 最近 履歴 開く"
+    },
+    {
+      "id": "vscode-new-window",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "新しいウィンドウを開く",
+      "code": "Ctrl + Shift + N",
+      "note": "別プロジェクトを並行して開きたい時に使う",
+      "tag": "ショートカット",
+      "kw": "new window 新規ウィンドウ"
+    },
+    {
+      "id": "vscode-close-editor",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "現在のエディタタブを閉じる",
+      "code": "Ctrl + W",
+      "note": "Ctrl+Shift+T で閉じたタブを再度開ける",
+      "tag": "ショートカット",
+      "kw": "close 閉じる タブ エディタ"
+    },
+    {
+      "id": "vscode-reopen-closed",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "閉じたエディタタブを再度開く",
+      "code": "Ctrl + Shift + T",
+      "note": "誤って閉じてしまったタブをすぐに復元できる",
+      "tag": "ショートカット",
+      "kw": "reopen 復元 タブ 開き直す"
+    },
+    {
+      "id": "vscode-switch-tab",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "タブ間を切り替える",
+      "code": "Ctrl + Tab",
+      "note": "押しっぱなしで最近使ったタブの一覧が出て素早く移動できる",
+      "tag": "ショートカット",
+      "kw": "switch tab タブ切替"
+    },
+    {
+      "id": "vscode-add-cursor-above",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "上下の行にカーソルを追加する",
+      "code": "Ctrl + Alt + ↑ / ↓",
+      "note": "縦に並んだ複数行を同時編集したい時に使う",
+      "tag": "編集",
+      "kw": "add cursor マルチカーソル 縦方向"
+    },
+    {
+      "id": "vscode-select-all-occurrences",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "選択中の単語と一致する箇所を全選択する",
+      "code": "Ctrl + Shift + L",
+      "note": "変数名の一括変更にリネームより手早く使える場合がある",
+      "tag": "編集",
+      "kw": "select all occurrences 一括選択 全選択"
+    },
+    {
+      "id": "vscode-indent",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "行のインデントを増減する",
+      "code": "Tab / Shift + Tab",
+      "note": "複数行選択中でも同時にインデント調整できる",
+      "tag": "編集",
+      "kw": "indent インデント タブ"
+    },
+    {
+      "id": "vscode-trigger-suggest",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "コード補完を手動で呼び出す",
+      "code": "Ctrl + Space",
+      "note": "自動補完が出ない場面でも強制的にサジェストを表示できる",
+      "tag": "編集",
+      "kw": "suggest 補完 intellisense"
+    },
+    {
+      "id": "vscode-quick-fix",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "クイックフィックスを表示する",
+      "code": "Ctrl + .",
+      "note": "importの自動追加やlintエラーの修正候補が表示される",
+      "tag": "編集",
+      "kw": "quick fix クイックフィックス 修正候補"
+    },
+    {
+      "id": "vscode-trim-whitespace",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "末尾の空白を一括削除する",
+      "code": "Command Palette > Trim Trailing Whitespace",
+      "note": "settings.json で files.trimTrailingWhitespace: true にすると保存時に自動化できる",
+      "tag": "編集",
+      "kw": "trim whitespace 空白削除 整形"
+    },
+    {
+      "id": "vscode-open-settings-json",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "settings.jsonを直接編集する",
+      "code": "Ctrl + Shift + P > Preferences: Open User Settings (JSON)",
+      "note": "GUIにない細かい設定はここから直接JSONで指定する",
+      "tag": "ショートカット",
+      "kw": "settings.json 設定 編集"
+    },
+    {
+      "id": "vscode-open-keybindings",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "キーボードショートカットをカスタマイズする",
+      "code": "Ctrl + K Ctrl + S",
+      "note": "既存の割り当てと衝突しないか確認しながら設定する",
+      "tag": "ショートカット",
+      "kw": "keybindings ショートカット カスタマイズ"
+    },
+    {
+      "id": "vscode-toggle-word-wrap",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "行の折り返し表示を切り替える",
+      "code": "Alt + Z",
+      "note": "横に長いコードやMarkdownを読みやすくする時に使う",
+      "tag": "ショートカット",
+      "kw": "word wrap 折り返し 表示"
+    },
+    {
+      "id": "vscode-peek-definition",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "定義をインラインでプレビューする",
+      "code": "Alt + F12",
+      "note": "ファイルを移動せずその場で定義元のコードを確認できる",
+      "tag": "検索",
+      "kw": "peek definition 定義 プレビュー"
+    },
+    {
+      "id": "vscode-diff-editor",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "2つのファイルの差分を比較表示する",
+      "code": "Command Palette > File: Compare Active File With...",
+      "note": "エクスプローラーで2ファイルを選択して右クリックからも実行できる",
+      "tag": "検索",
+      "kw": "diff 差分 比較 ファイル"
+    },
+    {
+      "id": "vscode-source-control",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "ソース管理（Git）パネルを開く",
+      "code": "Ctrl + Shift + G",
+      "note": "ステージ・コミット・差分確認をGUIから行える",
+      "tag": "ショートカット",
+      "kw": "source control git ソース管理"
+    },
+    {
+      "id": "vscode-extensions-panel",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "拡張機能パネルを開く",
+      "code": "Ctrl + Shift + X",
+      "note": "検索してインストールボタンを押すだけで導入できる",
+      "tag": "ショートカット",
+      "kw": "extensions 拡張機能 プラグイン"
+    },
+    {
+      "id": "vscode-problems-panel",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "エラー・警告一覧（Problems）を開く",
+      "code": "Ctrl + Shift + M",
+      "note": "プロジェクト全体のlintエラーやTypeScriptエラーがまとめて見える",
+      "tag": "ショートカット",
+      "kw": "problems 問題 エラー 警告 一覧"
+    },
+    {
+      "id": "vscode-outline-view",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "ファイル内のシンボル一覧（アウトライン）を見る",
+      "code": "Ctrl + Shift + O",
+      "note": "長いファイルの中で関数やクラスへ素早く移動できる",
+      "tag": "検索",
+      "kw": "outline アウトライン シンボル一覧"
+    },
+    {
+      "id": "vscode-run-task",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "定義済みタスクを実行する",
+      "code": "Ctrl + Shift + P > Tasks: Run Task",
+      "note": "tasks.json にビルド・テストコマンドを登録しておくと使える",
+      "tag": "ショートカット",
+      "kw": "run task タスク実行 ビルド"
+    },
+    {
+      "id": "vscode-start-debugging",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "デバッグを開始する",
+      "code": "F5",
+      "note": "launch.json でデバッグ対象や引数を設定できる",
+      "tag": "ショートカット",
+      "kw": "debug デバッグ 開始 実行"
+    },
+    {
+      "id": "vscode-toggle-breakpoint",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "ブレークポイントを設定・解除する",
+      "code": "F9",
+      "note": "行番号の左をクリックしても同じことができる",
+      "tag": "ショートカット",
+      "kw": "breakpoint ブレークポイント デバッグ"
+    },
+    {
+      "id": "vscode-step-over",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "デバッグ中に1行ずつ実行する",
+      "code": "F10",
+      "note": "F11でステップイン（関数内部に入る）、Shift+F11でステップアウト",
+      "tag": "ショートカット",
+      "kw": "step over デバッグ 1行実行"
+    },
+    {
+      "id": "vscode-emmet-abbreviation",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "Emmet記法でHTMLを一気に展開する",
+      "code": "div.container>ul>li*3",
+      "note": "Tabキーで展開すると入れ子構造のHTMLが自動生成される",
+      "tag": "編集",
+      "kw": "emmet html 展開 生成"
+    },
+    {
+      "id": "vscode-markdown-preview",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "Markdownのプレビューを開く",
+      "code": "Ctrl + Shift + V",
+      "note": "Ctrl+K V で横に並べてプレビュー表示できる",
+      "tag": "ショートカット",
+      "kw": "markdown プレビュー preview"
+    },
+    {
+      "id": "vscode-clipboard-history",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "クリップボード履歴からペーストする",
+      "code": "Ctrl + Shift + P > Clipboard: Paste from History",
+      "note": "OS標準のクリップボード履歴機能と組み合わせて使うと便利",
+      "tag": "編集",
+      "kw": "clipboard クリップボード 履歴 ペースト"
+    },
+    {
+      "id": "vscode-workspace-settings",
+      "env": "VS Code",
+      "cat": "VS Code",
+      "title": "ワークスペース単位で設定を変更する",
+      "code": "Ctrl + Shift + P > Preferences: Open Workspace Settings",
+      "note": "プロジェクトごとに異なる設定（フォーマッタ等）を管理できる",
+      "tag": "ショートカット",
+      "kw": "workspace settings 設定 プロジェクト単位"
     }
   ]
 }

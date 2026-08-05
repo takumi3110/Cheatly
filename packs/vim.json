@@ -46,6 +46,476 @@
       "note": "保存して終了は :wq または ZZ。全バッファ終了は :qa!",
       "tag": "編集",
       "kw": "quit 終了 exit 保存 抜ける vim 閉じる"
+    },
+    {
+      "id": "vim-save",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ファイルを保存する",
+      "code": ":w",
+      "note": ":w newname で別名保存もできる。:wq で保存して終了",
+      "tag": "編集",
+      "kw": "save 保存 write 書き込み"
+    },
+    {
+      "id": "vim-save-quit",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "保存して終了する",
+      "code": ":wq",
+      "note": "ノーマルモードで ZZ と入力しても同じ結果になる",
+      "tag": "編集",
+      "kw": "save quit 保存 終了 wq"
+    },
+    {
+      "id": "vim-undo",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "直前の操作を取り消す",
+      "code": "u",
+      "note": "Ctrl+r でredo（やり直し）ができる",
+      "tag": "編集",
+      "kw": "undo 取り消し やり直し redo"
+    },
+    {
+      "id": "vim-redo",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "取り消した操作をやり直す",
+      "code": "Ctrl + r",
+      "note": "u で取り消した操作を再度適用する",
+      "tag": "編集",
+      "kw": "redo やり直し undo"
+    },
+    {
+      "id": "vim-delete-line",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "行を削除する",
+      "code": "dd",
+      "note": "3dd で3行削除。削除内容はレジスタに入りpで貼り付けられる",
+      "tag": "編集",
+      "kw": "delete line 行削除 カット"
+    },
+    {
+      "id": "vim-delete-word",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "カーソル位置の単語を削除する",
+      "code": "dw",
+      "note": "diw でカーソルが単語の途中でも単語全体を削除できる",
+      "tag": "編集",
+      "kw": "delete word 単語削除"
+    },
+    {
+      "id": "vim-goto-top",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ファイルの先頭に移動する",
+      "code": "gg",
+      "note": "G でファイルの末尾に移動できる",
+      "tag": "編集",
+      "kw": "goto top 先頭 移動 gg"
+    },
+    {
+      "id": "vim-goto-bottom",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ファイルの末尾に移動する",
+      "code": "G",
+      "note": "数字G で指定行にジャンプできる（例: 10G で10行目へ）",
+      "tag": "編集",
+      "kw": "goto bottom 末尾 移動"
+    },
+    {
+      "id": "vim-goto-line",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "指定行にジャンプする",
+      "code": ":42",
+      "note": "コマンドモードで行番号だけ入力してもジャンプできる",
+      "tag": "編集",
+      "kw": "goto line 行移動 ジャンプ"
+    },
+    {
+      "id": "vim-search",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "文字列を検索する",
+      "code": "/keyword",
+      "note": "n で次候補、N で前候補に移動。?keyword で逆方向検索",
+      "tag": "検索",
+      "kw": "search 検索 find keyword"
+    },
+    {
+      "id": "vim-search-next",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "検索結果の次・前に移動する",
+      "code": "n / N",
+      "note": "n が検索方向の次、N が逆方向の前に移動する",
+      "tag": "検索",
+      "kw": "search next 次 検索移動"
+    },
+    {
+      "id": "vim-visual-mode",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ビジュアルモードで範囲選択する",
+      "code": "v",
+      "note": "V で行単位選択、Ctrl+v で矩形（ブロック）選択になる",
+      "tag": "編集",
+      "kw": "visual ビジュアルモード 選択"
+    },
+    {
+      "id": "vim-visual-line",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "行単位でビジュアル選択する",
+      "code": "V",
+      "note": "選択後に d で削除、y でコピー、> でインデントできる",
+      "tag": "編集",
+      "kw": "visual line 行選択"
+    },
+    {
+      "id": "vim-visual-block",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "矩形（ブロック）選択する",
+      "code": "Ctrl + v",
+      "note": "複数行の同じ列に一括で文字を挿入・削除する時に使う",
+      "tag": "編集",
+      "kw": "visual block 矩形選択 ブロック"
+    },
+    {
+      "id": "vim-insert-mode",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "挿入モードに入る",
+      "code": "i",
+      "note": "a はカーソルの後ろから、o は次行に新規行を作って挿入モードに入る",
+      "tag": "編集",
+      "kw": "insert 挿入モード 編集開始"
+    },
+    {
+      "id": "vim-append",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "カーソルの後ろから挿入する",
+      "code": "a",
+      "note": "A で行末から挿入モードに入る",
+      "tag": "編集",
+      "kw": "append 追記 挿入"
+    },
+    {
+      "id": "vim-open-line",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "新しい行を作って挿入モードに入る",
+      "code": "o",
+      "note": "O でカーソル行の上に新しい行を作る",
+      "tag": "編集",
+      "kw": "open line 新規行 挿入"
+    },
+    {
+      "id": "vim-escape",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ノーマルモードに戻る",
+      "code": "Esc",
+      "note": "Ctrl+[ でも同じ動作。jk のマッピングもよく使われる",
+      "tag": "編集",
+      "kw": "escape ノーマルモード 戻る"
+    },
+    {
+      "id": "vim-change-word",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "単語を削除して挿入モードに入る",
+      "code": "cw",
+      "note": "削除と挿入モード開始を1コマンドで行える",
+      "tag": "編集",
+      "kw": "change word 単語変更 削除挿入"
+    },
+    {
+      "id": "vim-replace-char",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "1文字だけ置き換える",
+      "code": "r",
+      "note": "rの後に置換する文字を入力する。R で複数文字を上書き入力できる",
+      "tag": "編集",
+      "kw": "replace char 1文字置換"
+    },
+    {
+      "id": "vim-join-lines",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "次の行を現在行に連結する",
+      "code": "J",
+      "note": "3J で3行をまとめて連結できる",
+      "tag": "編集",
+      "kw": "join lines 行連結 結合"
+    },
+    {
+      "id": "vim-repeat",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "直前の操作を繰り返す",
+      "code": ".",
+      "note": "同じ編集を複数箇所に適用したい時に非常に便利",
+      "tag": "編集",
+      "kw": "repeat 繰り返し ドット"
+    },
+    {
+      "id": "vim-word-forward",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "単語単位でカーソルを移動する",
+      "code": "w / b",
+      "note": "w で次の単語頭へ、b で前の単語頭へ移動",
+      "tag": "編集",
+      "kw": "word forward 単語移動"
+    },
+    {
+      "id": "vim-end-of-line",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "行末・行頭に移動する",
+      "code": "$  /  0",
+      "note": "$ で行末、0 で行頭、^ で最初の非空白文字に移動",
+      "tag": "編集",
+      "kw": "end of line 行末 行頭 移動"
+    },
+    {
+      "id": "vim-split-window",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ウィンドウを分割する",
+      "code": ":split",
+      "note": ":vsplit で縦分割。Ctrl+w で分割ウィンドウ間を移動",
+      "tag": "編集",
+      "kw": "split window ウィンドウ分割"
+    },
+    {
+      "id": "vim-vsplit-window",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ウィンドウを縦に分割する",
+      "code": ":vsplit",
+      "note": "左右に並べて2つのファイルを同時編集できる",
+      "tag": "編集",
+      "kw": "vsplit 縦分割 ウィンドウ"
+    },
+    {
+      "id": "vim-switch-window",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "分割したウィンドウ間を移動する",
+      "code": "Ctrl + w w",
+      "note": "Ctrl+w に方向キー（h/j/k/l）で特定方向のウィンドウへ移動",
+      "tag": "編集",
+      "kw": "switch window ウィンドウ移動"
+    },
+    {
+      "id": "vim-tab-new",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "新しいタブを開く",
+      "code": ":tabnew file.txt",
+      "note": "gt / gT でタブ間を移動できる",
+      "tag": "編集",
+      "kw": "tab タブ 新規 開く"
+    },
+    {
+      "id": "vim-macro-record",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "マクロを記録・実行する",
+      "code": "qa ... q → @a",
+      "note": "qa で記録開始しqで終了、@a で実行。@@ で直前のマクロを再実行",
+      "tag": "編集",
+      "kw": "macro マクロ 記録 自動化"
+    },
+    {
+      "id": "vim-set-number",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "行番号を表示する",
+      "code": ":set number",
+      "note": ":set relativenumber で相対行番号にも切り替えられる",
+      "tag": "編集",
+      "kw": "set number 行番号 表示"
+    },
+    {
+      "id": "vim-syntax-on",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "シンタックスハイライトを有効にする",
+      "code": ":syntax on",
+      "note": ".vimrc に書いておくと起動時から常に有効になる",
+      "tag": "編集",
+      "kw": "syntax ハイライト 色付け"
+    },
+    {
+      "id": "vim-indent-selection",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "選択範囲をインデントする",
+      "code": "> / <",
+      "note": "ビジュアルモードで選択後に使うと複数行を一括インデントできる",
+      "tag": "編集",
+      "kw": "indent インデント 選択範囲"
+    },
+    {
+      "id": "vim-mark",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "マークを設定して素早くジャンプする",
+      "code": "ma → 'a",
+      "note": "ma でマーク設定、'a でその行の先頭にジャンプ",
+      "tag": "編集",
+      "kw": "mark マーク ジャンプ ブックマーク"
+    },
+    {
+      "id": "vim-fold",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "コードを折りたたむ",
+      "code": "zf / za",
+      "note": "zf で範囲指定して折りたたみ作成、za で開閉トグル",
+      "tag": "編集",
+      "kw": "fold 折りたたみ 畳む"
+    },
+    {
+      "id": "vim-yank-to-eol",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "カーソル位置から行末までコピーする",
+      "code": "y$",
+      "note": "d$ にすれば行末までの削除になる",
+      "tag": "編集",
+      "kw": "yank eol 行末 コピー"
+    },
+    {
+      "id": "vim-paste-before",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "カーソルの前に貼り付ける",
+      "code": "P",
+      "note": "p はカーソルの後ろに貼り付ける（大文字小文字で挙動が違う）",
+      "tag": "編集",
+      "kw": "paste before 貼り付け 前"
+    },
+    {
+      "id": "vim-open-file-explorer",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ファイルエクスプローラー（netrw）を開く",
+      "code": ":Explore",
+      "note": ":Vexplore で左側に縦分割で開く",
+      "tag": "編集",
+      "kw": "explore ファイルエクスプローラー netrw"
+    },
+    {
+      "id": "vim-read-external",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "外部コマンドの出力を挿入する",
+      "code": ":r !ls",
+      "note": "シェルコマンドの結果をそのままバッファに挿入できる",
+      "tag": "編集",
+      "kw": "read external コマンド出力 挿入"
+    },
+    {
+      "id": "vim-execute-shell",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "Vimから抜けずにシェルコマンドを実行する",
+      "code": ":!ls -la",
+      "note": ":shell で一時的にシェルへ抜け、exit でVimに戻ることもできる",
+      "tag": "編集",
+      "kw": "shell コマンド実行 外部"
+    },
+    {
+      "id": "vim-diff-mode",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "2ファイルの差分を表示する",
+      "code": "vimdiff file1 file2",
+      "note": "]c / [c で次・前の差分箇所へ移動、do / dp で差分を反映できる",
+      "tag": "検索",
+      "kw": "vimdiff diff 差分 比較"
+    },
+    {
+      "id": "vim-set-ignorecase",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "検索時に大文字小文字を無視する",
+      "code": ":set ignorecase smartcase",
+      "note": "smartcase を併用すると大文字を含む検索語だけ区別される",
+      "tag": "検索",
+      "kw": "ignorecase 大文字小文字 検索設定"
+    },
+    {
+      "id": "vim-percent-match",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "対応する括弧に移動する",
+      "code": "%",
+      "note": "( { [ の上で押すと対応する閉じ括弧にジャンプする",
+      "tag": "編集",
+      "kw": "percent 括弧 対応 ジャンプ"
+    },
+    {
+      "id": "vim-registers",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "名前付きレジスタにコピーする",
+      "code": "\"ayy",
+      "note": "\"a でレジスタaを指定、\"ap でそのレジスタから貼り付け",
+      "tag": "編集",
+      "kw": "register レジスタ 名前付きコピー"
+    },
+    {
+      "id": "vim-increment-number",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "カーソル下の数値を増減する",
+      "code": "Ctrl + a / Ctrl + x",
+      "note": "ビジュアルモードで複数行選択すると連番を一括生成できる",
+      "tag": "編集",
+      "kw": "increment 数値 増減 連番"
+    },
+    {
+      "id": "vim-open-vimrc",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "vimrc（設定ファイル）を開く",
+      "code": ":e ~/.vimrc",
+      "note": "編集後は :source % で再読み込みしてすぐ反映できる",
+      "tag": "編集",
+      "kw": "vimrc 設定ファイル 開く"
+    },
+    {
+      "id": "vim-close-window",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "現在のウィンドウだけ閉じる",
+      "code": ":close",
+      "note": ":only で現在のウィンドウ以外を全て閉じられる",
+      "tag": "編集",
+      "kw": "close window ウィンドウを閉じる"
+    },
+    {
+      "id": "vim-select-all",
+      "env": "Vim",
+      "cat": "Vim",
+      "title": "ファイル全体を選択する",
+      "code": "ggVG",
+      "note": "gg で先頭へ移動しVで行選択開始、Gで末尾まで選択する",
+      "tag": "編集",
+      "kw": "select all 全選択 ggvg"
     }
   ]
 }
