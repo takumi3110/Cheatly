@@ -36,6 +36,7 @@ export function PackManager({
   const [busy, setBusy] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [query, setQuery] = useState("");
+  const [showInstalled, setShowInstalled] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -65,10 +66,123 @@ export function PackManager({
 
   const notice = NOTICE[source];
   const q = query.trim().toLowerCase();
-  const visible = (catalog ?? []).filter(
-    (p) =>
-      !q || `${p.id} ${p.label} ${p.cat} ${p.desc}`.toLowerCase().includes(q),
-  );
+  const matches = (p: PackMeta) =>
+    !q || `${p.id} ${p.label} ${p.cat} ${p.desc}`.toLowerCase().includes(q);
+  const isOwned = (p: PackMeta) =>
+    !!installed[p.id] || BUILTIN_CATS.includes(p.cat);
+  const pending = (catalog ?? []).filter((p) => !isOwned(p) && matches(p));
+  const gotList = (catalog ?? []).filter((p) => isOwned(p) && matches(p));
+
+  const renderRow = (pack: PackMeta) => {
+    const bundled = BUILTIN_CATS.includes(pack.cat);
+    const got = !!installed[pack.id];
+    const loading = busy[pack.id];
+    const error = errors[pack.id];
+    const dot = (BADGES[pack.cat] || DEFAULT_BADGE)[1];
+
+    return (
+      <div
+        key={pack.id}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 13,
+          padding: "14px 15px",
+          background: "#2d2d30",
+          border: `1px solid ${got ? "#3d6b3d" : "#3a3a3a"}`,
+          borderRadius: 9,
+        }}
+      >
+        <span
+          style={{
+            width: 9,
+            height: 9,
+            flex: "none",
+            borderRadius: 2,
+            background: dot,
+          }}
+        />
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span
+            style={{
+              display: "block",
+              fontSize: 13,
+              fontWeight: 600,
+              color: "#e8e8e8",
+            }}
+          >
+            {pack.label}
+            <span
+              style={{
+                marginLeft: 8,
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 10,
+                fontWeight: 400,
+                color: "#6a6a6a",
+              }}
+            >
+              {pack.count} commands
+            </span>
+          </span>
+          <span
+            style={{
+              display: "block",
+              fontSize: 11,
+              color: error ? "#f87171" : "#8a8a8a",
+              marginTop: 2,
+            }}
+          >
+            {error || pack.desc}
+          </span>
+        </span>
+
+        {bundled ? (
+          <span
+            style={{
+              flex: "none",
+              fontSize: 11,
+              color: "#6a6a6a",
+              fontFamily: "'JetBrains Mono', monospace",
+            }}
+          >
+            同梱
+          </span>
+        ) : got ? (
+          <button
+            className="icon-btn"
+            onClick={() => onRemove(pack.id)}
+            style={{ padding: "5px 11px", fontSize: 11 }}
+          >
+            削除
+          </button>
+        ) : (
+          <button
+            className="accent-btn"
+            onClick={() => install(pack)}
+            disabled={loading}
+            style={{
+              flex: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 13px",
+              background: ACCENT,
+              border: "none",
+              borderRadius: 6,
+              color: "#1e1e1e",
+              fontSize: 11.5,
+              fontWeight: 700,
+              fontFamily: "inherit",
+              cursor: loading ? "default" : "pointer",
+              opacity: loading ? 0.5 : 1,
+            }}
+          >
+            {loading ? "取得中…" : "⤓ 取得"}
+          </button>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div
@@ -190,118 +304,9 @@ export function PackManager({
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-              {visible.map((pack) => {
-                const bundled = BUILTIN_CATS.includes(pack.cat);
-                const got = !!installed[pack.id];
-                const loading = busy[pack.id];
-                const error = errors[pack.id];
-                const dot = (BADGES[pack.cat] || DEFAULT_BADGE)[1];
+              {pending.map(renderRow)}
 
-                return (
-                  <div
-                    key={pack.id}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 13,
-                      padding: "14px 15px",
-                      background: "#2d2d30",
-                      border: `1px solid ${got ? "#3d6b3d" : "#3a3a3a"}`,
-                      borderRadius: 9,
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 9,
-                        height: 9,
-                        flex: "none",
-                        borderRadius: 2,
-                        background: dot,
-                      }}
-                    />
-                    <span style={{ flex: 1, minWidth: 0 }}>
-                      <span
-                        style={{
-                          display: "block",
-                          fontSize: 13,
-                          fontWeight: 600,
-                          color: "#e8e8e8",
-                        }}
-                      >
-                        {pack.label}
-                        <span
-                          style={{
-                            marginLeft: 8,
-                            fontFamily: "'JetBrains Mono', monospace",
-                            fontSize: 10,
-                            fontWeight: 400,
-                            color: "#6a6a6a",
-                          }}
-                        >
-                          {pack.count} commands
-                        </span>
-                      </span>
-                      <span
-                        style={{
-                          display: "block",
-                          fontSize: 11,
-                          color: error ? "#f87171" : "#8a8a8a",
-                          marginTop: 2,
-                        }}
-                      >
-                        {error || pack.desc}
-                      </span>
-                    </span>
-
-                    {bundled ? (
-                      <span
-                        style={{
-                          flex: "none",
-                          fontSize: 11,
-                          color: "#6a6a6a",
-                          fontFamily: "'JetBrains Mono', monospace",
-                        }}
-                      >
-                        同梱
-                      </span>
-                    ) : got ? (
-                      <button
-                        className="icon-btn"
-                        onClick={() => onRemove(pack.id)}
-                        style={{ padding: "5px 11px", fontSize: 11 }}
-                      >
-                        削除
-                      </button>
-                    ) : (
-                      <button
-                        className="accent-btn"
-                        onClick={() => install(pack)}
-                        disabled={loading}
-                        style={{
-                          flex: "none",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 6,
-                          padding: "6px 13px",
-                          background: ACCENT,
-                          border: "none",
-                          borderRadius: 6,
-                          color: "#1e1e1e",
-                          fontSize: 11.5,
-                          fontWeight: 700,
-                          fontFamily: "inherit",
-                          cursor: loading ? "default" : "pointer",
-                          opacity: loading ? 0.5 : 1,
-                        }}
-                      >
-                        {loading ? "取得中…" : "⤓ 取得"}
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-
-              {visible.length === 0 && (
+              {pending.length === 0 && gotList.length === 0 && (
                 <div
                   style={{
                     textAlign: "center",
@@ -311,6 +316,38 @@ export function PackManager({
                   }}
                 >
                   「{query}」に一致するコードセットがありません
+                </div>
+              )}
+
+              {gotList.length > 0 && (
+                <div style={{ marginTop: pending.length > 0 ? 6 : 0 }}>
+                  <button
+                    className="icon-btn"
+                    onClick={() => setShowInstalled((v) => !v)}
+                    style={{
+                      width: "100%",
+                      justifyContent: "flex-start",
+                      gap: 6,
+                      padding: "8px 10px",
+                      fontSize: 11.5,
+                      borderRadius: 7,
+                    }}
+                  >
+                    <span>{showInstalled ? "▾" : "▸"}</span>
+                    追加済み（{gotList.length}）
+                  </button>
+                  {showInstalled && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 9,
+                        marginTop: 9,
+                      }}
+                    >
+                      {gotList.map(renderRow)}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
