@@ -1,15 +1,19 @@
 import type { Group } from "../types";
 
 /**
- * カテゴリの分類。未取得のカテゴリもサイドバーに出したいので、
- * 同梱・パック配信にかかわらず全カテゴリをここに並べる。
+ * カテゴリのグループ分けと並び順。同梱・パック配信にかかわらず全カテゴリを並べる。
+ * サイドバーに出るのは実際にコマンドを持つカテゴリだけで、ここに無いカテゴリは
+ * 「その他」にまとめられる（src/components/Sidebar.tsx）。
  */
 export const GROUPS: Group[] = [
-  { key: "os", label: "OS / Terminal", cats: ["Linux"] },
-  { key: "editor", label: "Editor", cats: ["Vim", ] },
-  { key: "dev", label: "Dev Tools", cats: ["Git", ] },
-  // { key: "lang", label: "Language", cats: ["Python", "JavaScript"] },
+  { key: "os", label: "OS / Terminal", cats: ["Linux", "PowerShell", "cmd"] },
+  { key: "editor", label: "Editor", cats: ["Vim", "VS Code"] },
+  { key: "dev", label: "Dev Tools", cats: ["Git", "Docker"] },
+  { key: "lang", label: "Language", cats: ["Python", "JavaScript"] },
 ];
+
+/** GROUPS のどれにも属さないカテゴリの受け皿 */
+export const OTHER_GROUP_KEY = "other";
 
 /** env / cat -> [背景色, 文字色] */
 export const BADGES: Record<string, [string, string]> = {

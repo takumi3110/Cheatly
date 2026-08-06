@@ -4,7 +4,7 @@ import { CommandDrawer } from "./components/CommandDrawer";
 import { PackManager } from "./components/PackManager";
 import { Sidebar } from "./components/Sidebar";
 import { BUILTIN_CATS, BUILTIN_COMMANDS } from "./data/builtin";
-import { TAGS } from "./data/commands";
+import { OTHER_GROUP_KEY, TAGS } from "./data/commands";
 import {
   fetchCatalog,
   loadInstalled,
@@ -37,6 +37,7 @@ function App() {
     editor: true,
     dev: true,
     lang: true,
+    [OTHER_GROUP_KEY]: true,
   });
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [copiedId, setCopiedId] = useState<string | null>(null);
