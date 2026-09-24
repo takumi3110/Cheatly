@@ -13,6 +13,7 @@ import {
   type InstalledPacks,
   type PackMeta,
 } from "./lib/packs";
+import { createCommandMatcher } from "./lib/commandSearch";
 import { onTrayOpen, expandWindow } from "./lib/trayWindow";
 import { openWebSearch } from "./lib/websearch";
 import { ACCENT, GRID_COLS } from "./theme";
@@ -83,14 +84,11 @@ function App() {
   const allCommands = useMemo(() => mergeCommands(installed), [installed]);
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const matches = createCommandMatcher(query);
     return allCommands.filter((d) => {
       if (activeCat && d.cat !== activeCat) return false;
       if (activeTag && d.tag !== activeTag) return false;
-      if (!q) return true;
-      const hay =
-        `${d.title} ${d.code} ${d.kw} ${d.env} ${d.tag}`.toLowerCase();
-      return q.split(/\s+/).every((t) => hay.includes(t));
+      return matches(d);
     });
   }, [allCommands, query, activeCat, activeTag]);
 
