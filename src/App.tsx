@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CommandCard } from "./components/CommandCard";
 import { CommandDrawer } from "./components/CommandDrawer";
+import { CommandRow } from "./components/CommandRow";
 import { PackManager } from "./components/PackManager";
 import { Sidebar } from "./components/Sidebar";
 import { BUILTIN_CATS, BUILTIN_COMMANDS } from "./data/builtin";
-import { TAGS } from "./data/commands";
+import { OTHER_GROUP_KEY, TAGS } from "./data/commands";
 import {
   fetchCatalog,
   loadInstalled,
@@ -12,6 +13,8 @@ import {
   type InstalledPacks,
   type PackMeta,
 } from "./lib/packs";
+import { createCommandMatcher } from "./lib/commandSearch";
+import { onTrayOpen, expandWindow } from "./lib/trayWindow";
 import { openWebSearch } from "./lib/websearch";
 import { ACCENT, GRID_COLS } from "./theme";
 import type { Command } from "./types";
@@ -31,11 +34,13 @@ function App() {
   const [query, setQuery] = useState("");
   const [activeCat, setActiveCat] = useState<string | null>(null);
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [layout, setLayout] = useState<"grid" | "list">("grid");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
     os: true,
     editor: true,
     dev: true,
     lang: true,
+    [OTHER_GROUP_KEY]: true,
   });
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -43,6 +48,7 @@ function App() {
   const [packsOpen, setPacksOpen] = useState(false);
   const [installed, setInstalled] = useState<InstalledPacks>({});
   const [catalog, setCatalog] = useState<PackMeta[] | null>(null);
+  const [compact, setCompact] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const copyTimer = useRef<number | undefined>(undefined);
 
@@ -62,17 +68,27 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    onTrayOpen(() => setCompact(true)).then((fn) => {
+      unlisten = fn;
+    });
+    return () => unlisten?.();
+  }, []);
+
+  const handleExpand = () => {
+    setCompact(false);
+    expandWindow();
+  };
+
   const allCommands = useMemo(() => mergeCommands(installed), [installed]);
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const matches = createCommandMatcher(query);
     return allCommands.filter((d) => {
       if (activeCat && d.cat !== activeCat) return false;
       if (activeTag && d.tag !== activeTag) return false;
-      if (!q) return true;
-      const hay =
-        `${d.title} ${d.code} ${d.kw} ${d.env} ${d.tag}`.toLowerCase();
-      return q.split(/\s+/).every((t) => hay.includes(t));
+      return matches(d);
     });
   }, [allCommands, query, activeCat, activeTag]);
 
@@ -109,6 +125,12 @@ function App() {
     saveInstalled(next);
   };
 
+  // カテゴリを絞ったときは一覧性を優先してリストにする。以降はトグルで自由に切り替えられる
+  const selectCat = (cat: string | null) => {
+    setActiveCat(cat);
+    setLayout(cat ? "list" : "grid");
+  };
+
   const copyCode = (id: string, code: string) => {
     navigator.clipboard.writeText(code).catch(() => {});
     setCopiedId(id);
@@ -125,16 +147,20 @@ function App() {
         background: "#1e1e1e",
       }}
     >
-      <Sidebar
-        commands={allCommands}
-        open={sidebarOpen}
-        onToggleOpen={() => setSidebarOpen((v) => !v)}
-        expanded={expanded}
-        onToggleGroup={(key) => setExpanded((s) => ({ ...s, [key]: !s[key] }))}
-        activeCat={activeCat}
-        onSelectCat={setActiveCat}
-        onOpenPacks={() => setPacksOpen(true)}
-      />
+      {!compact && (
+        <Sidebar
+          commands={allCommands}
+          open={sidebarOpen}
+          onToggleOpen={() => setSidebarOpen((v) => !v)}
+          expanded={expanded}
+          onToggleGroup={(key) =>
+            setExpanded((s) => ({ ...s, [key]: !s[key] }))
+          }
+          activeCat={activeCat}
+          onSelectCat={selectCat}
+          onOpenPacks={() => setPacksOpen(true)}
+        />
+      )}
 
       <main
         style={{
@@ -147,11 +173,30 @@ function App() {
         <header
           style={{
             flex: "none",
-            padding: "20px 28px 14px",
+            padding: compact ? "12px 14px 10px" : "20px 28px 14px",
             borderBottom: "1px solid #333333",
             background: "#1e1e1e",
           }}
         >
+          {compact && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginBottom: 8,
+              }}
+            >
+              <button
+                className="icon-btn"
+                onClick={handleExpand}
+                title="通常サイズに展開"
+                style={{ padding: "4px 10px", fontSize: 11.5, borderRadius: 6 }}
+              >
+                ⤢ 展開
+              </button>
+            </div>
+          )}
+
           <div style={{ position: "relative", maxWidth: 860 }}>
             <span
               style={{
@@ -206,44 +251,52 @@ function App() {
             </span>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginTop: 12,
-              flexWrap: "wrap",
-            }}
-          >
-            <span style={{ fontSize: 11, color: "#7a7a7a", marginRight: 2 }}>
-              タグ:
-            </span>
-            {TAGS.map((tag) => {
-              const active = activeTag === tag;
-              return (
-                <button
-                  key={tag}
-                  className="tag-btn"
-                  onClick={() => setActiveTag(active ? null : tag)}
-                  style={{
-                    padding: "4px 11px",
-                    background: active ? ACCENT : "transparent",
-                    border: `1px solid ${active ? ACCENT : "#3e3e42"}`,
-                    borderRadius: 99,
-                    color: active ? "#1e1e1e" : "#9a9a9a",
-                    fontSize: 11.5,
-                    cursor: "pointer",
-                    fontFamily: "'JetBrains Mono', monospace",
-                  }}
-                >
-                  #{tag}
-                </button>
-              );
-            })}
-          </div>
+          {!compact && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginTop: 12,
+                flexWrap: "wrap",
+              }}
+            >
+              <span style={{ fontSize: 11, color: "#7a7a7a", marginRight: 2 }}>
+                タグ:
+              </span>
+              {TAGS.map((tag) => {
+                const active = activeTag === tag;
+                return (
+                  <button
+                    key={tag}
+                    className="tag-btn"
+                    onClick={() => setActiveTag(active ? null : tag)}
+                    style={{
+                      padding: "4px 11px",
+                      background: active ? ACCENT : "transparent",
+                      border: `1px solid ${active ? ACCENT : "#3e3e42"}`,
+                      borderRadius: 99,
+                      color: active ? "#1e1e1e" : "#9a9a9a",
+                      fontSize: 11.5,
+                      cursor: "pointer",
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  >
+                    #{tag}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </header>
 
-        <div style={{ flex: 1, overflowY: "auto", padding: "18px 28px 40px" }}>
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: compact ? "10px 14px 20px" : "18px 28px 40px",
+          }}
+        >
           <div
             style={{
               display: "flex",
@@ -268,16 +321,41 @@ function App() {
             >
               {filtered.length} results
             </span>
+            <div style={{ marginLeft: "auto", display: "flex", gap: 4 }}>
+              {(
+                [
+                  ["grid", "▦", "カード表示"],
+                  ["list", "☰", "リスト表示"],
+                ] as const
+              ).map(([value, icon, label]) => (
+                <button
+                  key={value}
+                  className="icon-btn"
+                  onClick={() => setLayout(value)}
+                  title={label}
+                  aria-pressed={layout === value}
+                  style={{
+                    width: 26,
+                    height: 24,
+                    fontSize: 12,
+                    borderRadius: 5,
+                    background: layout === value ? "#37373d" : "transparent",
+                    color: layout === value ? "#ffffff" : undefined,
+                  }}
+                >
+                  {icon}
+                </button>
+              ))}
+            </div>
             {hasFilter && (
               <button
                 className="icon-btn"
                 onClick={() => {
                   setQuery("");
-                  setActiveCat(null);
+                  selectCat(null);
                   setActiveTag(null);
                 }}
                 style={{
-                  marginLeft: "auto",
                   padding: "3px 10px",
                   fontSize: 11,
                   borderRadius: 5,
@@ -288,7 +366,26 @@ function App() {
             )}
           </div>
 
-          {filtered.length > 0 ? (
+          {filtered.length > 0 && layout === "list" ? (
+            <div
+              style={{
+                border: "1px solid #333333",
+                borderRadius: 8,
+                overflow: "hidden",
+                background: "#252526",
+              }}
+            >
+              {filtered.map((cmd) => (
+                <CommandRow
+                  key={cmd.id}
+                  command={cmd}
+                  copied={copiedId === cmd.id}
+                  onOpen={() => setDrawerId(cmd.id)}
+                  onCopy={() => copyCode(cmd.id, cmd.code)}
+                />
+              ))}
+            </div>
+          ) : filtered.length > 0 ? (
             <div
               style={{
                 display: "grid",

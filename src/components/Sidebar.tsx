@@ -1,6 +1,31 @@
-import { BADGES, DEFAULT_BADGE, GROUPS } from "../data/commands";
+import {
+  BADGES,
+  DEFAULT_BADGE,
+  GROUPS,
+  OTHER_GROUP_KEY,
+} from "../data/commands";
 import { ACCENT } from "../theme";
-import type { Command } from "../types";
+import type { Command, Group } from "../types";
+
+/**
+ * 実際にコマンドを持つカテゴリだけのグループを作る。
+ * 取得済みパックのカテゴリはこれで自動的にサイドバーへ出る。
+ * GROUPS に無いカテゴリ（後から配信が増えた場合）は「その他」にまとめる。
+ */
+function visibleGroups(commands: Command[]): Group[] {
+  const used = new Set(commands.map((d) => d.cat));
+  const known = new Set(GROUPS.flatMap((g) => g.cats));
+  const groups: Group[] = GROUPS.map((g) => ({
+    ...g,
+    cats: g.cats.filter((c) => used.has(c)),
+  }));
+  groups.push({
+    key: OTHER_GROUP_KEY,
+    label: "その他",
+    cats: [...used].filter((c) => !known.has(c)).sort(),
+  });
+  return groups.filter((g) => g.cats.length > 0);
+}
 
 type Props = {
   /** 同梱＋取得済みパックをマージしたコマンド。件数と取得済み判定に使う */
@@ -25,6 +50,7 @@ export function Sidebar({
   onOpenPacks,
 }: Props) {
   const countOf = (cat: string) => commands.filter((d) => d.cat === cat).length;
+  const groups = visibleGroups(commands);
 
   return (
     <aside
@@ -143,7 +169,7 @@ export function Sidebar({
               すべて表示
             </button>
 
-            {GROUPS.map((group) => (
+            {groups.map((group) => (
               <div key={group.key} style={{ marginBottom: 2 }}>
                 <button
                   className="side-btn"
@@ -209,8 +235,7 @@ export function Sidebar({
                         <button
                           key={cat}
                           className="side-btn"
-                          onClick={() => onSelectCat(active ? null : cat)
-                          }
+                          onClick={() => onSelectCat(active ? null : cat)}
                           style={{
                             display: "flex",
                             alignItems: "center",
@@ -221,9 +246,7 @@ export function Sidebar({
                             background: active ? "#37373d" : "transparent",
                             border: "none",
                             borderRadius: 5,
-                            color: active
-                                ? "#ffffff"
-                                : "#a5a5a5",
+                            color: active ? "#ffffff" : "#a5a5a5",
                             fontSize: 12,
                             cursor: "pointer",
                             textAlign: "left",
