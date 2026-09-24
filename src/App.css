@@ -105,6 +105,18 @@ input::placeholder {
   border-color: #4fc1ff !important;
 }
 
+.cmd-row {
+  border-bottom: 1px solid #2d2d30;
+}
+
+.cmd-row:last-child {
+  border-bottom: none;
+}
+
+.cmd-row:hover {
+  background: #2a2a2d;
+}
+
 .copy-btn:hover {
   background: #37373d !important;
   color: #ffffff !important;

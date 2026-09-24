@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CommandCard } from "./components/CommandCard";
 import { CommandDrawer } from "./components/CommandDrawer";
+import { CommandRow } from "./components/CommandRow";
 import { PackManager } from "./components/PackManager";
 import { Sidebar } from "./components/Sidebar";
 import { BUILTIN_CATS, BUILTIN_COMMANDS } from "./data/builtin";
@@ -32,6 +33,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [activeCat, setActiveCat] = useState<string | null>(null);
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [layout, setLayout] = useState<"grid" | "list">("grid");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
     os: true,
     editor: true,
@@ -125,6 +127,12 @@ function App() {
     saveInstalled(next);
   };
 
+  // カテゴリを絞ったときは一覧性を優先してリストにする。以降はトグルで自由に切り替えられる
+  const selectCat = (cat: string | null) => {
+    setActiveCat(cat);
+    setLayout(cat ? "list" : "grid");
+  };
+
   const copyCode = (id: string, code: string) => {
     navigator.clipboard.writeText(code).catch(() => {});
     setCopiedId(id);
@@ -151,7 +159,7 @@ function App() {
             setExpanded((s) => ({ ...s, [key]: !s[key] }))
           }
           activeCat={activeCat}
-          onSelectCat={setActiveCat}
+          onSelectCat={selectCat}
           onOpenPacks={() => setPacksOpen(true)}
         />
       )}
@@ -315,16 +323,41 @@ function App() {
             >
               {filtered.length} results
             </span>
+            <div style={{ marginLeft: "auto", display: "flex", gap: 4 }}>
+              {(
+                [
+                  ["grid", "▦", "カード表示"],
+                  ["list", "☰", "リスト表示"],
+                ] as const
+              ).map(([value, icon, label]) => (
+                <button
+                  key={value}
+                  className="icon-btn"
+                  onClick={() => setLayout(value)}
+                  title={label}
+                  aria-pressed={layout === value}
+                  style={{
+                    width: 26,
+                    height: 24,
+                    fontSize: 12,
+                    borderRadius: 5,
+                    background: layout === value ? "#37373d" : "transparent",
+                    color: layout === value ? "#ffffff" : undefined,
+                  }}
+                >
+                  {icon}
+                </button>
+              ))}
+            </div>
             {hasFilter && (
               <button
                 className="icon-btn"
                 onClick={() => {
                   setQuery("");
-                  setActiveCat(null);
+                  selectCat(null);
                   setActiveTag(null);
                 }}
                 style={{
-                  marginLeft: "auto",
                   padding: "3px 10px",
                   fontSize: 11,
                   borderRadius: 5,
@@ -335,7 +368,26 @@ function App() {
             )}
           </div>
 
-          {filtered.length > 0 ? (
+          {filtered.length > 0 && layout === "list" ? (
+            <div
+              style={{
+                border: "1px solid #333333",
+                borderRadius: 8,
+                overflow: "hidden",
+                background: "#252526",
+              }}
+            >
+              {filtered.map((cmd) => (
+                <CommandRow
+                  key={cmd.id}
+                  command={cmd}
+                  copied={copiedId === cmd.id}
+                  onOpen={() => setDrawerId(cmd.id)}
+                  onCopy={() => copyCode(cmd.id, cmd.code)}
+                />
+              ))}
+            </div>
+          ) : filtered.length > 0 ? (
             <div
               style={{
                 display: "grid",
