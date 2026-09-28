@@ -6,7 +6,7 @@ const unwrap = (m: { default: unknown }) => m.default as unknown as PackFile;
 
 /**
  * アプリに同梱するパック。ネット接続なしで必ず使える。
- * ここに無いパック（Python / JavaScript / VS Code）は配信先から取得する（src/lib/packs.ts）。
+ * ここに無いパックは配信先から取得する（src/lib/packs.ts）。
  *
  * 動的 import なので、有効化されたパックの JSON だけが実際に読み込まれる。
  * 同梱を増減するときはここだけ直せばよく、packs/index.json は配信物と共通のまま使える。

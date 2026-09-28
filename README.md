@@ -2,7 +2,7 @@
 
 CLIコマンドのチートシートを、メニューバーから一瞬で引けるMacアプリ。
 
-Linux / Vim / Git / cmd / Docker / PowerShell / Python / JavaScript / VS Code などのコマンドを「パック」単位で管理し、トレイアイコンからいつでも検索・呼び出しできる。
+Linux / Vim / Git / cmd / Docker / PowerShell などのコマンドを「パック」単位で管理し、トレイアイコンからいつでも検索・呼び出しできる。
 
 ## 差別化ポイント
 

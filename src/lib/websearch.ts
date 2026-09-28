@@ -4,7 +4,7 @@ const SEARCH_URL = "https://www.google.com/search?q=";
 
 /**
  * 「コピーしたい」のような語だけでは関係ない記事が並ぶので、コマンド探し向けに補う。
- * 選択中のカテゴリ（Python / Docker など）があれば、それも絞り込みに足す。
+ * 選択中のカテゴリ（Docker / Git など）があれば、それも絞り込みに足す。
  * すでに検索語に入っている語は重ねない。
  */
 export function buildSearchQuery(term: string, lang?: string | null): string {

@@ -272,7 +272,7 @@ export function PackManager({
               className="field-input"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="コードセットを検索（例：docker, python…）"
+              placeholder="コードセットを検索（例：docker, git…）"
               style={{
                 width: "100%",
                 boxSizing: "border-box",
