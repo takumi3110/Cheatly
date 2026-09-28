@@ -297,7 +297,7 @@ export function Sidebar({
                 marginBottom: 8,
               }}
             >
-              <span style={{ fontSize: 14 }}>⤓</span>
+              <span style={{ fontSize: 14 }}>＋</span>
               <span
                 style={{
                   flex: 1,
@@ -306,7 +306,7 @@ export function Sidebar({
                   textOverflow: "ellipsis",
                 }}
               >
-                コードセットをダウンロード
+                コードセットを追加
               </span>
             </button>
           </div>

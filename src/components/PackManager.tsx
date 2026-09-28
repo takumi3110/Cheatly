@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PACK_HOST_CONFIGURED } from "../config";
 import { BADGES, DEFAULT_BADGE } from "../data/commands";
-import { BUILTIN_CATS } from "../data/builtin";
+import { isBundledPack } from "../data/builtin";
 import {
   fetchCatalog,
   fetchPack,
@@ -13,20 +13,25 @@ import { ACCENT } from "../theme";
 import type { Command } from "../types";
 
 type Props = {
+  enabled: string[];
   installed: InstalledPacks;
+  onToggle: (id: string, on: boolean) => void;
   onInstall: (id: string, commands: Command[]) => void;
   onRemove: (id: string) => void;
   onClose: () => void;
 };
 
+/** 同梱分は常に出せるので、知らせるのは「配信先の追加分が見えていない」ときだけ */
 const NOTICE: Record<CatalogSource, string | null> = {
   network: null,
-  cache: "⚠ オフラインのため、前回取得した一覧を表示しています",
-  fallback: "⚠ オフラインのため、同梱の一覧を表示しています",
+  cache: "⚠ 配信先に接続できないため、前回取得した一覧を表示しています",
+  bundled: "⚠ 配信先に接続できないため、同梱のコードセットのみ表示しています",
 };
 
 export function PackManager({
+  enabled,
   installed,
+  onToggle,
   onInstall,
   onRemove,
   onClose,
@@ -36,7 +41,7 @@ export function PackManager({
   const [busy, setBusy] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [query, setQuery] = useState("");
-  const [showInstalled, setShowInstalled] = useState(false);
+  const [showOwned, setShowOwned] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -50,7 +55,7 @@ export function PackManager({
     };
   }, []);
 
-  const install = async (pack: PackMeta) => {
+  const download = async (pack: PackMeta) => {
     setBusy((s) => ({ ...s, [pack.id]: true }));
     setErrors((s) => ({ ...s, [pack.id]: "" }));
     try {
@@ -64,18 +69,19 @@ export function PackManager({
     }
   };
 
-  const notice = NOTICE[source];
+  // 配信先が未設定のうちは取得が必ず失敗するので、そちらの警告に一本化する
+  const notice = PACK_HOST_CONFIGURED ? NOTICE[source] : null;
   const q = query.trim().toLowerCase();
   const matches = (p: PackMeta) =>
     !q || `${p.id} ${p.label} ${p.cat} ${p.desc}`.toLowerCase().includes(q);
   const isOwned = (p: PackMeta) =>
-    !!installed[p.id] || BUILTIN_CATS.includes(p.cat);
+    isBundledPack(p.id) ? enabled.includes(p.id) : !!installed[p.id];
   const pending = (catalog ?? []).filter((p) => !isOwned(p) && matches(p));
-  const gotList = (catalog ?? []).filter((p) => isOwned(p) && matches(p));
+  const owned = (catalog ?? []).filter((p) => isOwned(p) && matches(p));
 
   const renderRow = (pack: PackMeta) => {
-    const bundled = BUILTIN_CATS.includes(pack.cat);
-    const got = !!installed[pack.id];
+    const bundled = isBundledPack(pack.id);
+    const got = isOwned(pack);
     const loading = busy[pack.id];
     const error = errors[pack.id];
     const dot = (BADGES[pack.cat] || DEFAULT_BADGE)[1];
@@ -121,7 +127,7 @@ export function PackManager({
                 color: "#6a6a6a",
               }}
             >
-              {pack.count} commands
+              {pack.count} commands{bundled ? " · 同梱" : ""}
             </span>
           </span>
           <span
@@ -136,29 +142,20 @@ export function PackManager({
           </span>
         </span>
 
-        {bundled ? (
-          <span
-            style={{
-              flex: "none",
-              fontSize: 11,
-              color: "#6a6a6a",
-              fontFamily: "'JetBrains Mono', monospace",
-            }}
-          >
-            同梱
-          </span>
-        ) : got ? (
+        {got ? (
           <button
             className="icon-btn"
-            onClick={() => onRemove(pack.id)}
-            style={{ padding: "5px 11px", fontSize: 11 }}
+            onClick={() =>
+              bundled ? onToggle(pack.id, false) : onRemove(pack.id)
+            }
+            style={{ flex: "none", padding: "5px 11px", fontSize: 11 }}
           >
-            削除
+            {bundled ? "非表示" : "削除"}
           </button>
         ) : (
           <button
             className="accent-btn"
-            onClick={() => install(pack)}
+            onClick={() => (bundled ? onToggle(pack.id, true) : download(pack))}
             disabled={loading}
             style={{
               flex: "none",
@@ -177,7 +174,7 @@ export function PackManager({
               opacity: loading ? 0.5 : 1,
             }}
           >
-            {loading ? "取得中…" : "⤓ 取得"}
+            {bundled ? "＋ 追加" : loading ? "取得中…" : "⤓ ダウンロード"}
           </button>
         )}
       </div>
@@ -232,10 +229,10 @@ export function PackManager({
                 color: "#e8e8e8",
               }}
             >
-              コードセットをダウンロード
+              コードセットを追加
             </h2>
             <p style={{ margin: 0, fontSize: 11.5, color: "#8a8a8a" }}>
-              ダウンロードしたコードセットは端末に保存され、次回からオフラインでも使えます
+              「同梱」はすぐ追加できます。それ以外はダウンロードすると端末に保存され、次回からオフラインでも使えます
             </p>
           </div>
           <button
@@ -306,7 +303,7 @@ export function PackManager({
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
               {pending.map(renderRow)}
 
-              {pending.length === 0 && gotList.length === 0 && (
+              {pending.length === 0 && owned.length === 0 && (
                 <div
                   style={{
                     textAlign: "center",
@@ -319,11 +316,11 @@ export function PackManager({
                 </div>
               )}
 
-              {gotList.length > 0 && (
+              {owned.length > 0 && (
                 <div style={{ marginTop: pending.length > 0 ? 6 : 0 }}>
                   <button
                     className="icon-btn"
-                    onClick={() => setShowInstalled((v) => !v)}
+                    onClick={() => setShowOwned((v) => !v)}
                     style={{
                       width: "100%",
                       justifyContent: "flex-start",
@@ -333,10 +330,10 @@ export function PackManager({
                       borderRadius: 7,
                     }}
                   >
-                    <span>{showInstalled ? "▾" : "▸"}</span>
-                    追加済み（{gotList.length}）
+                    <span>{showOwned ? "▾" : "▸"}</span>
+                    追加済み（{owned.length}）
                   </button>
-                  {showInstalled && (
+                  {showOwned && (
                     <div
                       style={{
                         display: "flex",
@@ -345,7 +342,7 @@ export function PackManager({
                         marginTop: 9,
                       }}
                     >
-                      {gotList.map(renderRow)}
+                      {owned.map(renderRow)}
                     </div>
                   )}
                 </div>
