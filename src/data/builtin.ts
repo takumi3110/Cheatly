@@ -18,13 +18,21 @@ const LOADERS: Record<string, () => Promise<PackFile>> = {
   cmd: () => import("../../packs/cmd.json").then(unwrap),
   docker: () => import("../../packs/docker.json").then(unwrap),
   powershell: () => import("../../packs/powershell.json").then(unwrap),
+  macos: () => import("../../packs/macos.json").then(unwrap),
+  homebrew: () => import("../../packs/homebrew.json").then(unwrap),
 };
 
 /** 同梱しているパックの ID 一覧 */
 export const BUNDLED_PACK_IDS = Object.keys(LOADERS);
 
 /** 初回起動時に有効にしておくパック。残りの同梱パックはユーザーが追加する */
-export const DEFAULT_ENABLED_PACK_IDS = ["linux", "vim", "git"];
+export const DEFAULT_ENABLED_PACK_IDS = [
+  "macos",
+  "homebrew",
+  "linux",
+  "vim",
+  "git",
+];
 
 export function isBundledPack(id: string): boolean {
   return id in LOADERS;

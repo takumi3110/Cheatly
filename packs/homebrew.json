@@ -1,0 +1,733 @@
+{
+  "id": "homebrew",
+  "version": 1,
+  "label": "Homebrew",
+  "desc": "Homebrew のパッケージ管理",
+  "commands": [
+    {
+      "id": "homebrew-setup",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "Homebrew をインストールする",
+      "code": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"",
+      "note": "公式の手順。終わると表示される「Next steps」のコマンドも実行して PATH を通す",
+      "tag": "環境構築",
+      "kw": "homebrew brew インストール 導入 入れる 初めて セットアップ"
+    },
+    {
+      "id": "homebrew-shellenv",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "brew コマンドにパスを通す",
+      "code": "eval \"$(/opt/homebrew/bin/brew shellenv)\"",
+      "note": "Apple シリコンの場合。~/.zprofile に書いておく。Intel Mac は /usr/local/bin/brew",
+      "tag": "環境構築",
+      "kw": "shellenv パス path 通す command not found brew 見つからない zprofile"
+    },
+    {
+      "id": "homebrew-install",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージをインストールする",
+      "code": "brew install [パッケージ]",
+      "note": "複数まとめて指定できる。名前が分からなければ brew search で探す",
+      "tag": "インストール",
+      "kw": "install インストール 入れる 追加 パッケージ ツール",
+      "b": {
+        "cmd": "brew install",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "wget"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-install-cask",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "GUI アプリをインストールする",
+      "code": "brew install --cask [アプリ]",
+      "note": "Chrome や VS Code などの .app を /Applications に入れる",
+      "tag": "インストール",
+      "kw": "cask アプリ インストール gui chrome vscode 入れる",
+      "b": {
+        "cmd": "brew install --cask",
+        "flags": [],
+        "args": [
+          {
+            "name": "アプリ",
+            "ph": "google-chrome"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-install-version",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "バージョンを指定してインストールする",
+      "code": "brew install [パッケージ]@[バージョン]",
+      "note": "node@20 や python@3.12 のように用意されたものだけ。PATH に出すには brew link が必要な場合がある",
+      "tag": "インストール",
+      "kw": "バージョン 指定 古い 固定 node@ python@ インストール"
+    },
+    {
+      "id": "homebrew-uninstall",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージをアンインストールする",
+      "code": "brew uninstall [パッケージ]",
+      "note": "アプリなら --cask。--zap を付けると設定ファイルなどの関連ファイルも消す",
+      "tag": "管理",
+      "kw": "uninstall アンインストール 削除 消す 外す remove",
+      "b": {
+        "cmd": "brew uninstall",
+        "flags": [
+          {
+            "opt": "--cask",
+            "label": "GUI アプリ"
+          },
+          {
+            "opt": "--zap",
+            "label": "関連ファイルも削除（cask）"
+          }
+        ],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "wget"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-reinstall",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージを入れ直す",
+      "code": "brew reinstall [パッケージ]",
+      "note": "壊れた・動かなくなった時にまず試す",
+      "tag": "トラブル対応",
+      "kw": "reinstall 入れ直す 再インストール 壊れた 動かない",
+      "b": {
+        "cmd": "brew reinstall",
+        "flags": [
+          {
+            "opt": "--cask",
+            "label": "GUI アプリ"
+          }
+        ],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "wget"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-update",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "Homebrew 本体とパッケージ情報を更新する",
+      "code": "brew update",
+      "note": "パッケージ自体は更新されない。更新するのは brew upgrade",
+      "tag": "更新",
+      "kw": "update 更新 最新 情報 本体"
+    },
+    {
+      "id": "homebrew-upgrade",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "インストール済みのパッケージを全て更新する",
+      "code": "brew upgrade",
+      "note": "パッケージ名を付けるとそれだけ更新。-n で実行せず対象だけ確認",
+      "tag": "更新",
+      "kw": "upgrade 更新 アップデート 全部 最新 アップグレード",
+      "b": {
+        "cmd": "brew upgrade",
+        "flags": [
+          {
+            "opt": "-n",
+            "label": "実行せず対象だけ表示"
+          }
+        ],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "wget"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-upgrade-cask",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "自動更新のアプリも含めて更新する",
+      "code": "brew upgrade --cask --greedy",
+      "note": "アプリ自身が自動更新するものは普段スキップされる。--greedy で含める",
+      "tag": "更新",
+      "kw": "cask greedy アプリ 更新 アップデート 全部"
+    },
+    {
+      "id": "homebrew-outdated",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "更新できるパッケージを確認する",
+      "code": "brew outdated",
+      "note": "今のバージョンと最新バージョンが並ぶ",
+      "tag": "更新",
+      "kw": "outdated 古い 更新 できる 確認 一覧 最新"
+    },
+    {
+      "id": "homebrew-search",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージを検索する",
+      "code": "brew search [キーワード]",
+      "note": "/正規表現/ でも検索できる。説明文から探すなら brew desc --search",
+      "tag": "検索",
+      "kw": "search 検索 探す ある パッケージ 名前",
+      "b": {
+        "cmd": "brew search",
+        "flags": [
+          {
+            "opt": "--cask",
+            "label": "GUI アプリだけ"
+          }
+        ],
+        "args": [
+          {
+            "name": "キーワード",
+            "ph": "node"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-desc",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "説明文からパッケージを探す",
+      "code": "brew desc --search [キーワード]",
+      "note": "名前が分からないけど「やりたいこと」は分かる時に",
+      "tag": "検索",
+      "kw": "desc 説明 探す 用途 やりたいこと 検索",
+      "b": {
+        "cmd": "brew desc --search",
+        "flags": [],
+        "args": [
+          {
+            "name": "キーワード",
+            "ph": "json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-info",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージの詳細を表示する",
+      "code": "brew info [パッケージ]",
+      "note": "バージョン・依存・インストール済みか・注意書き（Caveats）が見られる",
+      "tag": "検索",
+      "kw": "info 情報 詳細 バージョン caveats 説明",
+      "b": {
+        "cmd": "brew info",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "wget"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-home",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージの公式サイトを開く",
+      "code": "brew home [パッケージ]",
+      "note": "ブラウザでホームページが開く",
+      "tag": "検索",
+      "kw": "home ホームページ 公式 サイト 開く ドキュメント",
+      "b": {
+        "cmd": "brew home",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "wget"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-list",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "インストール済みのパッケージを一覧表示する",
+      "code": "brew list",
+      "note": "--versions でバージョン付き。--cask でアプリだけ",
+      "tag": "管理",
+      "kw": "list 一覧 入っている インストール済み 確認 何",
+      "b": {
+        "cmd": "brew list",
+        "flags": [
+          {
+            "opt": "--formula",
+            "label": "コマンドラインツールだけ"
+          },
+          {
+            "opt": "--cask",
+            "label": "GUI アプリだけ"
+          },
+          {
+            "opt": "--versions",
+            "label": "バージョンも表示"
+          }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "homebrew-leaves",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "自分で入れたパッケージだけを一覧表示する",
+      "code": "brew leaves",
+      "note": "依存で自動的に入ったものを除いた一覧。見直しや Brewfile 作りに便利",
+      "tag": "管理",
+      "kw": "leaves 自分で 入れた 一覧 依存 以外 整理"
+    },
+    {
+      "id": "homebrew-deps",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージの依存関係を表示する",
+      "code": "brew deps --tree [パッケージ]",
+      "note": "何が一緒に入るのかを木構造で見られる",
+      "tag": "管理",
+      "kw": "deps 依存 関係 ツリー 一緒に 必要",
+      "b": {
+        "cmd": "brew deps --tree",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "ffmpeg"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-uses",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "そのパッケージを使っているものを調べる",
+      "code": "brew uses --installed [パッケージ]",
+      "note": "消しても大丈夫かを確認する時に。何も出なければ他からは使われていない",
+      "tag": "管理",
+      "kw": "uses 使っている 依存 されている 消して 大丈夫 逆引き",
+      "b": {
+        "cmd": "brew uses --installed",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "openssl@3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-cleanup",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "古いバージョンとキャッシュを削除する",
+      "code": "brew cleanup",
+      "note": "-n で削除対象の確認だけ。--prune=all でキャッシュを全部消す",
+      "tag": "管理",
+      "kw": "cleanup 削除 容量 空ける 古い キャッシュ 掃除 お掃除",
+      "b": {
+        "cmd": "brew cleanup",
+        "flags": [
+          {
+            "opt": "-n",
+            "label": "実行せず対象だけ表示"
+          },
+          {
+            "opt": "--prune=all",
+            "label": "キャッシュを全て削除"
+          }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "homebrew-autoremove",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "不要になった依存パッケージを削除する",
+      "code": "brew autoremove",
+      "note": "アンインストールした物の依存で、もう誰にも使われていないものを消す",
+      "tag": "管理",
+      "kw": "autoremove 不要 依存 削除 掃除 容量"
+    },
+    {
+      "id": "homebrew-pin",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージのバージョンを固定する",
+      "code": "brew pin [パッケージ]",
+      "note": "brew upgrade で更新されなくなる。解除は brew unpin",
+      "tag": "管理",
+      "kw": "pin 固定 更新しない バージョン 止める ロック",
+      "b": {
+        "cmd": "brew pin",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "node"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-unpin",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "バージョンの固定を解除する",
+      "code": "brew unpin [パッケージ]",
+      "note": "固定中の一覧は brew list --pinned",
+      "tag": "管理",
+      "kw": "unpin 固定 解除 更新 戻す",
+      "b": {
+        "cmd": "brew unpin",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "node"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-link",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージのコマンドを PATH に出す",
+      "code": "brew link [パッケージ]",
+      "note": "keg-only（node@20 など）は --force が必要。既存ファイルと衝突したら --overwrite",
+      "tag": "管理",
+      "kw": "link リンク path 通す 使えない command not found keg-only",
+      "b": {
+        "cmd": "brew link",
+        "flags": [
+          {
+            "opt": "--overwrite",
+            "label": "衝突するファイルを上書き"
+          },
+          {
+            "opt": "--force",
+            "label": "keg-only も強制的にリンク"
+          }
+        ],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "node@20"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-unlink",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージのコマンドを PATH から外す",
+      "code": "brew unlink [パッケージ]",
+      "note": "別バージョンに切り替える時に、今のものを先に外す",
+      "tag": "管理",
+      "kw": "unlink リンク 外す 切り替え バージョン",
+      "b": {
+        "cmd": "brew unlink",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "node"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-prefix",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "パッケージのインストール先を調べる",
+      "code": "brew --prefix [パッケージ]",
+      "note": "パッケージ名を省くと Homebrew 自体の場所が出る",
+      "tag": "管理",
+      "kw": "prefix インストール先 場所 どこ パス",
+      "b": {
+        "cmd": "brew --prefix",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "openssl@3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-cache",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "ダウンロードキャッシュの場所を調べる",
+      "code": "brew --cache",
+      "note": "容量を食っている時の確認に。消すなら brew cleanup --prune=all",
+      "tag": "管理",
+      "kw": "cache キャッシュ 場所 容量 どこ"
+    },
+    {
+      "id": "homebrew-services-list",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "バックグラウンドサービスの一覧を見る",
+      "code": "brew services list",
+      "note": "MySQL や PostgreSQL などが起動中かどうかが分かる",
+      "tag": "サービス",
+      "kw": "services サービス 一覧 起動中 状態 mysql postgresql redis"
+    },
+    {
+      "id": "homebrew-services-start",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "サービスを起動する（ログイン時にも自動起動）",
+      "code": "brew services start [サービス]",
+      "note": "ログイン時にも自動で起動する。今回だけなら brew services run",
+      "tag": "サービス",
+      "kw": "services start 起動 開始 常駐 自動起動 mysql postgresql",
+      "b": {
+        "cmd": "brew services start",
+        "flags": [],
+        "args": [
+          {
+            "name": "サービス",
+            "ph": "postgresql@16"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-services-stop",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "サービスを停止する",
+      "code": "brew services stop [サービス]",
+      "note": "自動起動の登録も解除される",
+      "tag": "サービス",
+      "kw": "services stop 停止 止める 終了 自動起動 解除",
+      "b": {
+        "cmd": "brew services stop",
+        "flags": [],
+        "args": [
+          {
+            "name": "サービス",
+            "ph": "postgresql@16"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-services-restart",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "サービスを再起動する",
+      "code": "brew services restart [サービス]",
+      "note": "設定ファイルを変えた後に",
+      "tag": "サービス",
+      "kw": "services restart 再起動 反映 設定",
+      "b": {
+        "cmd": "brew services restart",
+        "flags": [],
+        "args": [
+          {
+            "name": "サービス",
+            "ph": "postgresql@16"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-tap",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "サードパーティのリポジトリを追加する",
+      "code": "brew tap [ユーザー/リポジトリ]",
+      "note": "公式に無いパッケージを入れる時に。削除は brew untap",
+      "tag": "インストール",
+      "kw": "tap リポジトリ 追加 サードパーティ 公式にない",
+      "b": {
+        "cmd": "brew tap",
+        "flags": [],
+        "args": [
+          {
+            "name": "ユーザー/リポジトリ",
+            "ph": "hashicorp/tap"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-bundle-dump",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "入っているものを Brewfile に書き出す",
+      "code": "brew bundle dump",
+      "note": "既存の Brewfile を上書きするなら --force。新しい Mac への引っ越しに",
+      "tag": "環境構築",
+      "kw": "bundle dump brewfile 書き出し バックアップ 引っ越し 移行 新しいmac",
+      "b": {
+        "cmd": "brew bundle dump",
+        "flags": [
+          {
+            "opt": "--force",
+            "label": "既存の Brewfile を上書き"
+          }
+        ],
+        "args": []
+      }
+    },
+    {
+      "id": "homebrew-bundle-install",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "Brewfile の中身をまとめてインストールする",
+      "code": "brew bundle install",
+      "note": "カレントディレクトリの Brewfile を読む。--file で場所を指定できる",
+      "tag": "環境構築",
+      "kw": "bundle install brewfile まとめて 一括 インストール 引っ越し 復元"
+    },
+    {
+      "id": "homebrew-bundle-cleanup",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "Brewfile に無いパッケージを削除する",
+      "code": "brew bundle cleanup --force",
+      "note": "--force を外すと、削除する前に確認を求められる",
+      "tag": "環境構築",
+      "kw": "bundle cleanup brewfile 無い 削除 整理 そろえる"
+    },
+    {
+      "id": "homebrew-doctor",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "Homebrew の問題を診断する",
+      "code": "brew doctor",
+      "note": "おかしい時にまず実行。警告と直し方が表示される",
+      "tag": "トラブル対応",
+      "kw": "doctor 診断 問題 エラー おかしい 動かない 壊れた"
+    },
+    {
+      "id": "homebrew-config",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "Homebrew の環境情報を表示する",
+      "code": "brew config",
+      "note": "バージョンや CPU、パスが分かる。質問・Issue を書く時に貼る",
+      "tag": "トラブル対応",
+      "kw": "config 環境 情報 バージョン 設定 確認"
+    },
+    {
+      "id": "homebrew-missing",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "足りない依存パッケージを調べる",
+      "code": "brew missing",
+      "note": "何も出なければ問題なし。出たら brew install で入れる",
+      "tag": "トラブル対応",
+      "kw": "missing 足りない 依存 不足 欠けている"
+    },
+    {
+      "id": "homebrew-update-reset",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "Homebrew のリポジトリを初期状態に戻す",
+      "code": "brew update-reset",
+      "note": "brew update が失敗し続ける時の最終手段。ローカルの変更は消える",
+      "tag": "トラブル対応",
+      "kw": "update-reset リセット 初期化 update 失敗 エラー 直らない"
+    },
+    {
+      "id": "homebrew-no-auto-update",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "自動 update を省いてインストールする",
+      "code": "HOMEBREW_NO_AUTO_UPDATE=1 brew install [パッケージ]",
+      "note": "install のたびに update が走って遅い時に。常に省くなら .zshrc で export",
+      "tag": "インストール",
+      "kw": "自動 update 遅い 省く スキップ HOMEBREW_NO_AUTO_UPDATE 待たされる",
+      "b": {
+        "cmd": "HOMEBREW_NO_AUTO_UPDATE=1 brew install",
+        "flags": [],
+        "args": [
+          {
+            "name": "パッケージ",
+            "ph": "wget"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-analytics-off",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "利用状況の送信をオフにする",
+      "code": "brew analytics off",
+      "note": "匿名の利用統計の送信を止める。状態は brew analytics で確認",
+      "tag": "環境構築",
+      "kw": "analytics 統計 送信 オフ プライバシー 止める"
+    },
+    {
+      "id": "homebrew-help",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "brew コマンドのヘルプを見る",
+      "code": "brew help [コマンド]",
+      "note": "コマンド名を付けるとそのオプション一覧が出る",
+      "tag": "検索",
+      "kw": "help ヘルプ 使い方 オプション 一覧",
+      "b": {
+        "cmd": "brew help",
+        "flags": [],
+        "args": [
+          {
+            "name": "コマンド",
+            "ph": "install"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homebrew-uninstall-brew",
+      "env": "Homebrew",
+      "cat": "Homebrew",
+      "title": "Homebrew 自体をアンインストールする",
+      "code": "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)\"",
+      "note": "公式の手順。入れたパッケージもすべて消えるので、必要なら先に brew bundle dump",
+      "tag": "環境構築",
+      "kw": "homebrew アンインストール 削除 消す 全部 やめる"
+    }
+  ]
+}

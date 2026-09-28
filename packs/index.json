@@ -23,11 +23,25 @@
       "desc": "Git のバージョン管理"
     },
     {
+      "id": "homebrew",
+      "label": "Homebrew",
+      "cat": "Homebrew",
+      "count": 43,
+      "desc": "Homebrew のパッケージ管理"
+    },
+    {
       "id": "linux",
       "label": "Linux",
       "cat": "Linux",
       "count": 50,
       "desc": "Linux の基本コマンド"
+    },
+    {
+      "id": "macos",
+      "label": "macOS",
+      "cat": "macOS",
+      "count": 50,
+      "desc": "macOS 標準のターミナルコマンド"
     },
     {
       "id": "powershell",
