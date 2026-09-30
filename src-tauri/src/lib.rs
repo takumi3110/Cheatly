@@ -1,7 +1,8 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use tauri::{
+    menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    Emitter, LogicalSize, Manager, PhysicalPosition, Rect, WebviewWindow,
+    Emitter, LogicalSize, Manager, PhysicalPosition, Rect, WebviewWindow, WindowEvent,
 };
 
 /// メニューバーから開いた時の最小ウインドウサイズ（検索＋結果のみ表示）
@@ -97,10 +98,56 @@ fn expand_window(window: tauri::WebviewWindow) {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .on_window_event(|window, event| {
+            if window.label() != "main" {
+                return;
+            }
+            if let WindowEvent::CloseRequested { api, .. } = event {
+                // トレイ常駐を続けるため、閉じる操作ではウインドウを破棄しない
+                api.prevent_close();
+                let _ = window.hide();
+            }
+        })
         .setup(|app| {
+            let open = MenuItem::with_id(app, "open", "開く", true, None::<&str>)?;
+            let quit = MenuItem::with_id(app, "quit", "終了", true, None::<&str>)?;
+            let menu = Menu::with_items(app, &[&open, &quit])?;
+            // macOS ではメニューを常時付けると左クリックが届かないため、右クリック時だけ付ける
             TrayIconBuilder::new()
-                .icon(app.default_window_icon().unwrap().clone())
-                .on_tray_icon_event(|tray, event| {
+                .icon(tauri::include_image!("icons/tray-icon.png"))
+.icon_as_template(false).on_menu_event(|app, event| match event.id().as_ref() {
+                    "open" => {
+                        let Some(window) = app.get_webview_window("main") else {
+                            return;
+                        };
+                        let _ = window.set_size(LogicalSize::new(FULL_SIZE.0, FULL_SIZE.1));
+                        let _ = window.center();
+                        let _ = window.show();
+                        let _ = window.set_focus();
+                        let _ = app.emit("tray-expand", ());
+                    }
+                    "quit" => app.exit(0),
+                    _ => {}
+                })
+                .on_tray_icon_event(move |tray, event| {
+                    if let TrayIconEvent::Click {
+                        button: MouseButton::Right,
+                        button_state: MouseButtonState::Down,
+                        ..
+                    } = event
+                    {
+                        if let Err(error) = tray.set_menu(Some(menu.clone())) {
+                            eprintln!("トレイメニューの設定に失敗: {error}");
+                            return;
+                        }
+                        if let Err(error) = tray.with_inner_tray_icon(|inner| inner.show_menu()) {
+                            eprintln!("トレイメニューの表示に失敗: {error}");
+                        }
+                        if let Err(error) = tray.set_menu(None::<Menu<tauri::Wry>>) {
+                            eprintln!("トレイメニューの解除に失敗: {error}");
+                        }
+                        return;
+                    }
                     if let TrayIconEvent::Click {
                         button: MouseButton::Left,
                         button_state: MouseButtonState::Up,

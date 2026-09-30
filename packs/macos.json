@@ -1,0 +1,870 @@
+{
+  "id": "macos",
+  "version": 1,
+  "label": "macOS",
+  "desc": "macOS 標準のターミナルコマンド",
+  "commands": [
+    {
+      "id": "macos-open-finder",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "今いるフォルダを Finder で開く",
+      "code": "open .",
+      "note": "パスを指定すればそのフォルダを開く。ファイルを渡すと既定のアプリで開く",
+      "tag": "ファイル操作",
+      "kw": "open finder フォルダ 開く ファインダー 今の場所 ターミナルから",
+      "b": {
+        "cmd": "open",
+        "flags": [
+          {
+            "opt": "-R",
+            "label": "Finder で選択した状態で表示"
+          },
+          {
+            "opt": "-e",
+            "label": "テキストエディットで開く"
+          }
+        ],
+        "args": [
+          {
+            "name": "パス",
+            "ph": "."
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-open-app",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "アプリを指定してファイルを開く",
+      "code": "open -a \"[アプリ]\" [ファイル]",
+      "note": "アプリ名は .app を除いた表示名。open -a Safari のようにファイル無しで起動だけもできる",
+      "tag": "アプリ",
+      "kw": "open -a アプリ 指定 起動 開く vscode エディタ プログラム",
+      "b": {
+        "cmd": "open -a",
+        "flags": [],
+        "args": [
+          {
+            "name": "アプリ",
+            "ph": "\"Visual Studio Code\""
+          },
+          {
+            "name": "ファイル",
+            "ph": "."
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-open-url",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "URL を既定のブラウザで開く",
+      "code": "open https://example.com",
+      "note": "http(s) 以外に mailto: や vscode:// などの URL スキームも開ける",
+      "tag": "アプリ",
+      "kw": "open url ブラウザ 開く リンク サイト web",
+      "b": {
+        "cmd": "open",
+        "flags": [],
+        "args": [
+          {
+            "name": "URL",
+            "ph": "https://example.com"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-open-reveal",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "ファイルの場所を Finder で表示する",
+      "code": "open -R [ファイル]",
+      "note": "親フォルダが開き、対象ファイルが選択された状態になる",
+      "tag": "ファイル操作",
+      "kw": "open -R finder 場所 どこ 表示 選択 reveal",
+      "b": {
+        "cmd": "open -R",
+        "flags": [],
+        "args": [
+          {
+            "name": "ファイル",
+            "ph": "./file.txt"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-pbcopy-file",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "ファイルの中身をクリップボードにコピーする",
+      "code": "pbcopy < [ファイル]",
+      "note": "あとは Cmd+V で貼り付けられる。公開鍵のコピーによく使う",
+      "tag": "クリップボード",
+      "kw": "pbcopy クリップボード コピー 中身 貼り付け 公開鍵 ssh-key",
+      "b": {
+        "cmd": "pbcopy <",
+        "flags": [],
+        "args": [
+          {
+            "name": "ファイル",
+            "ph": "~/.ssh/id_ed25519.pub"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-pbcopy-pipe",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "コマンドの出力をクリップボードにコピーする",
+      "code": "[コマンド] | pbcopy",
+      "note": "例: pwd | pbcopy で今いるパスをコピー。末尾の改行も含まれる",
+      "tag": "クリップボード",
+      "kw": "pbcopy パイプ 出力 結果 コピー クリップボード パス pwd"
+    },
+    {
+      "id": "macos-pbpaste",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "クリップボードの中身をファイルに書き出す",
+      "code": "pbpaste > [ファイル]",
+      "note": "pbpaste | grep ... のようにパイプで加工することもできる",
+      "tag": "クリップボード",
+      "kw": "pbpaste 貼り付け ペースト クリップボード 保存 書き出し ファイル",
+      "b": {
+        "cmd": "pbpaste >",
+        "flags": [],
+        "args": [
+          {
+            "name": "ファイル",
+            "ph": "out.txt"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-caffeinate",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "スリープさせないようにする",
+      "code": "caffeinate -d",
+      "note": "Ctrl+C で解除。-t 秒数 で時間指定、コマンドを続けて書くと終わるまでスリープしない",
+      "tag": "電源",
+      "kw": "caffeinate スリープ 防止 させない 眠らない 画面 消えない 長時間 ダウンロード",
+      "b": {
+        "cmd": "caffeinate",
+        "flags": [
+          {
+            "opt": "-d",
+            "label": "ディスプレイをスリープさせない"
+          },
+          {
+            "opt": "-i",
+            "label": "アイドルスリープを防ぐ"
+          },
+          {
+            "opt": "-s",
+            "label": "システムスリープを防ぐ（電源接続時）"
+          }
+        ],
+        "args": [
+          {
+            "name": "秒数",
+            "ph": "3600",
+            "prefix": "-t "
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-pmset-batt",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "バッテリー残量を確認する",
+      "code": "pmset -g batt",
+      "note": "残量％と充電中かどうか、残り時間の目安が表示される",
+      "tag": "電源",
+      "kw": "pmset battery バッテリー 残量 充電 電池 パーセント"
+    },
+    {
+      "id": "macos-pmset-sleepnow",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "今すぐスリープする",
+      "code": "pmset sleepnow",
+      "note": "画面だけ消したいなら pmset displaysleepnow",
+      "tag": "電源",
+      "kw": "pmset sleep スリープ 今すぐ 寝かせる 画面 消す"
+    },
+    {
+      "id": "macos-pmset-assertions",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "スリープを妨げているアプリを調べる",
+      "code": "pmset -g assertions",
+      "note": "PreventUserIdleSystemSleep などが 1 になっていて、そのプロセス名が下に並ぶ",
+      "tag": "電源",
+      "kw": "pmset assertions スリープ しない 原因 妨げ 調べる 眠らない"
+    },
+    {
+      "id": "macos-screencapture",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "範囲を選んでスクリーンショットを撮る",
+      "code": "screencapture -i ~/Desktop/shot.png",
+      "note": "-c でファイルではなくクリップボードへ。選択中にスペースでウインドウ選択に切り替わる",
+      "tag": "画面",
+      "kw": "screencapture スクリーンショット スクショ 画面 キャプチャ 撮る 範囲",
+      "b": {
+        "cmd": "screencapture",
+        "flags": [
+          {
+            "opt": "-i",
+            "label": "範囲・ウインドウを選んで撮る"
+          },
+          {
+            "opt": "-c",
+            "label": "クリップボードに保存"
+          },
+          {
+            "opt": "-x",
+            "label": "シャッター音を鳴らさない"
+          }
+        ],
+        "args": [
+          {
+            "name": "保存先",
+            "ph": "~/Desktop/shot.png"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-say",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "テキストを読み上げる",
+      "code": "say \"処理が終わりました\"",
+      "note": "長い処理の後ろに ; say done と付けると終わりを音で知らせられる。-v で声を指定",
+      "tag": "システム",
+      "kw": "say 読み上げ 音声 喋らせる 通知 終わった 知らせる",
+      "b": {
+        "cmd": "say",
+        "flags": [],
+        "args": [
+          {
+            "name": "声",
+            "ph": "Kyoko",
+            "prefix": "-v "
+          },
+          {
+            "name": "テキスト",
+            "ph": "\"処理が終わりました\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-mdfind",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Spotlight でファイルを検索する",
+      "code": "mdfind \"[キーワード]\"",
+      "note": "ファイルの中身も対象。-onlyin でフォルダを絞れる。find より圧倒的に速い",
+      "tag": "検索",
+      "kw": "mdfind spotlight 検索 探す ファイル 中身 全文 高速",
+      "b": {
+        "cmd": "mdfind",
+        "flags": [],
+        "args": [
+          {
+            "name": "フォルダ",
+            "ph": "~/Documents",
+            "prefix": "-onlyin "
+          },
+          {
+            "name": "キーワード",
+            "ph": "\"invoice\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-mdfind-name",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "ファイル名で Spotlight 検索する",
+      "code": "mdfind -name [ファイル名]",
+      "note": "名前の部分一致で探す。ディスク全体を find で回すより速い",
+      "tag": "検索",
+      "kw": "mdfind name ファイル名 探す どこ 見つからない 検索 spotlight",
+      "b": {
+        "cmd": "mdfind -name",
+        "flags": [],
+        "args": [
+          {
+            "name": "ファイル名",
+            "ph": "report.pdf"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-mdls",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "ファイルのメタデータを表示する",
+      "code": "mdls [ファイル]",
+      "note": "作成日・ダウンロード元（kMDItemWhereFroms）・画像サイズなどが見られる",
+      "tag": "ファイル操作",
+      "kw": "mdls メタデータ 属性 情報 ダウンロード元 作成日 詳細",
+      "b": {
+        "cmd": "mdls",
+        "flags": [],
+        "args": [
+          {
+            "name": "ファイル",
+            "ph": "./file.pdf"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-mdutil-rebuild",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Spotlight の索引を作り直す",
+      "code": "sudo mdutil -E /",
+      "note": "検索結果がおかしい時に。再構築には時間がかかる。状態確認は mdutil -s /",
+      "tag": "検索",
+      "kw": "mdutil spotlight インデックス 索引 再構築 検索 出ない おかしい 壊れた"
+    },
+    {
+      "id": "macos-finder-hidden",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Finder で隠しファイルを表示する",
+      "code": "defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder",
+      "note": "元に戻すなら true を false に。Finder 上で Cmd+Shift+. でも一時的に切り替えられる",
+      "tag": "設定",
+      "kw": "隠しファイル 表示 ドットファイル finder 見えない AppleShowAllFiles defaults"
+    },
+    {
+      "id": "macos-finder-pathbar",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Finder の下部にパスバーを表示する",
+      "code": "defaults write com.apple.finder ShowPathbar -bool true && killall Finder",
+      "note": "今どのフォルダにいるかが常に見えるようになる",
+      "tag": "設定",
+      "kw": "finder パスバー パス 表示 場所 階層 defaults"
+    },
+    {
+      "id": "macos-screenshot-location",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "スクリーンショットの保存先を変える",
+      "code": "defaults write com.apple.screencapture location [フォルダ]",
+      "note": "フォルダは先に作っておく。反映されない時は killall SystemUIServer",
+      "tag": "設定",
+      "kw": "スクリーンショット 保存先 変更 場所 デスクトップ 散らかる defaults screencapture",
+      "b": {
+        "cmd": "defaults write com.apple.screencapture location",
+        "flags": [],
+        "args": [
+          {
+            "name": "フォルダ",
+            "ph": "~/Pictures/Screenshots"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-dock-autohide",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Dock の自動表示を待ち時間なしにする",
+      "code": "defaults write com.apple.dock autohide-delay -float 0 && killall Dock",
+      "note": "Dock を自動的に隠す設定と組み合わせて使う。戻すなら defaults delete com.apple.dock autohide-delay",
+      "tag": "設定",
+      "kw": "dock 自動 隠す 表示 遅い 速く 待ち時間 defaults"
+    },
+    {
+      "id": "macos-key-repeat",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "キー長押しで連続入力されるようにする",
+      "code": "defaults write -g ApplePressAndHoldEnabled -bool false",
+      "note": "長押しでアクセント文字の候補が出る代わりにキーリピートになる。Vim の hjkl 移動向け。アプリの再起動後に反映",
+      "tag": "設定",
+      "kw": "キーリピート 長押し 連続入力 vim hjkl アクセント defaults"
+    },
+    {
+      "id": "macos-defaults-read",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "アプリの設定値を読む",
+      "code": "defaults read [ドメイン]",
+      "note": "キーを続けると1項目だけ表示。ドメインの一覧は defaults domains",
+      "tag": "設定",
+      "kw": "defaults read 設定 確認 見る plist 値",
+      "b": {
+        "cmd": "defaults read",
+        "flags": [],
+        "args": [
+          {
+            "name": "ドメイン",
+            "ph": "com.apple.finder"
+          },
+          {
+            "name": "キー",
+            "ph": "AppleShowAllFiles"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-defaults-delete",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "defaults で変えた設定を元に戻す",
+      "code": "defaults delete [ドメイン] [キー]",
+      "note": "キーを消すと既定値に戻る。反映にはアプリの再起動（killall Finder など）が必要",
+      "tag": "設定",
+      "kw": "defaults delete 設定 戻す 元に リセット 既定 初期化",
+      "b": {
+        "cmd": "defaults delete",
+        "flags": [],
+        "args": [
+          {
+            "name": "ドメイン",
+            "ph": "com.apple.dock"
+          },
+          {
+            "name": "キー",
+            "ph": "autohide-delay"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-killall",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "アプリを名前で強制終了する",
+      "code": "killall \"[アプリ名]\"",
+      "note": "固まったアプリに。killall Finder / killall Dock は再起動として使う",
+      "tag": "アプリ",
+      "kw": "killall 強制終了 固まった 応答しない 落とす 再起動 finder dock",
+      "b": {
+        "cmd": "killall",
+        "flags": [
+          {
+            "opt": "-9",
+            "label": "強制終了（KILL シグナル）"
+          }
+        ],
+        "args": [
+          {
+            "name": "アプリ名",
+            "ph": "\"Google Chrome\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-sw-vers",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "macOS のバージョンを確認する",
+      "code": "sw_vers",
+      "note": "ProductVersion がバージョン番号。-productVersion で番号だけ取り出せる",
+      "tag": "システム",
+      "kw": "sw_vers macos バージョン os 確認 何 sonoma sequoia"
+    },
+    {
+      "id": "macos-hardware",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Mac のハードウェア情報を表示する",
+      "code": "system_profiler SPHardwareDataType",
+      "note": "機種名・チップ・メモリ容量・シリアル番号が分かる",
+      "tag": "システム",
+      "kw": "system_profiler ハードウェア 機種 チップ メモリ シリアル スペック 情報"
+    },
+    {
+      "id": "macos-battery-cycle",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "バッテリーの充放電回数を確認する",
+      "code": "system_profiler SPPowerDataType | grep -i \"cycle count\"",
+      "note": "バッテリーの劣化具合の目安。状態は Condition の行で確認できる",
+      "tag": "電源",
+      "kw": "バッテリー 充放電 回数 サイクル 劣化 寿命 状態"
+    },
+    {
+      "id": "macos-rosetta",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Intel 版としてコマンドを実行する",
+      "code": "arch -x86_64 [コマンド]",
+      "note": "Apple シリコンで Intel 専用のツールを動かす時に。Rosetta 2 が必要",
+      "tag": "開発",
+      "kw": "arch rosetta intel x86_64 apple silicon m1 m2 互換 動かない",
+      "b": {
+        "cmd": "arch -x86_64",
+        "flags": [],
+        "args": [
+          {
+            "name": "コマンド",
+            "ph": "zsh"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-softwareupdate-list",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "macOS のアップデートを確認する",
+      "code": "softwareupdate -l",
+      "note": "インストールできる更新が一覧表示される",
+      "tag": "システム",
+      "kw": "softwareupdate アップデート 更新 確認 macos 一覧"
+    },
+    {
+      "id": "macos-softwareupdate-install",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "macOS のアップデートをすべて入れる",
+      "code": "sudo softwareupdate -ia",
+      "note": "-i でインストール、-a で全て。再起動が必要なものは -R を付けると自動で再起動",
+      "tag": "システム",
+      "kw": "softwareupdate アップデート インストール 更新 全部 macos"
+    },
+    {
+      "id": "macos-xcode-cli",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "コマンドラインツールをインストールする",
+      "code": "xcode-select --install",
+      "note": "git や make、clang が入る。Homebrew の前提にもなる",
+      "tag": "開発",
+      "kw": "xcode-select コマンドラインツール インストール git clang make 開発 xcrun エラー"
+    },
+    {
+      "id": "macos-ip-local",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "自分の Mac の IP アドレスを調べる",
+      "code": "ipconfig getifaddr en0",
+      "note": "多くの Mac では en0 が Wi-Fi。有線 LAN なら en1 などの場合もある",
+      "tag": "ネットワーク",
+      "kw": "ipconfig ip アドレス 自分 ローカル 調べる wifi"
+    },
+    {
+      "id": "macos-wifi-power",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Wi-Fi をオン・オフする",
+      "code": "networksetup -setairportpower en0 off",
+      "note": "on で再びオン。つながらない時の入れ直しに。デバイス名は networksetup -listallhardwareports で確認",
+      "tag": "ネットワーク",
+      "kw": "networksetup wifi オフ オン 切る 入れ直す つながらない 再接続",
+      "b": {
+        "cmd": "networksetup -setairportpower",
+        "flags": [],
+        "args": [
+          {
+            "name": "デバイス",
+            "ph": "en0"
+          },
+          {
+            "name": "on / off",
+            "ph": "off"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-dns-flush",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "DNS キャッシュをクリアする",
+      "code": "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder",
+      "note": "サイトの移転直後や hosts を書き換えた後に名前解決が古いままの時に",
+      "tag": "ネットワーク",
+      "kw": "dns キャッシュ クリア 削除 リセット hosts 反映されない 名前解決"
+    },
+    {
+      "id": "macos-network-quality",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "回線速度を測る",
+      "code": "networkQuality",
+      "note": "macOS 標準の速度測定。上り・下りの速度と応答性が表示される",
+      "tag": "ネットワーク",
+      "kw": "networkquality 回線 速度 測定 スピードテスト 遅い ネット"
+    },
+    {
+      "id": "macos-computer-name",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "コンピュータ名を変更する",
+      "code": "sudo scutil --set ComputerName \"[名前]\"",
+      "note": "ターミナルのプロンプトに出るのは LocalHostName。こちらも --set LocalHostName で変える",
+      "tag": "システム",
+      "kw": "scutil コンピュータ名 名前 変更 ホスト名 hostname プロンプト",
+      "b": {
+        "cmd": "sudo scutil --set ComputerName",
+        "flags": [],
+        "args": [
+          {
+            "name": "名前",
+            "ph": "\"MyMac\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-diskutil-list",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "接続中のディスクを一覧表示する",
+      "code": "diskutil list",
+      "note": "外付けドライブの識別子（/dev/disk4 など）を調べる時に使う",
+      "tag": "ディスク",
+      "kw": "diskutil ディスク 一覧 外付け usb ssd 識別子 パーティション"
+    },
+    {
+      "id": "macos-diskutil-eject",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "外付けディスクを取り出す",
+      "code": "diskutil eject [ディスク]",
+      "note": "Finder で取り出せない時に。使用中なら lsof でつかんでいるプロセスを探す",
+      "tag": "ディスク",
+      "kw": "diskutil eject 取り出し 外す 外付け usb 取り出せない アンマウント",
+      "b": {
+        "cmd": "diskutil eject",
+        "flags": [],
+        "args": [
+          {
+            "name": "ディスク",
+            "ph": "/dev/disk4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-hdiutil-attach",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "dmg ファイルをマウントする",
+      "code": "hdiutil attach [dmgファイル]",
+      "note": "外すときは hdiutil detach /Volumes/名前",
+      "tag": "ディスク",
+      "kw": "hdiutil dmg マウント 開く ディスクイメージ attach",
+      "b": {
+        "cmd": "hdiutil attach",
+        "flags": [],
+        "args": [
+          {
+            "name": "dmgファイル",
+            "ph": "app.dmg"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-hdiutil-create",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "フォルダから dmg ファイルを作る",
+      "code": "hdiutil create -srcfolder [フォルダ] -ov [出力.dmg]",
+      "note": "-ov で同名ファイルを上書き。-format UDZO で圧縮形式になる",
+      "tag": "ディスク",
+      "kw": "hdiutil dmg 作成 作る ディスクイメージ 配布 まとめる",
+      "b": {
+        "cmd": "hdiutil create",
+        "flags": [
+          {
+            "opt": "-ov",
+            "label": "同名ファイルを上書き"
+          }
+        ],
+        "args": [
+          {
+            "name": "フォルダ",
+            "ph": "./dist",
+            "prefix": "-srcfolder "
+          },
+          {
+            "name": "出力",
+            "ph": "out.dmg"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-quarantine",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "「開発元を確認できない」アプリを開けるようにする",
+      "code": "xattr -dr com.apple.quarantine [アプリ]",
+      "note": "ダウンロード時に付く検疫属性を外す。信頼できるアプリにだけ使うこと",
+      "tag": "アプリ",
+      "kw": "xattr quarantine 検疫 開発元 確認できない 開けない 壊れている 未確認 gatekeeper",
+      "b": {
+        "cmd": "xattr -dr com.apple.quarantine",
+        "flags": [],
+        "args": [
+          {
+            "name": "アプリ",
+            "ph": "/Applications/App.app"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-sips-resize",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "画像をリサイズする",
+      "code": "sips -Z [最大px] [画像]",
+      "note": "縦横比を保って長い辺を指定サイズに。元ファイルを上書きするので --out で別名に",
+      "tag": "ファイル操作",
+      "kw": "sips 画像 リサイズ 縮小 サイズ 変更 小さく png jpg",
+      "b": {
+        "cmd": "sips",
+        "flags": [],
+        "args": [
+          {
+            "name": "最大px",
+            "ph": "1024",
+            "prefix": "-Z "
+          },
+          {
+            "name": "画像",
+            "ph": "image.png"
+          },
+          {
+            "name": "出力",
+            "ph": "small.png",
+            "prefix": "--out "
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-ditto-zip",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Finder と同じ形式で zip 圧縮する",
+      "code": "ditto -c -k --keepParent [フォルダ] [出力.zip]",
+      "note": "Finder の「圧縮」と同じ結果になる。展開は ditto -x -k in.zip 出力先",
+      "tag": "ファイル操作",
+      "kw": "ditto zip 圧縮 アーカイブ finder まとめる",
+      "b": {
+        "cmd": "ditto -c -k --keepParent",
+        "flags": [],
+        "args": [
+          {
+            "name": "フォルダ",
+            "ph": "./project"
+          },
+          {
+            "name": "出力",
+            "ph": "project.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-notify",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "通知センターに通知を出す",
+      "code": "osascript -e 'display notification \"完了\" with title \"ターミナル\"'",
+      "note": "長い処理のあとに ; で続けると終わった時に通知が届く",
+      "tag": "システム",
+      "kw": "osascript 通知 知らせる 終わった 完了 お知らせ notification"
+    },
+    {
+      "id": "macos-volume",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "音量を変更する",
+      "code": "osascript -e 'set volume output volume 50'",
+      "note": "0〜100 で指定。0 にすればミュート",
+      "tag": "システム",
+      "kw": "osascript 音量 ボリューム 変更 ミュート 音 大きさ"
+    },
+    {
+      "id": "macos-purge",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "メモリのキャッシュを解放する",
+      "code": "sudo purge",
+      "note": "ディスクキャッシュを捨てる。重い時の気休め程度で、普段は不要",
+      "tag": "システム",
+      "kw": "purge メモリ 解放 キャッシュ 重い 遅い 空ける"
+    },
+    {
+      "id": "macos-log-show",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "システムログを確認する",
+      "code": "log show --last 10m",
+      "note": "--predicate 'process == \"Finder\"' でアプリを絞れる。リアルタイムは log stream",
+      "tag": "システム",
+      "kw": "log show ログ システム エラー 確認 console 調べる",
+      "b": {
+        "cmd": "log show",
+        "flags": [],
+        "args": [
+          {
+            "name": "期間",
+            "ph": "10m",
+            "prefix": "--last "
+          }
+        ]
+      }
+    },
+    {
+      "id": "macos-time-machine",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "Time Machine のバックアップを今すぐ始める",
+      "code": "tmutil startbackup",
+      "note": "--block を付けると終わるまで待つ",
+      "tag": "ディスク",
+      "kw": "tmutil time machine バックアップ 今すぐ 開始 取る"
+    },
+    {
+      "id": "macos-shortcuts",
+      "env": "macOS",
+      "cat": "macOS",
+      "title": "ショートカットアプリのショートカットを実行する",
+      "code": "shortcuts run \"[名前]\"",
+      "note": "一覧は shortcuts list。スクリプトからショートカットを呼べる",
+      "tag": "アプリ",
+      "kw": "shortcuts ショートカット 実行 自動化 呼び出す",
+      "b": {
+        "cmd": "shortcuts run",
+        "flags": [],
+        "args": [
+          {
+            "name": "名前",
+            "ph": "\"My Shortcut\""
+          }
+        ]
+      }
+    }
+  ]
+}

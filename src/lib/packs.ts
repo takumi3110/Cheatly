@@ -1,5 +1,10 @@
 import catalogJson from "../../packs/index.json";
 import { PACK_BASE_URL } from "../config";
+import {
+  BUNDLED_PACK_IDS,
+  DEFAULT_ENABLED_PACK_IDS,
+  isBundledPack,
+} from "../data/builtin";
 import type { Builder, Command } from "../types";
 
 export type PackMeta = {
@@ -10,20 +15,24 @@ export type PackMeta = {
   desc: string;
 };
 
-/** カタログをどこから読めたか。UI で「オフライン表示中」を出すのに使う */
-export type CatalogSource = "network" | "cache" | "fallback";
+/**
+ * カタログの増分をどこまで取れたか。
+ * 同梱分は必ず出るので、これは「配信先の追加パックが見えているか」を表す。
+ */
+export type CatalogSource = "network" | "cache" | "bundled";
 
 /** 取得済みパック: パックID -> コマンド配列 */
 export type InstalledPacks = Record<string, Command[]>;
 
 const CATALOG_KEY = "cheatly.catalog.v1";
 const INSTALLED_KEY = "cheatly.installed.v1";
+const ENABLED_KEY = "cheatly.enabled.v1";
 
 /**
- * 初回起動がオフラインでもパック一覧を見せられるように、カタログだけは同梱する。
+ * 同梱カタログ。配信先が落ちていても未設定でも、一覧はこれだけで成立する。
  * packs/index.json を直接 import しているので配信物と二重管理にならない。
  */
-const FALLBACK_CATALOG = catalogJson.packs as PackMeta[];
+const BUNDLED_CATALOG = catalogJson.packs as PackMeta[];
 
 function isBuilder(v: unknown): v is Builder {
   if (typeof v !== "object" || v === null) return false;
@@ -65,6 +74,26 @@ function isPackMeta(v: unknown): v is PackMeta {
   );
 }
 
+/**
+ * 同梱カタログに配信側の分を重ねる。
+ * 同梱パックのメタは同梱側を優先する（実データは同梱の JSON なので、
+ * 配信側の count や desc が新しくても手元の中身とは一致しないため）。
+ */
+function mergeCatalog(remote: PackMeta[]): PackMeta[] {
+  const merged = [...BUNDLED_CATALOG];
+  const index = new Map(merged.map((p, i) => [p.id, i]));
+  for (const pack of remote) {
+    const at = index.get(pack.id);
+    if (at === undefined) {
+      index.set(pack.id, merged.length);
+      merged.push(pack);
+    } else if (!isBundledPack(pack.id)) {
+      merged[at] = pack;
+    }
+  }
+  return merged;
+}
+
 function readCachedCatalog(): PackMeta[] | null {
   try {
     const raw = localStorage.getItem(CATALOG_KEY);
@@ -80,8 +109,7 @@ function readCachedCatalog(): PackMeta[] | null {
 
 /**
  * パックカタログを取得する。
- * ネット → localStorage キャッシュ → 同梱カタログ の順に必ずどれかを返すので、
- * オフラインでも一覧そのものは表示できる。
+ * 同梱カタログが土台なので、配信先に届かなくても一覧は必ず全件返る。
  */
 export async function fetchCatalog(): Promise<{
   packs: PackMeta[];
@@ -97,15 +125,15 @@ export async function fetchCatalog(): Promise<{
     const packs = Array.isArray(list) ? list.filter(isPackMeta) : [];
     if (!packs.length) throw new Error("カタログが空です");
     localStorage.setItem(CATALOG_KEY, JSON.stringify(packs));
-    return { packs, source: "network" };
+    return { packs: mergeCatalog(packs), source: "network" };
   } catch {
     const cached = readCachedCatalog();
-    if (cached) return { packs: cached, source: "cache" };
-    return { packs: FALLBACK_CATALOG, source: "fallback" };
+    if (cached) return { packs: mergeCatalog(cached), source: "cache" };
+    return { packs: BUNDLED_CATALOG, source: "bundled" };
   }
 }
 
-/** 1パックを取得する。失敗時は理由付きで throw するので呼び出し側で表示する */
+/** 配信先から1パック取得する。失敗時は理由付きで throw するので呼び出し側で表示する */
 export async function fetchPack(id: string): Promise<Command[]> {
   let res: Response;
   try {
@@ -124,6 +152,34 @@ export async function fetchPack(id: string): Promise<Command[]> {
   return commands;
 }
 
+/**
+ * 有効にしている同梱パックの ID。
+ * 同梱から外れた ID は落とすので、同梱構成を変えても持ち越さない。
+ */
+export function loadEnabled(): string[] {
+  try {
+    const raw = localStorage.getItem(ENABLED_KEY);
+    if (!raw) return DEFAULT_ENABLED_PACK_IDS.filter(isBundledPack);
+    const json: unknown = JSON.parse(raw);
+    if (!Array.isArray(json)) return DEFAULT_ENABLED_PACK_IDS;
+    return BUNDLED_PACK_IDS.filter((id) => json.includes(id));
+  } catch {
+    return DEFAULT_ENABLED_PACK_IDS.filter(isBundledPack);
+  }
+}
+
+export function saveEnabled(ids: string[]) {
+  try {
+    localStorage.setItem(ENABLED_KEY, JSON.stringify(ids));
+  } catch {
+    // 保存に失敗してもメモリ上の状態は生きているので、この場では何もしない
+  }
+}
+
+/**
+ * 配信先から取得したパックのコマンド。
+ * 同梱に移ったパックは実データを持つ意味がないので読み飛ばす。
+ */
 export function loadInstalled(): InstalledPacks {
   try {
     const raw = localStorage.getItem(INSTALLED_KEY);
@@ -133,7 +189,7 @@ export function loadInstalled(): InstalledPacks {
 
     const out: InstalledPacks = {};
     for (const [id, cmds] of Object.entries(json)) {
-      if (!Array.isArray(cmds)) continue;
+      if (isBundledPack(id) || !Array.isArray(cmds)) continue;
       const valid = cmds.filter(isCommand).map(sanitize);
       if (valid.length) out[id] = valid;
     }

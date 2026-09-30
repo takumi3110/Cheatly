@@ -4,26 +4,37 @@ import { CommandDrawer } from "./components/CommandDrawer";
 import { CommandRow } from "./components/CommandRow";
 import { PackManager } from "./components/PackManager";
 import { Sidebar } from "./components/Sidebar";
-import { BUILTIN_CATS, BUILTIN_COMMANDS } from "./data/builtin";
+import { isBundledPack, loadBundledPack } from "./data/builtin";
 import { OTHER_GROUP_KEY, TAGS } from "./data/commands";
 import {
   fetchCatalog,
+  loadEnabled,
   loadInstalled,
+  saveEnabled,
   saveInstalled,
   type InstalledPacks,
   type PackMeta,
 } from "./lib/packs";
 import { createCommandMatcher } from "./lib/commandSearch";
-import { onTrayOpen, expandWindow } from "./lib/trayWindow";
+import { onTrayOpen, onTrayExpand, expandWindow } from "./lib/trayWindow";
 import { openWebSearch } from "./lib/websearch";
 import { ACCENT, GRID_COLS } from "./theme";
 import type { Command } from "./types";
 import "./App.css";
 
-/** 同梱＋取得済みパックを結合する。id 重複は同梱を優先して1件に潰す */
-function mergeCommands(installed: InstalledPacks): Command[] {
+/**
+ * 有効にした同梱パックとダウンロード済みパックを結合する。
+ * id 重複は同梱を優先して1件に潰す。
+ */
+function mergeCommands(
+  enabled: string[],
+  bundled: Record<string, Command[]>,
+  installed: InstalledPacks,
+): Command[] {
   const byId = new Map<string, Command>();
-  for (const c of BUILTIN_COMMANDS) byId.set(c.id, c);
+  for (const id of enabled) {
+    for (const c of bundled[id] ?? []) byId.set(c.id, c);
+  }
   for (const pack of Object.values(installed)) {
     for (const c of pack) if (!byId.has(c.id)) byId.set(c.id, c);
   }
@@ -46,15 +57,17 @@ function App() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [drawerId, setDrawerId] = useState<string | null>(null);
   const [packsOpen, setPacksOpen] = useState(false);
-  const [installed, setInstalled] = useState<InstalledPacks>({});
+  const [enabled, setEnabled] = useState<string[]>(loadEnabled);
+  const [bundledPacks, setBundledPacks] = useState<Record<string, Command[]>>(
+    {},
+  );
+  const [installed, setInstalled] = useState<InstalledPacks>(loadInstalled);
   const [catalog, setCatalog] = useState<PackMeta[] | null>(null);
   const [compact, setCompact] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const copyTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
-    setInstalled(loadInstalled());
-
     const onKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
         e.preventDefault();
@@ -76,12 +89,43 @@ function App() {
     return () => unlisten?.();
   }, []);
 
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    onTrayExpand(() => setCompact(false)).then((fn) => {
+      unlisten = fn;
+    });
+    return () => unlisten?.();
+  }, []);
+
   const handleExpand = () => {
     setCompact(false);
     expandWindow();
   };
 
-  const allCommands = useMemo(() => mergeCommands(installed), [installed]);
+  // 有効にした同梱パックだけ読み込む。動的 import なので無効なパックの JSON は触らない
+  useEffect(() => {
+    const missing = enabled.filter((id) => !(id in bundledPacks));
+    if (!missing.length) return;
+    let alive = true;
+    Promise.all(
+      missing.map(async (id) => [id, await loadBundledPack(id)] as const),
+    ).then((loaded) => {
+      if (alive) {
+        setBundledPacks((s) => ({ ...s, ...Object.fromEntries(loaded) }));
+      }
+    });
+    return () => {
+      alive = false;
+    };
+  }, [enabled, bundledPacks]);
+
+  /** 有効な同梱パックを読み終えたか。読み込み中に「0件」の画面を出さないための判定 */
+  const packsReady = enabled.every((id) => id in bundledPacks);
+
+  const allCommands = useMemo(
+    () => mergeCommands(enabled, bundledPacks, installed),
+    [enabled, bundledPacks, installed],
+  );
 
   const filtered = useMemo(() => {
     const matches = createCommandMatcher(query);
@@ -94,7 +138,7 @@ function App() {
 
   const hasFilter = !!(query.trim() || activeCat || activeTag);
   const drawerCommand = allCommands.find((d) => d.id === drawerId);
-  const noResult = filtered.length === 0;
+  const noResult = packsReady && filtered.length === 0;
   const searchTerm = query.trim() || activeTag || activeCat || "";
 
   // カタログは結果ゼロの画面でしか要らないので、そこに来たときに一度だけ取りに行く
@@ -110,19 +154,27 @@ function App() {
   }, [noResult, catalog]);
 
   /**
-   * 取れるコードセットが残っているか。
-   * カテゴリを絞っているならそのカテゴリだけを見る（＝取得済みなら誘導しない）。
-   * カタログ未取得の間は出さない（結局取れるものが無かったとき、ボタンがちらつくため）。
+   * まだ追加していないコードセットが残っているか。
+   * カテゴリを絞っているならそのカテゴリだけを見る（＝追加済みなら誘導しない）。
+   * カタログ未取得の間は出さない（結局追加できるものが無かったとき、ボタンがちらつくため）。
    */
-  const canDownloadPacks = (
+  const canAddPacks = (
     activeCat
       ? (catalog ?? []).filter((p) => p.cat === activeCat)
       : (catalog ?? [])
-  ).some((p) => !BUILTIN_CATS.includes(p.cat) && !installed[p.id]);
+  ).some((p) =>
+    isBundledPack(p.id) ? !enabled.includes(p.id) : !installed[p.id],
+  );
 
   const updateInstalled = (next: InstalledPacks) => {
     setInstalled(next);
     saveInstalled(next);
+  };
+
+  const toggleBundled = (id: string, on: boolean) => {
+    const next = on ? [...enabled, id] : enabled.filter((x) => x !== id);
+    setEnabled(next);
+    saveEnabled(next);
   };
 
   // カテゴリを絞ったときは一覧性を優先してリストにする。以降はトグルで自由に切り替えられる
@@ -403,7 +455,7 @@ function App() {
                 />
               ))}
             </div>
-          ) : (
+          ) : noResult ? (
             <div
               style={{
                 textAlign: "center",
@@ -424,8 +476,8 @@ function App() {
                 「{searchTerm}」に一致するコマンドが見つかりません
               </div>
               <div style={{ fontSize: 11.5, color: "#5f5f5f", marginTop: 6 }}>
-                {canDownloadPacks
-                  ? "別のキーワードを試すか、コードセットのダウンロードか Web 検索を試してみてください"
+                {canAddPacks
+                  ? "別のキーワードを試すか、コードセットの追加か Web 検索を試してみてください"
                   : "別のキーワードを試すか、Web で検索してみてください"}
               </div>
               <div
@@ -453,7 +505,7 @@ function App() {
                 >
                   ⌕ Web で検索
                 </button>
-                {canDownloadPacks && (
+                {canAddPacks && (
                   <button
                     className="icon-btn"
                     onClick={() => setPacksOpen(true)}
@@ -463,18 +515,20 @@ function App() {
                       borderRadius: 6,
                     }}
                   >
-                    ⤓ コードセットをダウンロード
+                    ＋ コードセットを追加
                   </button>
                 )}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       </main>
 
       {packsOpen && (
         <PackManager
+          enabled={enabled}
           installed={installed}
+          onToggle={toggleBundled}
           onInstall={(id, commands) =>
             updateInstalled({ ...installed, [id]: commands })
           }

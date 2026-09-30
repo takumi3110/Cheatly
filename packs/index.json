@@ -23,11 +23,11 @@
       "desc": "Git のバージョン管理"
     },
     {
-      "id": "javascript",
-      "label": "JavaScript",
-      "cat": "JavaScript",
-      "count": 50,
-      "desc": "JavaScript のコードスニペット"
+      "id": "homebrew",
+      "label": "Homebrew",
+      "cat": "Homebrew",
+      "count": 43,
+      "desc": "Homebrew のパッケージ管理"
     },
     {
       "id": "linux",
@@ -37,6 +37,13 @@
       "desc": "Linux の基本コマンド"
     },
     {
+      "id": "macos",
+      "label": "macOS",
+      "cat": "macOS",
+      "count": 50,
+      "desc": "macOS 標準のターミナルコマンド"
+    },
+    {
       "id": "powershell",
       "label": "PowerShell",
       "cat": "PowerShell",
@@ -44,25 +51,11 @@
       "desc": "Windows PowerShell のコマンド"
     },
     {
-      "id": "python",
-      "label": "Python",
-      "cat": "Python",
-      "count": 50,
-      "desc": "Python のコードスニペット"
-    },
-    {
       "id": "vim",
       "label": "Vim",
       "cat": "Vim",
       "count": 50,
       "desc": "Vim の操作"
-    },
-    {
-      "id": "vscode",
-      "label": "VS Code",
-      "cat": "VS Code",
-      "count": 50,
-      "desc": "VS Code のショートカット"
     }
   ]
 }

@@ -1,19 +1,46 @@
 import type { Command } from "../types";
-import linux from "../../packs/linux.json";
-import vim from "../../packs/vim.json";
-import git from "../../packs/git.json";
+
+type PackFile = { commands: Command[] };
+
+const unwrap = (m: { default: unknown }) => m.default as unknown as PackFile;
 
 /**
  * アプリに同梱するパック。ネット接続なしで必ず使える。
- * packs/*.json を直接読むので配信物と二重管理にならない。
- * これ以外のカテゴリは packs/ から取得する（src/lib/packs.ts）。
+ * ここに無いパックは配信先から取得する（src/lib/packs.ts）。
+ *
+ * 動的 import なので、有効化されたパックの JSON だけが実際に読み込まれる。
+ * 同梱を増減するときはここだけ直せばよく、packs/index.json は配信物と共通のまま使える。
  */
-const BUILTIN_PACKS = [linux, vim, git] as unknown as {
-  commands: Command[];
-}[];
+const LOADERS: Record<string, () => Promise<PackFile>> = {
+  linux: () => import("../../packs/linux.json").then(unwrap),
+  vim: () => import("../../packs/vim.json").then(unwrap),
+  git: () => import("../../packs/git.json").then(unwrap),
+  cmd: () => import("../../packs/cmd.json").then(unwrap),
+  docker: () => import("../../packs/docker.json").then(unwrap),
+  powershell: () => import("../../packs/powershell.json").then(unwrap),
+  macos: () => import("../../packs/macos.json").then(unwrap),
+  homebrew: () => import("../../packs/homebrew.json").then(unwrap),
+};
 
-/** 同梱するコマンド。各パックの commands を平坦化したもの */
-export const BUILTIN_COMMANDS = BUILTIN_PACKS.flatMap((p) => p.commands);
+/** 同梱しているパックの ID 一覧 */
+export const BUNDLED_PACK_IDS = Object.keys(LOADERS);
 
-/** 同梱済みのカテゴリ。パック一覧で「同梱」と表示する判定に使う */
-export const BUILTIN_CATS = BUILTIN_PACKS.map((p) => p.commands[0].cat);
+/** 初回起動時に有効にしておくパック。残りの同梱パックはユーザーが追加する */
+export const DEFAULT_ENABLED_PACK_IDS = [
+  "macos",
+  "homebrew",
+  "linux",
+  "vim",
+  "git",
+];
+
+export function isBundledPack(id: string): boolean {
+  return id in LOADERS;
+}
+
+/** 同梱パックのコマンドを読み込む。同梱していない ID なら空を返す */
+export async function loadBundledPack(id: string): Promise<Command[]> {
+  const loader = LOADERS[id];
+  if (!loader) return [];
+  return (await loader()).commands;
+}
