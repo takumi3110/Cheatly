@@ -82,11 +82,6 @@ fn move_under_tray(window: &WebviewWindow, tray: Rect) {
     let _ = window.set_position(PhysicalPosition::new(x, y));
 }
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
 /// コンパクトウインドウから通常サイズへ戻す。フロントの「展開」ボタンから呼ばれる
 #[tauri::command]
 fn expand_window(window: tauri::WebviewWindow) {
@@ -174,7 +169,7 @@ pub fn run() {
                 .build(app)?;
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet, expand_window])
+        .invoke_handler(tauri::generate_handler![expand_window])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

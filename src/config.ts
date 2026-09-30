@@ -8,7 +8,8 @@
  * 配信先には CORS ヘッダ (Access-Control-Allow-Origin) が必要。
  * GitHub raw / GitHub Pages はどちらも * を返すのでそのまま使える。
  */
-const REMOTE_PACK_BASE_URL = "https://example.com/cheatly/packs";
+const REMOTE_PACK_BASE_URL =
+  "https://raw.githubusercontent.com/takumi3110/Cheatly/main/packs";
 
 export const PACK_BASE_URL = import.meta.env.DEV
   ? "/packs"
