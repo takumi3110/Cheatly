@@ -13,6 +13,15 @@ export async function onTrayOpen(handler: () => void): Promise<UnlistenFn> {
   }
 }
 
+/** 通常サイズで開かれた時に発火する "tray-expand" を購読する。Tauri外では no-op を返す */
+export async function onTrayExpand(handler: () => void): Promise<UnlistenFn> {
+  try {
+    return await listen("tray-expand", () => handler());
+  } catch {
+    return () => {};
+  }
+}
+
 /** コンパクトウインドウを通常サイズに戻す。Tauri外では何もしない */
 export async function expandWindow(): Promise<void> {
   try {

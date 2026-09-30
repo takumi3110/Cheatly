@@ -16,7 +16,7 @@ import {
   type PackMeta,
 } from "./lib/packs";
 import { createCommandMatcher } from "./lib/commandSearch";
-import { onTrayOpen, expandWindow } from "./lib/trayWindow";
+import { onTrayOpen, onTrayExpand, expandWindow } from "./lib/trayWindow";
 import { openWebSearch } from "./lib/websearch";
 import { ACCENT, GRID_COLS } from "./theme";
 import type { Command } from "./types";
@@ -84,6 +84,14 @@ function App() {
   useEffect(() => {
     let unlisten: (() => void) | undefined;
     onTrayOpen(() => setCompact(true)).then((fn) => {
+      unlisten = fn;
+    });
+    return () => unlisten?.();
+  }, []);
+
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    onTrayExpand(() => setCompact(false)).then((fn) => {
       unlisten = fn;
     });
     return () => unlisten?.();
