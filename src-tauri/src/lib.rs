@@ -1,4 +1,5 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+use std::sync::atomic::{AtomicBool, Ordering};
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
@@ -11,6 +12,9 @@ const COMPACT_SIZE: (f64, f64) = (400.0, 520.0);
 const FULL_SIZE: (f64, f64) = (800.0, 600.0);
 /// トレイアイコン・画面端とウインドウの間隔（論理px）
 const EDGE_GAP: f64 = 8.0;
+
+/// トレイから開いたコンパクト表示中か。通常表示ではフォーカスが外れても隠さないために使う
+static IS_COMPACT: AtomicBool = AtomicBool::new(false);
 
 /// 物理ピクセルの矩形（左上座標と大きさ）
 #[derive(Clone, Copy)]
@@ -85,6 +89,7 @@ fn move_under_tray(window: &WebviewWindow, tray: Rect) {
 /// コンパクトウインドウから通常サイズへ戻す。フロントの「展開」ボタンから呼ばれる
 #[tauri::command]
 fn expand_window(window: tauri::WebviewWindow) {
+    IS_COMPACT.store(false, Ordering::Relaxed);
     let _ = window.set_size(LogicalSize::new(FULL_SIZE.0, FULL_SIZE.1));
     let _ = window.center();
 }
@@ -97,10 +102,17 @@ pub fn run() {
             if window.label() != "main" {
                 return;
             }
-            if let WindowEvent::CloseRequested { api, .. } = event {
-                // トレイ常駐を続けるため、閉じる操作ではウインドウを破棄しない
-                api.prevent_close();
-                let _ = window.hide();
+            match event {
+                WindowEvent::CloseRequested { api, .. } => {
+                    // トレイ常駐を続けるため、閉じる操作ではウインドウを破棄しない
+                    api.prevent_close();
+                    let _ = window.hide();
+                }
+                // メニューバーアプリの慣習に合わせ、コンパクト表示は他をクリックしたら閉じる
+                WindowEvent::Focused(false) if IS_COMPACT.load(Ordering::Relaxed) => {
+                    let _ = window.hide();
+                }
+                _ => {}
             }
         })
         .setup(|app| {
@@ -118,6 +130,7 @@ pub fn run() {
                         let Some(window) = app.get_webview_window("main") else {
                             return;
                         };
+                        IS_COMPACT.store(false, Ordering::Relaxed);
                         let _ = window.set_size(LogicalSize::new(FULL_SIZE.0, FULL_SIZE.1));
                         let _ = window.center();
                         let _ = window.show();
@@ -160,6 +173,7 @@ pub fn run() {
                         if window.is_visible().unwrap_or(false) {
                             let _ = window.hide();
                         } else {
+                            IS_COMPACT.store(true, Ordering::Relaxed);
                             let _ =
                                 window.set_size(LogicalSize::new(COMPACT_SIZE.0, COMPACT_SIZE.1));
                             move_under_tray(&window, rect);
