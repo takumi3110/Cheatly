@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Working files
+.playwright-mcp/
+packmanager.png
