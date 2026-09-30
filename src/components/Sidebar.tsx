@@ -4,7 +4,7 @@ import {
   GROUPS,
   OTHER_GROUP_KEY,
 } from "../data/commands";
-import { ACCENT } from "../theme";
+import { ACCENT, MONO_FONT } from "../theme";
 import type { Command, Group } from "../types";
 
 /**
@@ -87,7 +87,7 @@ export function Sidebar({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO_FONT,
                 fontWeight: 700,
                 fontSize: 14,
                 color: "#1e1e1e",
@@ -110,7 +110,7 @@ export function Sidebar({
                 style={{
                   fontSize: 10,
                   color: "#7a7a7a",
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: MONO_FONT,
                 }}
               >
                 command cheatsheet
@@ -160,7 +160,7 @@ export function Sidebar({
             >
               <span
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: MONO_FONT,
                   fontSize: 11,
                 }}
               >
@@ -208,7 +208,7 @@ export function Sidebar({
                   <span style={{ flex: 1 }}>{group.label}</span>
                   <span
                     style={{
-                      fontFamily: "'JetBrains Mono', monospace",
+                      fontFamily: MONO_FONT,
                       fontSize: 10,
                       color: "#6a6a6a",
                     }}
@@ -250,7 +250,7 @@ export function Sidebar({
                             fontSize: 12,
                             cursor: "pointer",
                             textAlign: "left",
-                            fontFamily: "'JetBrains Mono', monospace",
+                            fontFamily: MONO_FONT,
                           }}
                         >
                           <span

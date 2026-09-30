@@ -18,7 +18,7 @@ import {
 import { createCommandMatcher } from "./lib/commandSearch";
 import { onTrayOpen, onTrayExpand, expandWindow } from "./lib/trayWindow";
 import { openWebSearch } from "./lib/websearch";
-import { ACCENT, GRID_COLS } from "./theme";
+import { ACCENT, GRID_COLS, MONO_FONT } from "./theme";
 import type { Command } from "./types";
 import "./App.css";
 
@@ -257,7 +257,7 @@ function App() {
                 top: "50%",
                 transform: "translateY(-50%)",
                 color: "#7a7a7a",
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO_FONT,
                 fontSize: 15,
                 pointerEvents: "none",
               }}
@@ -289,7 +289,7 @@ function App() {
                 right: 14,
                 top: "50%",
                 transform: "translateY(-50%)",
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO_FONT,
                 fontSize: 10,
                 color: "#6a6a6a",
                 background: "#1e1e1e",
@@ -331,7 +331,7 @@ function App() {
                       color: active ? "#1e1e1e" : "#9a9a9a",
                       fontSize: 11.5,
                       cursor: "pointer",
-                      fontFamily: "'JetBrains Mono', monospace",
+                      fontFamily: MONO_FONT,
                     }}
                   >
                     #{tag}
@@ -366,7 +366,7 @@ function App() {
             </span>
             <span
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO_FONT,
                 fontSize: 11,
                 color: "#6a6a6a",
               }}
@@ -465,7 +465,7 @@ function App() {
             >
               <div
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: MONO_FONT,
                   fontSize: 28,
                   marginBottom: 12,
                 }}

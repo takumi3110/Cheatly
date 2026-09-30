@@ -1,6 +1,9 @@
 /** デザイン側の accentColor prop 相当。切り替える場合はここを変更する */
 export const ACCENT = "#4fc1ff";
 
+/** コマンド表示用の等幅フォント。オフラインでも崩れないよう OS 標準のフォントを使う */
+export const MONO_FONT = "ui-monospace, 'SF Mono', Menlo, monospace";
+
 /** デザイン側の cardLayout prop 相当 */
 export const CARD_LAYOUT: "grid" | "list" = "grid";
 

@@ -1,5 +1,5 @@
 import { BADGES, DEFAULT_BADGE } from "../data/commands";
-import { ACCENT } from "../theme";
+import { ACCENT, MONO_FONT } from "../theme";
 import type { Command } from "../types";
 
 type Props = {
@@ -36,7 +36,7 @@ export function CommandCard({ command, copied, onOpen, onCopy }: Props) {
             borderRadius: 4,
             fontSize: 10.5,
             fontWeight: 700,
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: MONO_FONT,
             background: badgeBg,
             color: badgeColor,
           }}
@@ -46,7 +46,7 @@ export function CommandCard({ command, copied, onOpen, onCopy }: Props) {
         <span
           style={{
             marginLeft: "auto",
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: MONO_FONT,
             fontSize: 10,
             color: "#5f5f5f",
           }}
@@ -82,7 +82,7 @@ export function CommandCard({ command, copied, onOpen, onCopy }: Props) {
           style={{
             flex: 1,
             padding: "11px 12px",
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: MONO_FONT,
             fontSize: 12.5,
             color: ACCENT,
             whiteSpace: "pre-wrap",
@@ -113,7 +113,7 @@ export function CommandCard({ command, copied, onOpen, onCopy }: Props) {
             fontSize: 11,
             fontWeight: 600,
             cursor: "pointer",
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: MONO_FONT,
           }}
         >
           <span style={{ fontSize: 12 }}>{copied ? "✓" : "⧉"}</span>
@@ -138,7 +138,7 @@ export function CommandCard({ command, copied, onOpen, onCopy }: Props) {
             flex: "none",
             fontSize: 10,
             color: "#5f5f5f",
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: MONO_FONT,
             whiteSpace: "nowrap",
           }}
         >

@@ -9,7 +9,7 @@ import {
   type InstalledPacks,
   type PackMeta,
 } from "../lib/packs";
-import { ACCENT } from "../theme";
+import { ACCENT, MONO_FONT } from "../theme";
 import type { Command } from "../types";
 
 type Props = {
@@ -121,7 +121,7 @@ export function PackManager({
             <span
               style={{
                 marginLeft: 8,
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO_FONT,
                 fontSize: 10,
                 fontWeight: 400,
                 color: "#6a6a6a",
@@ -261,7 +261,7 @@ export function PackManager({
                 top: "50%",
                 transform: "translateY(-50%)",
                 color: "#7a7a7a",
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO_FONT,
                 fontSize: 13,
                 pointerEvents: "none",
               }}
