@@ -1,4 +1,4 @@
-import { ACCENT } from "../theme";
+import { ACCENT, MONO_FONT } from "../theme";
 import type { Command } from "../types";
 
 type Props = {
@@ -38,7 +38,7 @@ export function CommandRow({ command, copied, onOpen, onCopy }: Props) {
       <code
         title={command.code}
         style={{
-          fontFamily: "'JetBrains Mono', monospace",
+          fontFamily: MONO_FONT,
           fontSize: 12,
           color: ACCENT,
           overflow: "hidden",

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { BADGES, DEFAULT_BADGE } from "../data/commands";
-import { ACCENT } from "../theme";
+import { ACCENT, MONO_FONT } from "../theme";
 import type { Builder, Command } from "../types";
 
 type Props = {
@@ -88,7 +88,7 @@ export function CommandDrawer({ command, onClose }: Props) {
                 borderRadius: 4,
                 fontSize: 10.5,
                 fontWeight: 700,
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO_FONT,
                 background: badgeBg,
                 color: badgeColor,
                 marginBottom: 8,
@@ -177,7 +177,7 @@ export function CommandDrawer({ command, onClose }: Props) {
                       <code
                         style={{
                           flex: "none",
-                          fontFamily: "'JetBrains Mono', monospace",
+                          fontFamily: MONO_FONT,
                           fontSize: 12.5,
                           fontWeight: 700,
                           color: ACCENT,
@@ -245,7 +245,7 @@ export function CommandDrawer({ command, onClose }: Props) {
                         borderRadius: 6,
                         color: "#e8e8e8",
                         fontSize: 12.5,
-                        fontFamily: "'JetBrains Mono', monospace",
+                        fontFamily: MONO_FONT,
                         outline: "none",
                       }}
                     />
@@ -268,7 +268,7 @@ export function CommandDrawer({ command, onClose }: Props) {
             <code
               style={{
                 display: "block",
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO_FONT,
                 fontSize: 14,
                 color: ACCENT,
                 whiteSpace: "pre-wrap",
