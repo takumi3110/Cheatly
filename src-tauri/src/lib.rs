@@ -104,6 +104,9 @@ pub fn run() {
             }
         })
         .setup(|app| {
+            // メニューバー常駐アプリなので Dock にアイコンを出さない
+            #[cfg(target_os = "macos")]
+            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
             let open = MenuItem::with_id(app, "open", "開く", true, None::<&str>)?;
             let quit = MenuItem::with_id(app, "quit", "終了", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&open, &quit])?;
