@@ -26,3 +26,4 @@ dist-ssr
 # Working files
 .playwright-mcp/
 packmanager.png
+src-tauri/embedded.provisionprofile
